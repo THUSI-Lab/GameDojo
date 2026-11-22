@@ -1,0 +1,810 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "touhou_remake",
+  "rules": "scarlet-practice@8",
+  "title": {
+    "en": "Bullet Hell: Boss Practice"
+  },
+  "dimension": "2d",
+  "view": {
+    "en": "Fixed-screen 2D bullet-hell; the play area fills the whole frame. You control a twin-type shooter (type A homing shots / type B needle shots) and a tiny hit-point dot shows while moving slowly; the boss moves in the upper part; lives, bombs and power are overlaid at the corners, with the boss's health bar and card name at the top."
+  },
+  "goal": {
+    "en": "Defeat every attack phase of the boss to win; you lose when all lives are spent. Each phase has a timer and a timeout only moves on to the next phase; lives do not regenerate."
+  },
+  "mouse": {
+    "kind": "none",
+    "en": "The mouse does not steer; LMB is the same as fire and RMB the same as the screen-clearing bomb"
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "Move up"
+    },
+    {
+      "key": "A",
+      "en": "Move left"
+    },
+    {
+      "key": "S",
+      "en": "Move down"
+    },
+    {
+      "key": "D",
+      "en": "Move right"
+    },
+    {
+      "key": "Shift",
+      "en": "Slow movement; shows the hit-point dot and pulls the options in"
+    },
+    {
+      "key": "J",
+      "en": "Hold to fire"
+    },
+    {
+      "key": "LMB",
+      "en": "Fire (same as J)"
+    },
+    {
+      "key": "K",
+      "en": "Screen-clearing bomb; pressing it right after being hit cancels the death"
+    },
+    {
+      "key": "RMB",
+      "en": "Bomb (same as K)"
+    },
+    {
+      "key": "Q",
+      "en": "Switch ship type (A / B)"
+    },
+    {
+      "key": "E",
+      "en": "Switch ship type (same as Q)"
+    }
+  ],
+  "notes": [
+    {
+      "en": "Only the tiny hit-point dot is hurt by bullets; grazing is harmless. Slow movement is precise, fast movement is for big repositioning."
+    },
+    {
+      "en": "Hold fire continuously. Type A shots home in on the boss; type B needle shots go straight ahead, so line up with the boss."
+    },
+    {
+      "en": "Bombs are limited: type A releases homing orbs and type B cross-shaped bars. A bomb grants invulnerability and clears bullets, and pressing it just after being hit cancels the loss of a life."
+    },
+    {
+      "en": "During spell cards shots do much less damage, so sustained fire is needed; bombs do comparatively more against cards."
+    },
+    {
+      "en": "After being hit you respawn at the bottom with brief invulnerability and bullets are cleared for a while."
+    },
+    {
+      "en": "There is a short pause between phases, with the boss returning to the centre and no bullets."
+    },
+    {
+      "en": "The easy tier gives more lives (5) and has fewer phases; the hard tier has denser cards."
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "movement",
+      "options": {
+        "none": "stand still",
+        "up": "move up",
+        "down": "move down",
+        "left": "move left",
+        "right": "move right",
+        "up_left": "move up-left",
+        "up_right": "move up-right",
+        "down_left": "move down-left",
+        "down_right": "move down-right"
+      }
+    },
+    "action": {
+      "en": "fire / slow / bomb",
+      "options": {
+        "none": "do not fire, fast movement",
+        "bomb_focus": "bomb (fire + slow)",
+        "bomb_fast": "bomb (fire + fast)",
+        "bomb_hold": "last-chance bomb held for the whole packet",
+        "fire_fast": "fire with fast movement",
+        "fire_focus": "fire with slow movement"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "touhou/cirno",
+      "boss": {
+        "en": "Shard Sprayer"
+      },
+      "summary": {
+        "en": "Stage-two boss that sprays showers of crystal shards and freezes them in place before releasing them again."
+      },
+      "moves": [
+        {
+          "id": "c_icicle",
+          "name": {
+            "en": "Side Arcs"
+          },
+          "tell": {
+            "en": "Columns of shards fall from both sides and curve into arcs"
+          },
+          "effect": {
+            "en": "Arcing bullets cover both sides, leaving a big gap in the middle; the normal tier adds yellow five-way aimed shots"
+          },
+          "counter": {
+            "en": "Stay near the middle and watch the yellow aimed shots"
+          },
+          "only": {
+            "en": "easy and normal tiers only"
+          }
+        },
+        {
+          "id": "c_hail",
+          "name": {
+            "en": "Hanging Shard Rings"
+          },
+          "tell": {
+            "en": "Small rings of shards fly out, slow to a stop, then each group leaves in turn on a downward arc"
+          },
+          "effect": {
+            "en": "Stopped rings act as obstacles and then leave as downward arcs"
+          },
+          "counter": {
+            "en": "Do not hug stopped rings; move to a gap before they set off"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        },
+        {
+          "id": "c_freeze",
+          "name": {
+            "en": "Stall and Scatter"
+          },
+          "tell": {
+            "en": "Colourful bullets spray in random directions, then all stop and turn white"
+          },
+          "effect": {
+            "en": "Several rounds of blue multi-way aimed shots follow, then each white bullet slowly accelerates off in a random direction"
+          },
+          "counter": {
+            "en": "Find open ground while bullets are stopped, sidestep the aimed shots, and keep clear of white bullets before they scatter"
+          }
+        },
+        {
+          "id": "c_blizzard",
+          "name": {
+            "en": "Drifting Shard Bursts"
+          },
+          "tell": {
+            "en": "The boss keeps jumping around while bursts of shards pop out around her"
+          },
+          "effect": {
+            "en": "She changes position every moment and bursts several shards near herself"
+          },
+          "counter": {
+            "en": "Keep your distance and re-judge your position after every reposition"
+          },
+          "only": {
+            "en": "normal tier and above"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Non-spell 1, Side Arcs (easy/normal) or Hanging Shard Rings (hard), Non-spell 2, Stall and Scatter, Drifting Shard Bursts (normal and above). The easy tier only has Non-spell 1 and Stall and Scatter."
+        }
+      ]
+    },
+    {
+      "case_id": "touhou/meiling",
+      "boss": {
+        "en": "Spiral Weaver"
+      },
+      "summary": {
+        "en": "Stage-three boss who barely moves, firing two counter-rotating streams of bullets that weave into a net."
+      },
+      "moves": [
+        {
+          "id": "m_chime",
+          "name": {
+            "en": "Fixed Angle Streams"
+          },
+          "tell": {
+            "en": "Streams of many colours fire continuously from fixed angles"
+          },
+          "effect": {
+            "en": "The streams keep fixed directions, leaving lane-like gaps between them"
+          },
+          "counter": {
+            "en": "Stand in a lane and fine-tune your position with slow moves"
+          }
+        },
+        {
+          "id": "m_vine",
+          "name": {
+            "en": "Drifting Scatter"
+          },
+          "tell": {
+            "en": "Bullets alternate between sparse and dense while drifting slowly"
+          },
+          "effect": {
+            "en": "A scatter that spreads outward; the dense stretches leave almost no gap"
+          },
+          "counter": {
+            "en": "Take position when sparse; hold still or bomb when dense"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        },
+        {
+          "id": "m_rain",
+          "name": {
+            "en": "Side Accel Shards"
+          },
+          "tell": {
+            "en": "Shards come in from both sides, accelerating as they travel"
+          },
+          "effect": {
+            "en": "They get faster over time, blocking both sides"
+          },
+          "counter": {
+            "en": "Stay near the middle and avoid the corners"
+          },
+          "only": {
+            "en": "easy and normal tiers only"
+          }
+        },
+        {
+          "id": "m_dance",
+          "name": {
+            "en": "Burst and Curve"
+          },
+          "tell": {
+            "en": "Radial bursts alternate with curving streams"
+          },
+          "effect": {
+            "en": "Radial parts have clear gaps between spokes; curving parts bend toward you"
+          },
+          "counter": {
+            "en": "Slip between the spokes during bursts and strafe during curves"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        },
+        {
+          "id": "m_typhoon",
+          "name": {
+            "en": "Crossing Spirals"
+          },
+          "tell": {
+            "en": "Two spiral streams rotate in opposite directions and cross each other"
+          },
+          "effect": {
+            "en": "The crossing points are the densest, and both streams keep rotating"
+          },
+          "counter": {
+            "en": "Move with the rotation and avoid the crossing points"
+          },
+          "only": {
+            "en": "normal tier and above"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Non-spell 1, Fixed Angle Streams, Non-spell 2, Drifting Scatter (hard), Non-spell 3, Side Accel Shards (easy/normal) or Burst and Curve (hard), Crossing Spirals (normal and above). The easy tier only has Non-spell 1 and Side Accel Shards."
+        }
+      ]
+    },
+    {
+      "case_id": "touhou/patchouli",
+      "boss": {
+        "en": "Beam Elementalist"
+      },
+      "summary": {
+        "en": "Stage-four boss with rotating beams; each beam also emits element-themed bullet patterns."
+      },
+      "moves": [
+        {
+          "id": "p_agni",
+          "name": {
+            "en": "Wavering Fall"
+          },
+          "tell": {
+            "en": "Fiery bullets fall while swaying side to side"
+          },
+          "effect": {
+            "en": "Bullets rain from above and the sway makes landing spots hard to read"
+          },
+          "counter": {
+            "en": "Move side to side with the sway; do not stand still"
+          },
+          "only": {
+            "en": "easy and normal tiers only"
+          }
+        },
+        {
+          "id": "p_agni_hl",
+          "name": {
+            "en": "Wavering Fall Dense"
+          },
+          "tell": {
+            "en": "The same wavering fall but with more, denser bullets"
+          },
+          "effect": {
+            "en": "Narrower gaps"
+          },
+          "counter": {
+            "en": "Make small slow corrections and bomb at the densest moment"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        },
+        {
+          "id": "p_trilithon_hl",
+          "name": {
+            "en": "Stall and Turn"
+          },
+          "tell": {
+            "en": "Yellow bullets fly out, stall, then turn and head in a new direction"
+          },
+          "effect": {
+            "en": "Stalled bullets are temporary obstacles and become a new pattern after turning"
+          },
+          "counter": {
+            "en": "Stand in open ground while they stall and predict the new direction"
+          },
+          "only": {
+            "en": "normal tier only"
+          }
+        },
+        {
+          "id": "p_shake",
+          "name": {
+            "en": "Stall Turn and Heavy Shots"
+          },
+          "tell": {
+            "en": "Stall-and-turn bullets plus large heavy shots"
+          },
+          "effect": {
+            "en": "The large bullets shrink the room you can dodge in"
+          },
+          "counter": {
+            "en": "Dodge the large ones first, then read the gaps in the small ones"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        },
+        {
+          "id": "p_lava",
+          "name": {
+            "en": "Rings and Stalls"
+          },
+          "tell": {
+            "en": "All-direction rings alternate with stalled bullets that restart later"
+          },
+          "effect": {
+            "en": "Rings force you to move and stalled bullets set off when you think it is safe"
+          },
+          "counter": {
+            "en": "Do not stay beside stalled bullets; use the gaps between rings"
+          }
+        },
+        {
+          "id": "p_mercury",
+          "name": {
+            "en": "Twin Curving Streams"
+          },
+          "tell": {
+            "en": "Two emitters fire curving streams in opposite directions"
+          },
+          "effect": {
+            "en": "The two curving streams cross each other"
+          },
+          "counter": {
+            "en": "Stay between the streams and move along the curve"
+          },
+          "only": {
+            "en": "normal tier and above"
+          }
+        },
+        {
+          "id": "p_forest",
+          "name": {
+            "en": "Corner Stream and Sparks"
+          },
+          "tell": {
+            "en": "Green streams come diagonally from above, with scattered fire bullets"
+          },
+          "effect": {
+            "en": "The diagonal stream covers one side while fire bullets fall sparsely"
+          },
+          "counter": {
+            "en": "Stay on the open side and watch for the scattered bullets"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Non-spell 1 (rotating beams that also emit bullets), Wavering Fall, Non-spell 2, Stall and Turn or Stall Turn and Heavy Shots, Rings and Stalls, Twin Curving Streams, Corner Stream and Sparks. The easy tier only has Non-spell 1 and Rings and Stalls."
+        }
+      ]
+    },
+    {
+      "case_id": "touhou/remilia",
+      "boss": {
+        "en": "Web Bombardier"
+      },
+      "summary": {
+        "en": "Stage-six boss that weaves nets of beams and fires large shells that leave trails; in her last cards she turns into bats."
+      },
+      "moves": [
+        {
+          "id": "r6_david",
+          "name": {
+            "en": "Beam Web"
+          },
+          "tell": {
+            "en": "Beams interweave into a net and bullets are released from it"
+          },
+          "effect": {
+            "en": "The net divides the field and bullets come out along it"
+          },
+          "counter": {
+            "en": "Stay off the beams and choose an open cell"
+          },
+          "only": {
+            "en": "easy and normal tiers only"
+          }
+        },
+        {
+          "id": "r6_demon",
+          "name": {
+            "en": "Static Web Shells"
+          },
+          "tell": {
+            "en": "The beam net stays still while large shells are fired"
+          },
+          "effect": {
+            "en": "The net does not move and large shells keep coming"
+          },
+          "counter": {
+            "en": "Memorise the net first, then dodge the shells"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        },
+        {
+          "id": "r6_nether",
+          "name": {
+            "en": "Falling Slivers"
+          },
+          "tell": {
+            "en": "Thin bullets fall while crossing bullets cut diagonally"
+          },
+          "effect": {
+            "en": "Many thin bullets plus crossing bullets that block your route"
+          },
+          "counter": {
+            "en": "Sidestep the crossing bullets and use slow moves for the thin ones"
+          },
+          "only": {
+            "en": "easy and normal tiers only"
+          }
+        },
+        {
+          "id": "r6_needles",
+          "name": {
+            "en": "Bouncing Slivers"
+          },
+          "tell": {
+            "en": "Thin bullets bounce off walls and blade-shaped bullets cross"
+          },
+          "effect": {
+            "en": "Bounces keep bullets in play for longer"
+          },
+          "counter": {
+            "en": "Keep away from the walls"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        },
+        {
+          "id": "r6_tepes",
+          "name": {
+            "en": "Spiral Blades"
+          },
+          "tell": {
+            "en": "Blue blade bullets spiral out and leave red bullets behind"
+          },
+          "effect": {
+            "en": "Red bullets remain and accumulate"
+          },
+          "counter": {
+            "en": "Do not reuse the same route; reposition to avoid getting boxed in"
+          },
+          "only": {
+            "en": "easy and normal tiers only"
+          }
+        },
+        {
+          "id": "r6_fantasy",
+          "name": {
+            "en": "Even Way Shells"
+          },
+          "tell": {
+            "en": "Even-numbered ways of large shells fly out leaving trail bullets"
+          },
+          "effect": {
+            "en": "An even way count leaves a gap straight ahead"
+          },
+          "counter": {
+            "en": "Stand between two ways"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        },
+        {
+          "id": "r6_shoot",
+          "name": {
+            "en": "Fast Aimed Shells"
+          },
+          "tell": {
+            "en": "Fast large shells aimed right at you"
+          },
+          "effect": {
+            "en": "Fast, with little reaction time"
+          },
+          "counter": {
+            "en": "Sidestep early and do not back up in a straight line"
+          },
+          "only": {
+            "en": "easy and normal tiers only"
+          }
+        },
+        {
+          "id": "r6_meister",
+          "name": {
+            "en": "Led Volleys"
+          },
+          "tell": {
+            "en": "A leading large shell comes with a ring of bullets in volleys"
+          },
+          "effect": {
+            "en": "The leader sets where the ring goes"
+          },
+          "counter": {
+            "en": "Track the leader and hide between rings"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        },
+        {
+          "id": "r6_magic",
+          "name": {
+            "en": "Bouncing Trail Shells"
+          },
+          "tell": {
+            "en": "Large shells bounce off walls leaving trails, and the boss turns into bats"
+          },
+          "effect": {
+            "en": "Trails accumulate; bombs work differently in this card"
+          },
+          "counter": {
+            "en": "Stay off walls and do not rely on bombs"
+          },
+          "only": {
+            "en": "easy and normal tiers only"
+          }
+        },
+        {
+          "id": "r6_gensokyo",
+          "name": {
+            "en": "Trail Shells and Ring"
+          },
+          "tell": {
+            "en": "Large shells leave trails while a ring is added; the boss turns into bats"
+          },
+          "effect": {
+            "en": "Trails plus rings leave narrow gaps"
+          },
+          "counter": {
+            "en": "Find the ring gaps and avoid the trails"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Each tier has four non-spells and five cards; the easy tier only has Non-spell 1 and Bouncing Trail Shells. Cards come from the easy/normal set or the hard set."
+        }
+      ]
+    },
+    {
+      "case_id": "touhou/rumia",
+      "boss": {
+        "en": "Fan Caster"
+      },
+      "summary": {
+        "en": "Stage-one boss who spreads her arms and sweeps rings and fans of bullets; plain bullet attacks alternate with spell cards."
+      },
+      "moves": [
+        {
+          "id": "r_bird",
+          "name": {
+            "en": "Alternating Sweep"
+          },
+          "tell": {
+            "en": "Light-blue and blue bullets alternate and sweep left and right like wings, aimed at you"
+          },
+          "effect": {
+            "en": "Each volley is a few fan-shaped wings sweeping a wide arc; she moves between volleys"
+          },
+          "counter": {
+            "en": "Slip through the gap between wings and stay off the aim line; the repositioning moment is safest"
+          }
+        },
+        {
+          "id": "r_demarc",
+          "name": {
+            "en": "Counter Rings"
+          },
+          "tell": {
+            "en": "Several waves of red and blue rings expand and rotate in opposite directions; after a pause a row of aimed bullets follows"
+          },
+          "effect": {
+            "en": "The rings expand slowly, then the aimed bullets grow in number"
+          },
+          "counter": {
+            "en": "Follow the gap between rings and sidestep when the aimed bullets come"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Non-spell 1, Alternating Sweep, Non-spell 2 (laser, yellow counter rings, aimed green rings), Counter Rings. The easy tier only has Non-spell 1, Alternating Sweep and Counter Rings."
+        }
+      ]
+    },
+    {
+      "case_id": "touhou/sakuya",
+      "boss": {
+        "en": "Stoptime Knifer"
+      },
+      "summary": {
+        "en": "Stage-five boss who stops time and lays knives meanwhile, releasing them when time resumes; you, your shots and enemy bullets are frozen during a stop."
+      },
+      "moves": [
+        {
+          "id": "s_corpse",
+          "name": {
+            "en": "Stop and Lay Knives"
+          },
+          "tell": {
+            "en": "Small bullets scatter, then the screen freezes while she crosses it laying knives"
+          },
+          "effect": {
+            "en": "Knives aimed at you and parabolic ones are laid; all move when time resumes"
+          },
+          "counter": {
+            "en": "Note the knives during the freeze and move to the side without knives"
+          },
+          "only": {
+            "en": "easy and normal tiers only"
+          }
+        },
+        {
+          "id": "s_jack",
+          "name": {
+            "en": "Trail Knives"
+          },
+          "tell": {
+            "en": "Random bullets drift down, then time stops and she moves leaving knives on her way"
+          },
+          "effect": {
+            "en": "Knives aim at you and surround you"
+          },
+          "counter": {
+            "en": "Leave through a gap you noted as soon as time resumes"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        },
+        {
+          "id": "s_luna",
+          "name": {
+            "en": "Knife Lanes"
+          },
+          "tell": {
+            "en": "Fixed all-direction bullets, then time stops and lines of knives appear between her and you, some turning green"
+          },
+          "effect": {
+            "en": "Knife lines fly toward you when time resumes, and green knives turn"
+          },
+          "counter": {
+            "en": "Take the gaps between lines and leave early for green knives"
+          },
+          "only": {
+            "en": "easy and normal tiers only"
+          }
+        },
+        {
+          "id": "s_world",
+          "name": {
+            "en": "Surround Knives"
+          },
+          "tell": {
+            "en": "A random knife curtain; the closer you are to her, the farther away knives appear"
+          },
+          "effect": {
+            "en": "During the stop knives are placed in a ring around you"
+          },
+          "counter": {
+            "en": "Stay moderately far from her for larger gaps"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        },
+        {
+          "id": "s_doll",
+          "name": {
+            "en": "Turning Ricochet Knives"
+          },
+          "tell": {
+            "en": "Slow four-way blue and red knives that turn into scattered green knives after a time stop, some bouncing off side walls"
+          },
+          "effect": {
+            "en": "Green knives scatter in all directions after the stop"
+          },
+          "counter": {
+            "en": "Dodge the slow knives first, then read gaps in the green ones"
+          },
+          "only": {
+            "en": "easy and normal tiers only"
+          }
+        },
+        {
+          "id": "s_killing",
+          "name": {
+            "en": "Rest and Aim Rings"
+          },
+          "tell": {
+            "en": "A ring of knives appears; blue ones slow to a halt, red ones stop and then aim, some turn green in the time stop"
+          },
+          "effect": {
+            "en": "Knives pause and then fly at you"
+          },
+          "counter": {
+            "en": "Stay away from resting knives and prepare to sidestep before red ones aim"
+          },
+          "only": {
+            "en": "hard tier only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Non-spell 1, Stop and Lay Knives (easy/normal) or Trail Knives (hard), Non-spell 2 (four magic circles shooting walls of kunai, plus knife rings), Knife Lanes or Surround Knives, Non-spell 3, Turning Ricochet Knives or Rest and Aim Rings. The easy tier only has Non-spell 1 and Turning Ricochet Knives."
+        }
+      ]
+    }
+  ]
+}

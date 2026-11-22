@@ -1,0 +1,611 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "hexen2_remake",
+  "rules": "hexen2-arena@4",
+  "title": {
+    "en": "First-Person Fantasy Arena: Riders and Serpent"
+  },
+  "dimension": "3d",
+  "view": {
+    "en": "First-person 3D: you are a heavily armoured swordsman with a crosshair at the centre and your weapon below. The HUD shows the boss name and health bar and your health, mana, armour and current weapon. The arena is round with pillars and cover, and mana and life crystals lie on the floor"
+  },
+  "goal": {
+    "en": "Empty the boss health bar to win; you lose when your health reaches zero; each fight lasts at most 300 seconds and a timeout is not a win. Health does not regenerate and each life crystal can be taken once; mana crystals respawn over time"
+  },
+  "mouse": {
+    "kind": "camera",
+    "en": "X>0 turns right, Y>0 looks down; look up for flying or very large bosses"
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "move ahead"
+    },
+    {
+      "key": "S",
+      "en": "move back"
+    },
+    {
+      "key": "A",
+      "en": "strafe left"
+    },
+    {
+      "key": "D",
+      "en": "strafe right"
+    },
+    {
+      "key": "Shift",
+      "en": "hold to run (double speed)"
+    },
+    {
+      "key": "Space",
+      "en": "jump"
+    },
+    {
+      "key": "L",
+      "en": "crouch"
+    },
+    {
+      "key": "Q",
+      "en": "turn left (keyboard turn, slow)"
+    },
+    {
+      "key": "E",
+      "en": "turn right (keyboard turn, slow)"
+    },
+    {
+      "key": "J",
+      "en": "attack, hold to repeat"
+    },
+    {
+      "key": "LMB",
+      "en": "attack (same as J)"
+    },
+    {
+      "key": "K",
+      "en": "next weapon (about 0.3 s select delay, no firing)"
+    },
+    {
+      "key": "RMB",
+      "en": "next weapon (same as K)"
+    },
+    {
+      "key": "R",
+      "en": "previous weapon"
+    }
+  ],
+  "notes": [
+    {
+      "en": "Four weapons: gauntlet (melee), long sword (melee, uses mana), throwing axe (bounces back) and fire-orb wand (ranged rapid fire, uses mana). Pick up mana crystals when you run dry."
+    },
+    {
+      "en": "Hold attack to repeat; switching weapons blocks firing for about 0.3 s, so do not switch in danger."
+    },
+    {
+      "en": "Aim ranged weapons before firing; boss homing shots turn slowly, so sidestepping behind cover works best."
+    },
+    {
+      "en": "Boss attacks have visible wind-ups: a glow at the release point, a shrinking ring and an on-screen banner. Dodge when you see them."
+    },
+    {
+      "en": "Your projectiles are sky blue and boss projectiles never are; bosses have an outline glow found nowhere else in the arena."
+    },
+    {
+      "en": "Each rider follows a fixed route; pillars on it can block shots."
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "Movement, 8 directions; every non-idle option also holds Shift (run)",
+      "options": {
+        "none": "stand still",
+        "forward": "run ahead",
+        "back": "run back",
+        "left": "strafe left",
+        "right": "strafe right",
+        "forward_left": "run ahead-left",
+        "forward_right": "run ahead-right",
+        "back_left": "run back-left",
+        "back_right": "run back-right"
+      }
+    },
+    "turn": {
+      "en": "Horizontal view turn by a fixed angle (mouse X), negative is left",
+      "options": {
+        "none": "no turn",
+        "left_3": "turn left 3 deg",
+        "right_3": "turn right 3 deg",
+        "left_10": "turn left 10 deg",
+        "right_10": "turn right 10 deg",
+        "left_30": "turn left 30 deg",
+        "right_30": "turn right 30 deg",
+        "left_60": "turn left 60 deg",
+        "right_60": "turn right 60 deg"
+      }
+    },
+    "pitch": {
+      "en": "Vertical view tilt (mouse Y), for flying or tall enemies",
+      "options": {
+        "none": "no tilt",
+        "up_3": "look up 3 deg",
+        "down_3": "look down 3 deg"
+      }
+    },
+    "attack": {
+      "en": "Attack or weapon switch; never combined in one packet",
+      "options": {
+        "none": "no attack",
+        "fire": "hold the attack button",
+        "next_weapon": "switch to next weapon",
+        "prev_weapon": "switch to previous weapon"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "hexen2/airborne_bone_rider",
+      "boss": {
+        "en": "Airborne Bone-Rain Rider"
+      },
+      "summary": {
+        "en": "A rider on a flying mount circles above the arena along a fixed route and chains three ranged attacks. You often need to look up to aim."
+      },
+      "moves": [
+        {
+          "id": "death_bones",
+          "name": {
+            "en": "Bone-Rain Missile"
+          },
+          "tell": {
+            "en": "The rider launches a slow homing missile that can be shot down."
+          },
+          "effect": {
+            "en": "If it hits you, bones rain on you from above for about 4 to 6 seconds; each does little damage but there are many."
+          },
+          "counter": {
+            "en": "Shoot the missile before it lands, or keep strafing so the bones miss."
+          }
+        },
+        {
+          "id": "death_fire_circle",
+          "name": {
+            "en": "Fire Ring"
+          },
+          "tell": {
+            "en": "A missile flies at you and bursts into flames where it lands."
+          },
+          "effect": {
+            "en": "The flames spin and widen for about 1.2 seconds, burning anyone inside, harder over time."
+          },
+          "counter": {
+            "en": "Run out of the ring as soon as the missile lands; do not stay near the impact point."
+          }
+        },
+        {
+          "id": "death_missiles",
+          "name": {
+            "en": "Triple Missile Volley"
+          },
+          "tell": {
+            "en": "The rider fires left, centre and right homing missiles at once."
+          },
+          "effect": {
+            "en": "Each hit deals moderate damage and the missiles steer at you for about 3 seconds."
+          },
+          "counter": {
+            "en": "Run sideways and get behind cover so the missiles hit the wall."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "After each attack there is a few seconds of cooldown and only one attack is active at a time."
+        }
+      ]
+    },
+    {
+      "case_id": "hexen2/axe_hurling_rider",
+      "boss": {
+        "en": "Axe-Hurling Armoured Rider"
+      },
+      "summary": {
+        "en": "A heavily armoured rider gallops along a route and hurls a batch of axes after every lap. It is big and tramples."
+      },
+      "moves": [
+        {
+          "id": "war_axe",
+          "name": {
+            "en": "Side Axes"
+          },
+          "tell": {
+            "en": "After each lap the rider throws two to four axes that fly out sideways, then curve at you."
+          },
+          "effect": {
+            "en": "Each axe deals moderate damage; the slower the rider gallops, the more axes per throw."
+          },
+          "counter": {
+            "en": "The axes turn slowly; strafe or hide behind a pillar, then attack in the gap."
+          }
+        },
+        {
+          "id": "war_big_axe",
+          "name": {
+            "en": "Rearing Heavy Axe"
+          },
+          "tell": {
+            "en": "The mount rears up, then the rider throws one larger axe."
+          },
+          "effect": {
+            "en": "This axe tracks more tightly and hits very hard, and explodes on walls."
+          },
+          "counter": {
+            "en": "Start strafing as soon as it rears and lead the axe into cover."
+          }
+        },
+        {
+          "id": "war_trample",
+          "name": {
+            "en": "Trample"
+          },
+          "tell": {
+            "en": "The rider gallops straight at you."
+          },
+          "effect": {
+            "en": "Contact deals moderate damage and knocks you far back, worse from the front."
+          },
+          "counter": {
+            "en": "Step aside early and do not stand in its path."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "A sharp turn makes the next lap faster; gentle turns slow it and it throws more axes."
+        }
+      ]
+    },
+    {
+      "case_id": "hexen2/blinking_tether_rider",
+      "boss": {
+        "en": "Blinking Tether Rider"
+      },
+      "summary": {
+        "en": "A rider gallops on a route. It does not trample, but pulls you in, fires homing missiles, and blinks next to you after rearing."
+      },
+      "moves": [
+        {
+          "id": "famine_pull",
+          "name": {
+            "en": "Tether Pull"
+          },
+          "tell": {
+            "en": "The rider stops and a string of glowing orbs links at you."
+          },
+          "effect": {
+            "en": "The beam lasts several seconds, drags you steadily at the rider and deals small damage each second."
+          },
+          "counter": {
+            "en": "Cover that blocks the beam cancels the pull; get behind a pillar."
+          }
+        },
+        {
+          "id": "famine_missiles",
+          "name": {
+            "en": "Triple Missile Volley"
+          },
+          "tell": {
+            "en": "The rider raises an arm and fires left, centre and right missiles."
+          },
+          "effect": {
+            "en": "The missiles home for about 2 seconds, each hit moderate."
+          },
+          "counter": {
+            "en": "Run sideways and use cover so the missiles cannot turn in time."
+          }
+        },
+        {
+          "id": "famine_blink",
+          "name": {
+            "en": "Rear and Blink"
+          },
+          "tell": {
+            "en": "The mount rears and its body fades out."
+          },
+          "effect": {
+            "en": "While gone it cannot be hit; after about 0.5 to 3 seconds it reappears at the route point nearest you and may fire another volley."
+          },
+          "counter": {
+            "en": "Do not waste shots while it is gone; guess where it will reappear and aim there."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "The more hurt it is, the more it rears and blinks."
+        }
+      ]
+    },
+    {
+      "case_id": "hexen2/boar_archer_rider",
+      "boss": {
+        "en": "Boar-Riding Poison Archer"
+      },
+      "summary": {
+        "en": "An archer on a huge boar. It starts awake, chases you on sight, tramples up close and shoots poison arrows and throws hives from range."
+      },
+      "moves": [
+        {
+          "id": "pest_arrow",
+          "name": {
+            "en": "Poison Arrow"
+          },
+          "tell": {
+            "en": "The archer turns at you and draws the bow."
+          },
+          "effect": {
+            "en": "The homing arrow flies for about 2 seconds, hits for moderate damage and poisons you, dealing damage each second; stacks."
+          },
+          "counter": {
+            "en": "Strafe away; poison lasts 5 to 10 seconds, so avoid getting hit."
+          }
+        },
+        {
+          "id": "pest_hive",
+          "name": {
+            "en": "Hive Throw"
+          },
+          "tell": {
+            "en": "The archer lobs a hive that bounces along the ground."
+          },
+          "effect": {
+            "en": "When it lands or is shot, it releases three insect clouds that drift after you for about 20 seconds, chipping small damage on contact."
+          },
+          "counter": {
+            "en": "Shoot the hive in the air; the clouds are slow, so keep moving."
+          }
+        },
+        {
+          "id": "pest_charge",
+          "name": {
+            "en": "Charge"
+          },
+          "tell": {
+            "en": "The boar lowers its head, speeds up sharply and runs straight at you."
+          },
+          "effect": {
+            "en": "Contact deals moderate damage and heavy knockback; it may also shoot or throw during the charge."
+          },
+          "counter": {
+            "en": "Dodge sideways early; do not run straight back."
+          }
+        },
+        {
+          "id": "pest_trample",
+          "name": {
+            "en": "Body Slam"
+          },
+          "tell": {
+            "en": "The boar closes in and rams you."
+          },
+          "effect": {
+            "en": "Moderate damage with knockback, at most once every half second."
+          },
+          "counter": {
+            "en": "Keep distance and shoot while backing away."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "It attacks more eagerly after being hurt; if stuck on a wall it backs up for a few seconds."
+        }
+      ]
+    },
+    {
+      "case_id": "hexen2/orb_warded_serpent",
+      "boss": {
+        "en": "Orb-Shielded Serpent"
+      },
+      "summary": {
+        "en": "A destructible orb in the arena shields the serpent. You must break the orb first, then defeat the serpent itself, over several phases."
+      },
+      "moves": [
+        {
+          "id": "eidolon_magic",
+          "name": {
+            "en": "Small-Form Bolts"
+          },
+          "tell": {
+            "en": "In its small form the serpent raises a hand and fires one or more fast bolts."
+          },
+          "effect": {
+            "en": "The bolts are fast and moderately damaging."
+          },
+          "counter": {
+            "en": "Keep moving around pillars instead of backing straight away."
+          }
+        },
+        {
+          "id": "eidolon_fireball",
+          "name": {
+            "en": "Fireball"
+          },
+          "tell": {
+            "en": "In its large form it opens its mouth and fires fireballs in pairs."
+          },
+          "effect": {
+            "en": "A direct hit is extremely damaging, one can cripple you, and the blast splashes."
+          },
+          "counter": {
+            "en": "Dodge sideways the moment it opens its mouth and get behind cover."
+          }
+        },
+        {
+          "id": "eidolon_flames",
+          "name": {
+            "en": "Flame Breath"
+          },
+          "tell": {
+            "en": "At mid range it lowers its head and breathes a stream of flames."
+          },
+          "effect": {
+            "en": "The flames are slower and hurt noticeably, and push you away when close."
+          },
+          "counter": {
+            "en": "Strafe aside, or move closer or farther than its breath range."
+          }
+        },
+        {
+          "id": "eidolon_lightning",
+          "name": {
+            "en": "Roar Lightning"
+          },
+          "tell": {
+            "en": "The serpent throws back its head and roars, the sky darkens, and lightning strikes random spots."
+          },
+          "effect": {
+            "en": "A direct strike is nearly fatal; positions are random."
+          },
+          "counter": {
+            "en": "During the roar head to a corner away from the centre and do not stand still."
+          }
+        },
+        {
+          "id": "eidolon_grow",
+          "name": {
+            "en": "Growth"
+          },
+          "tell": {
+            "en": "After the small form is beaten the sky darkens, the ground shakes and the serpent swells."
+          },
+          "effect": {
+            "en": "Standing close during growth pushes you away and hurts you steadily."
+          },
+          "counter": {
+            "en": "Back off during growth and attack after the roar."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Small form: unkillable; enough damage makes it fake a collapse."
+        },
+        {
+          "en": "Large form with the orb intact: the serpent cannot die; breaking the orb is the only way ahead."
+        },
+        {
+          "en": "After the orb breaks, the real fight begins and it can be killed."
+        }
+      ]
+    },
+    {
+      "case_id": "hexen2/star_volley_sorcerer",
+      "boss": {
+        "en": "Star Volley Sorcerer"
+      },
+      "summary": {
+        "en": "A tall sorcerer casting in an open hall: star bolts at range, fire pillars under your feet, fire walls and an arena-wide storm; he also teleports and blocks shots with a shield. Each time his health drops another step he becomes briefly invulnerable and recharges."
+      },
+      "moves": [
+        {
+          "id": "praevus_star",
+          "name": {
+            "en": "Triple Star Bolt"
+          },
+          "tell": {
+            "en": "He points at you and a 'triple star bolt' cue appears on screen, firing almost immediately"
+          },
+          "effect": {
+            "en": "Three star bolts fly at you in a narrow fan and hurt on hit; they only spark against walls"
+          },
+          "counter": {
+            "en": "Strafe through a gap in the fan or duck behind a pillar"
+          }
+        },
+        {
+          "id": "praevus_pillar",
+          "name": {
+            "en": "Fire Pillar"
+          },
+          "tell": {
+            "en": "A 'fire pillar' marker appears under your feet and the pillar rises about 0.2 s later"
+          },
+          "effect": {
+            "en": "A pillar of fire erupts where you stand and hurts while you are inside it"
+          },
+          "counter": {
+            "en": "Move away the moment the marker appears under you"
+          }
+        },
+        {
+          "id": "praevus_firewall",
+          "name": {
+            "en": "Fire Wall"
+          },
+          "tell": {
+            "en": "He charges for about 1.6 s with a 'fire wall' cue on screen"
+          },
+          "effect": {
+            "en": "He releases a wall of fire that sweeps across the arena at you and hurts on contact"
+          },
+          "counter": {
+            "en": "Get sideways out of its path while he is still charging"
+          }
+        },
+        {
+          "id": "praevus_conjure",
+          "name": {
+            "en": "Summon Storm"
+          },
+          "tell": {
+            "en": "He raises his hands with a 'summon storm' cue and a storm forms over the middle of the arena"
+          },
+          "effect": {
+            "en": "The storm covers a large area and keeps striking anyone inside it, each bolt hurting a lot"
+          },
+          "counter": {
+            "en": "Run to the edge of the storm or into a corner quickly"
+          }
+        },
+        {
+          "id": "praevus_teleport",
+          "name": {
+            "en": "Teleport"
+          },
+          "tell": {
+            "en": "He spins faster and shrinks with a 'teleport' cue, then vanishes"
+          },
+          "effect": {
+            "en": "He reappears a few seconds later at another teleport point in the arena"
+          },
+          "counter": {
+            "en": "Use the gap to pick up supplies and reposition, then turn to find where he reappears"
+          }
+        },
+        {
+          "id": "praevus_shield",
+          "name": {
+            "en": "Shield"
+          },
+          "tell": {
+            "en": "Six shield plates circle around him"
+          },
+          "effect": {
+            "en": "The plates block your shots; each can be shattered and does not regrow"
+          },
+          "counter": {
+            "en": "Break the plates between you and him first"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "At the start he spins and slows down; he can only be hurt once he has turned to face you"
+        },
+        {
+          "en": "Each time he loses another fifth of his health he goes invulnerable for about 6 s to recharge (no healing), then follows with a fire wall"
+        }
+      ]
+    }
+  ]
+}

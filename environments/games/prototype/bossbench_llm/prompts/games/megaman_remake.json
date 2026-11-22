@@ -1,0 +1,517 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "megaman_remake",
+  "rules": "megaman-nes-20261105-r4",
+  "title": {
+    "en": "Blue Gunner: Boss Gauntlet"
+  },
+  "dimension": "2d",
+  "view": {
+    "en": "Side-view single-screen 2D room; you control the blue gunner with an arm gun and any weapons won; your health bar and the boss's health bar are at the top of the screen"
+  },
+  "goal": {
+    "en": "Empty the boss's health bar to win; you lose if your health reaches zero; there is a time limit and a timeout is not a win. Health does not regenerate"
+  },
+  "mouse": {
+    "kind": "none",
+    "en": ""
+  },
+  "keys": [
+    {
+      "key": "A",
+      "en": "move left (slow start, slides after release)"
+    },
+    {
+      "key": "D",
+      "en": "move right (slow start, slides after release)"
+    },
+    {
+      "key": "Space",
+      "en": "jump; hold to go higher, releasing mid-rise slows it at once"
+    },
+    {
+      "key": "J",
+      "en": "fire, one shot per press"
+    },
+    {
+      "key": "LMB",
+      "en": "fire (same as J)"
+    },
+    {
+      "key": "Q",
+      "en": "previous weapon"
+    },
+    {
+      "key": "E",
+      "en": "next weapon"
+    }
+  ],
+  "notes": [
+    {
+      "en": "Firing counts new presses, so release and press again for each shot; the arm gun allows at most 3 shots on screen, with no charge shot and no slide"
+    },
+    {
+      "en": "Defeating a boss wins its weapon; each shot costs weapon energy, fuse lob and block toss cost more; you cannot switch while a fuse lob or boulder is out"
+    },
+    {
+      "en": "For block toss, stand against a block facing it, press fire to lift and again to throw; only the blade tosser and quake hurler rooms have blocks"
+    },
+    {
+      "en": "After a hit you are knocked back about 0.5 s then flash invulnerable for about 2 s; weapons have strengths and weaknesses against different bosses"
+    },
+    {
+      "en": "One action packet lasts 200 ms and is split into 6 sub-steps"
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "Horizontal movement; half/4-substep options are short nudges (walking starts slow, then slides after release)",
+      "options": {
+        "none": "stand still",
+        "left": "hold left whole packet",
+        "right": "hold right whole packet",
+        "left_half": "left for first 3 sub-steps",
+        "right_half": "right for first 3 sub-steps",
+        "left_4": "left for first 4 sub-steps",
+        "right_4": "right for first 4 sub-steps"
+      }
+    },
+    "jump": {
+      "en": "Jump timing; holding longer jumps higher, releasing early cuts the rise",
+      "options": {
+        "none": "no jump",
+        "hold": "hold whole packet (highest)",
+        "tap": "press sub-step 1 only (lowest)",
+        "from_2": "hold from sub-step 2",
+        "from_3": "hold from sub-step 3",
+        "from_4": "hold from sub-step 4",
+        "from_5": "hold from sub-step 5",
+        "at_6": "press sub-step 6 only",
+        "first_2": "hold first 2 sub-steps (low)",
+        "first_5": "hold first 5 sub-steps",
+        "first_3": "hold first 3 sub-steps",
+        "first_4": "hold first 4 sub-steps",
+        "tap_rehold": "tap at sub-step 1, hold again from 3",
+        "tap_tap6": "tap at sub-step 1, press again at 6",
+        "tap_hold5": "tap at sub-step 1, hold again from 5"
+      }
+    },
+    "fire": {
+      "en": "Fire or switch weapon",
+      "options": {
+        "none": "no fire",
+        "fire": "fire 3 shots (sub-steps 1, 3, 5)",
+        "next_weapon": "next weapon (sub-step 1)",
+        "prev_weapon": "previous weapon (sub-step 1)"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "megaman/bomb_man",
+      "boss": {
+        "en": "Shard Lobber"
+      },
+      "summary": {
+        "en": "A flat small room; the opponent lobs bombs and leaps in, and each bomb bursts into shards on landing."
+      },
+      "moves": [
+        {
+          "id": "lob_bomb",
+          "name": {
+            "en": "Bomb lob"
+          },
+          "tell": {
+            "en": "After landing he holds a bomb up for about 0.25 s and lobs it at you; it lands slightly short of you, 1-3 per round"
+          },
+          "effect": {
+            "en": "The bomb explodes on landing or on hitting a wall and hurts; shots cannot destroy it"
+          },
+          "counter": {
+            "en": "Watch the landing spot and jump the shards or back off; he waits for one to burst before throwing the next"
+          }
+        },
+        {
+          "id": "shrapnel",
+          "name": {
+            "en": "Shards"
+          },
+          "tell": {
+            "en": "The bomb bursts into 12 pieces: fast ones up/down/left/right, diagonals and four slow ones"
+          },
+          "effect": {
+            "en": "Shards hurt on contact"
+          },
+          "counter": {
+            "en": "Ground-level shards are low, so jumping avoids them; stay away from the landing spot"
+          }
+        },
+        {
+          "id": "leap",
+          "name": {
+            "en": "Leap"
+          },
+          "tell": {
+            "en": "Each round starts with a random jump: a big leap at you or a small hop closer; after a small-hop round he hops away facing back"
+          },
+          "effect": {
+            "en": "Touching him during a leap hurts"
+          },
+          "counter": {
+            "en": "A big leap goes over you, so walk under it; he only charges after settling, which is your opening"
+          }
+        },
+        {
+          "id": "close_guard",
+          "name": {
+            "en": "Close-range pounce"
+          },
+          "tell": {
+            "en": "When you get very close he drops the bomb throw and jumps at you"
+          },
+          "effect": {
+            "en": "It breaks his rhythm but he jumps over you with contact damage"
+          },
+          "counter": {
+            "en": "Use it to break his throws, but mind where he lands"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "megaman/cut_man",
+      "boss": {
+        "en": "Blade Tosser"
+      },
+      "summary": {
+        "en": "The room has a step and blocks; the opponent throws a returning blade and leaps at close range."
+      },
+      "moves": [
+        {
+          "id": "return_blade",
+          "name": {
+            "en": "Returning blade"
+          },
+          "tell": {
+            "en": "He plants his feet and raises the blade for about 0.3 s, then throws it at you; it turns at the room edge and speeds back to his hand"
+          },
+          "effect": {
+            "en": "The return path also sweeps through your position and hurts"
+          },
+          "counter": {
+            "en": "While the blade is out he has no weapon, so close in and shoot; do not stand between him and the blade"
+          }
+        },
+        {
+          "id": "leap",
+          "name": {
+            "en": "Close leap"
+          },
+          "tell": {
+            "en": "When you are close he jumps; usually over you, sometimes right onto you or in front of you"
+          },
+          "effect": {
+            "en": "Landing on you does contact damage; he may throw the blade in mid-air"
+          },
+          "counter": {
+            "en": "When he jumps, walk under him or the other way"
+          }
+        },
+        {
+          "id": "chase",
+          "name": {
+            "en": "Wait-and-throw"
+          },
+          "tell": {
+            "en": "When you stand on the step and he is on the ground, he runs in place for about 1 s then throws"
+          },
+          "effect": {
+            "en": "After the wait the blade flies at you"
+          },
+          "counter": {
+            "en": "The step is a safe place to watch, but dodge once the blade is thrown"
+          }
+        },
+        {
+          "id": "hop_back",
+          "name": {
+            "en": "Hit-and-hop"
+          },
+          "tell": {
+            "en": "After being hit he flashes for about 1 second and hops away from you for the first half second"
+          },
+          "effect": {
+            "en": "Shots pass through him while he flashes; touching him still hurts"
+          },
+          "counter": {
+            "en": "Do not waste shots while he flashes; wait until he stops"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "megaman/elec_man",
+      "boss": {
+        "en": "Pouncer"
+      },
+      "summary": {
+        "en": "The opponent paces, firing at him triggers a counter-pounce, and his main damage is the zigzag arc."
+      },
+      "moves": [
+        {
+          "id": "zigzag_arc",
+          "name": {
+            "en": "Zigzag arc"
+          },
+          "tell": {
+            "en": "He stops and raises a hand for about 0.25 s, then releases a five-part zigzag arc that jumps forward and changes shape every moment"
+          },
+          "effect": {
+            "en": "The arc deals heavy damage on contact"
+          },
+          "counter": {
+            "en": "High arcs pass over you when standing; jump low arcs before they arrive, toward him is easier"
+          }
+        },
+        {
+          "id": "counter_leap",
+          "name": {
+            "en": "Counter-pounce"
+          },
+          "tell": {
+            "en": "If you fire while he paces, he pounces at once, sometimes as a feint in the other direction"
+          },
+          "effect": {
+            "en": "Landing on you does contact damage"
+          },
+          "counter": {
+            "en": "Do not fire while he paces; wait until he stands and discharges"
+          }
+        },
+        {
+          "id": "air_arc",
+          "name": {
+            "en": "Air arc"
+          },
+          "tell": {
+            "en": "If you fire while he is airborne, he charges in the air and releases one arc"
+          },
+          "effect": {
+            "en": "The arc deals heavy damage and its height follows his"
+          },
+          "counter": {
+            "en": "Watch the landing and fire less while he is airborne"
+          }
+        },
+        {
+          "id": "hop_back",
+          "name": {
+            "en": "Hit-and-hop"
+          },
+          "tell": {
+            "en": "After being hit he flashes for about 1 second and hops away from you for the first half second"
+          },
+          "effect": {
+            "en": "Shots pass through him while he flashes; touching him still hurts"
+          },
+          "counter": {
+            "en": "Do not waste shots while he flashes; wait until he stops"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "megaman/fire_man",
+      "boss": {
+        "en": "Wave Keeper"
+      },
+      "summary": {
+        "en": "The opponent keeps a fixed distance, sending ground waves that leave fire pillars."
+      },
+      "moves": [
+        {
+          "id": "ground_wave",
+          "name": {
+            "en": "Ground wave"
+          },
+          "tell": {
+            "en": "From a distance he gathers fire in his hand for about 0.4 s, then sends it along the ground; up to five per round, about one per second"
+          },
+          "effect": {
+            "en": "The wave hurts on contact"
+          },
+          "counter": {
+            "en": "Prepare to jump when the fire gathers and clear the wave near the top of your jump"
+          }
+        },
+        {
+          "id": "fire_pillar",
+          "name": {
+            "en": "Fire pillar"
+          },
+          "tell": {
+            "en": "When a wave passes under your feet, a fire pillar rises there for about 2 s"
+          },
+          "effect": {
+            "en": "The pillar hurts on contact"
+          },
+          "counter": {
+            "en": "Avoid pillars when landing; the old one dies when he sends the next wave"
+          }
+        },
+        {
+          "id": "keep_distance",
+          "name": {
+            "en": "Distance control"
+          },
+          "tell": {
+            "en": "He backs off when you approach and closes in when you retreat; cornered at a wall he turns and walks through you"
+          },
+          "effect": {
+            "en": "Walking through you does contact damage"
+          },
+          "counter": {
+            "en": "Shoot while he backs off; beware contact near walls"
+          }
+        },
+        {
+          "id": "retaliate",
+          "name": {
+            "en": "Retaliation"
+          },
+          "tell": {
+            "en": "About 0.23 s after being hit he starts a new round of fire"
+          },
+          "effect": {
+            "en": "He then sends waves"
+          },
+          "counter": {
+            "en": "Be ready to jump right after landing a hit"
+          }
+        },
+        {
+          "id": "stand_down",
+          "name": {
+            "en": "Stand-down after five"
+          },
+          "tell": {
+            "en": "After five shots he holds a pose and stops; any input from you or leaving the range band restarts him"
+          },
+          "effect": {
+            "en": "He does not attack while stopped"
+          },
+          "counter": {
+            "en": "This is a rule quirk; do not rely on it to win"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "megaman/guts_man",
+      "boss": {
+        "en": "Quake Hurler"
+      },
+      "summary": {
+        "en": "The room has a step; the opponent attacks with quaking leaps and thrown boulders."
+      },
+      "moves": [
+        {
+          "id": "quake_leap",
+          "name": {
+            "en": "Quake leap"
+          },
+          "tell": {
+            "en": "He crouches for about 0.25 s, jumps high, and the screen shakes for about 0.5 s on landing"
+          },
+          "effect": {
+            "en": "While the screen shakes, you are stunned for about 0.8 s if standing on the ground; contact also hurts"
+          },
+          "counter": {
+            "en": "Jump just as he lands and stay airborne until the shake ends; he is slow, so you can walk under him"
+          }
+        },
+        {
+          "id": "boulder_throw",
+          "name": {
+            "en": "Boulder throw"
+          },
+          "tell": {
+            "en": "He hops once, a boulder drops onto his hands, and after about 0.25 s of holding it he throws it straight at your feet"
+          },
+          "effect": {
+            "en": "The boulder hurts on contact; shots cannot destroy it"
+          },
+          "counter": {
+            "en": "He stands still while holding it, so shoot then; jump or move as he throws"
+          }
+        },
+        {
+          "id": "chunks",
+          "name": {
+            "en": "Chunks"
+          },
+          "tell": {
+            "en": "When the boulder hits a wall, floor or step it breaks into four pieces that keep flying the same way, two angling upward"
+          },
+          "effect": {
+            "en": "Chunks hurt on contact"
+          },
+          "counter": {
+            "en": "Chunks appear to the lower right of the impact and fly onward; walk back or jump once the boulder lands"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "megaman/ice_man",
+      "boss": {
+        "en": "V Gunner"
+      },
+      "summary": {
+        "en": "The opponent paces between fixed spots and fires piercing darts in a V pattern that speeds up over time."
+      },
+      "moves": [
+        {
+          "id": "v_volley",
+          "name": {
+            "en": "V volley"
+          },
+          "tell": {
+            "en": "At his spot he charges for about 0.25 s and jumps straight up; he fires one dart at each of three heights on the way down, hangs at the floor, then fires three more going up"
+          },
+          "effect": {
+            "en": "The darts deal heavy damage on contact"
+          },
+          "counter": {
+            "en": "Only the ground-level dart needs a jump; the middle and high ones pass over you; do not jump too high into the upper one"
+          }
+        },
+        {
+          "id": "patrol",
+          "name": {
+            "en": "Patrol"
+          },
+          "tell": {
+            "en": "He walks between four spots; every three landings the darts and hover timing speed up one level, four levels in all"
+          },
+          "effect": {
+            "en": "He does not attack while walking and has no hit reaction"
+          },
+          "counter": {
+            "en": "Walking and charging are the safest windows to shoot"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Every three landings speed up one level, four in total"
+        }
+      ]
+    }
+  ]
+}

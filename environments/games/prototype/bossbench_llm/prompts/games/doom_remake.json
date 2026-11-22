@@ -1,0 +1,429 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "doom_remake",
+  "rules": "doom-arena@11",
+  "title": {
+    "en": "First-Person Shooter: Hall Boss Fights"
+  },
+  "dimension": "3d",
+  "view": {
+    "en": "First-person 3D shooter: the crosshair is at the centre, your weapon is at the bottom, and the status bar shows ammo, health, armour and the current weapon. The arena is a hall with pillars and low walls, with medical, armour and ammo pickups on the floor. Your gunner can only turn left and right: no looking up or down, no jumping"
+  },
+  "goal": {
+    "en": "Defeat every boss in the arena to win; you lose if your health reaches zero; each fight lasts at most 300 seconds and a timeout is not a win. Health does not regenerate; only pickups restore it"
+  },
+  "mouse": {
+    "kind": "camera",
+    "en": "The mouse only turns the view left and right (X>0 turns right); there is no pitch"
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "move forward"
+    },
+    {
+      "key": "S",
+      "en": "move backward"
+    },
+    {
+      "key": "A",
+      "en": "strafe left"
+    },
+    {
+      "key": "D",
+      "en": "strafe right"
+    },
+    {
+      "key": "Shift",
+      "en": "hold to run (about twice as fast)"
+    },
+    {
+      "key": "Q",
+      "en": "turn left"
+    },
+    {
+      "key": "E",
+      "en": "turn right"
+    },
+    {
+      "key": "J",
+      "en": "fire, hold for continuous fire"
+    },
+    {
+      "key": "LMB",
+      "en": "fire (same as J)"
+    },
+    {
+      "key": "K",
+      "en": "switch to the next weapon"
+    },
+    {
+      "key": "RMB",
+      "en": "switch to the next weapon (same as K)"
+    },
+    {
+      "key": "L",
+      "en": "switch to the previous weapon"
+    }
+  ],
+  "notes": [
+    {
+      "en": "Weapon order: shotgun, chaingun, plus a rocket launcher in scenes that have one. Switching lowers then raises the weapon, taking about a second during which you cannot fire"
+    },
+    {
+      "en": "Shots go along the line through the crosshair, so turn to face the enemy first. The shotgun hits hard but fires slowly, the chaingun fires fast, and the rocket launcher does heavy damage with a blast radius, so avoid firing it point-blank"
+    },
+    {
+      "en": "Fireballs and rockets are visible projectiles that you can dodge by strafing sideways; pillars and low walls block them and break line of sight"
+    },
+    {
+      "en": "You can fire and turn while running. Enemies on the field may hurt each other, and each pickup can be taken only once"
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "movement (run is always held)",
+      "options": {
+        "none": "stand still",
+        "forward": "run forward",
+        "back": "run backward",
+        "left": "strafe left",
+        "right": "strafe right",
+        "forward_left": "run forward-left",
+        "forward_right": "run forward-right",
+        "back_left": "run backward-left",
+        "back_right": "run backward-right"
+      }
+    },
+    "turn": {
+      "en": "horizontal turn by a fixed angle (no pitch)",
+      "options": {
+        "none": "do not turn",
+        "left_3": "turn left 3 degrees",
+        "right_3": "turn right 3 degrees",
+        "left_10": "turn left 10 degrees",
+        "right_10": "turn right 10 degrees",
+        "left_30": "turn left 30 degrees",
+        "right_30": "turn right 30 degrees",
+        "left_60": "turn left 60 degrees",
+        "right_60": "turn right 60 degrees"
+      }
+    },
+    "attack": {
+      "en": "fire or change weapon",
+      "options": {
+        "none": "do not fire",
+        "fire": "hold fire",
+        "fire_fresh": "release then press fire (a fresh trigger pull)",
+        "next_weapon": "switch to the next weapon",
+        "prev_weapon": "switch to the previous weapon"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "doom/cyberdemon",
+      "boss": {
+        "en": "Rocket Colossus"
+      },
+      "summary": {
+        "en": "A huge hooved rocket gunner alone at the far end of a pillared hall, attacking only at range. You have a shotgun, chaingun and rocket launcher"
+      },
+      "moves": [
+        {
+          "id": "rocket_volley",
+          "name": {
+            "en": "Triple rocket volley"
+          },
+          "tell": {
+            "en": "It aims an arm at you, then fires a rocket about every third of a second, three in total"
+          },
+          "effect": {
+            "en": "Rockets fly straight and explode on hitting you or a wall, hurting everything in the blast; the damage is high"
+          },
+          "counter": {
+            "en": "Strafe sideways or duck behind a pillar when you see the arm rise; rockets take time to arrive, so a step or two sideways misses"
+          }
+        },
+        {
+          "id": "pain_stagger",
+          "name": {
+            "en": "Hit stagger"
+          },
+          "tell": {
+            "en": "When hit it sometimes stops and flinches briefly"
+          },
+          "effect": {
+            "en": "It does not attack during the stagger, which interrupts what it was doing"
+          },
+          "counter": {
+            "en": "Keep firing during the stagger; heavy weapons trigger it more often"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "doom/barons",
+      "boss": {
+        "en": "Green-Flame Horned Fiends"
+      },
+      "summary": {
+        "en": "Two horned fiends with green flame appear together; they spit fireballs at range and claw up close. The hall is fairly open with a few pieces of cover"
+      },
+      "moves": [
+        {
+          "id": "fireball",
+          "name": {
+            "en": "Green fireball"
+          },
+          "tell": {
+            "en": "It stops facing you for about half a second, then throws a green fireball"
+          },
+          "effect": {
+            "en": "The fireball flies straight and does moderate damage on hit; both may fire at once"
+          },
+          "counter": {
+            "en": "Strafe sideways or hide behind a pillar; fireballs do not home"
+          }
+        },
+        {
+          "id": "claw",
+          "name": {
+            "en": "Claw swipe"
+          },
+          "tell": {
+            "en": "When you are right in front of it, it swipes instead of throwing a fireball"
+          },
+          "effect": {
+            "en": "Melee damage is very high and can take a large chunk of health in one hit"
+          },
+          "counter": {
+            "en": "Do not stand next to it; keep your distance and shoot while backing off"
+          }
+        },
+        {
+          "id": "fast_fireball",
+          "name": {
+            "en": "Fast fireball"
+          },
+          "tell": {
+            "en": "Looks like the normal fireball but flies noticeably faster"
+          },
+          "effect": {
+            "en": "Same damage, but you have less time to react"
+          },
+          "counter": {
+            "en": "Strafe earlier or take cover in advance"
+          },
+          "only": {
+            "en": "highest difficulty only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "After one falls the other keeps attacking; both must be defeated to win"
+        }
+      ]
+    },
+    {
+      "case_id": "doom/spider_mastermind",
+      "boss": {
+        "en": "Four-Legged Gun Platform"
+      },
+      "summary": {
+        "en": "A very large four-legged machine with a rapid-fire gun that walks slowly through a pillar-ringed arena. Its wide body is easy to hit"
+      },
+      "moves": [
+        {
+          "id": "burst_fire",
+          "name": {
+            "en": "Three-pellet burst"
+          },
+          "tell": {
+            "en": "It stops and aims at you for about a third of a second, then the muzzle flashes and it fires a stream, three pellets each time"
+          },
+          "effect": {
+            "en": "Hits instantly with no flight time; each pellet is weak but hits add up fast"
+          },
+          "counter": {
+            "en": "Strafing does not help; break line of sight behind a pillar, and it stops firing and walks after you"
+          }
+        },
+        {
+          "id": "sustained_fire",
+          "name": {
+            "en": "Sustained suppression"
+          },
+          "tell": {
+            "en": "As long as it can see you it keeps firing with almost no pause"
+          },
+          "effect": {
+            "en": "Standing in the open for long keeps draining your health"
+          },
+          "counter": {
+            "en": "Fight around the pillars: step out, fire a few shots, step back behind cover"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "doom/archvile",
+      "boss": {
+        "en": "Flame-Caller Sorcerer"
+      },
+      "summary": {
+        "en": "A fast flame-casting sorcerer accompanied by a few fire-throwing minions. The courtyard is full of pillars and low walls, which are the key to avoiding its flame"
+      },
+      "moves": [
+        {
+          "id": "flame_strike",
+          "name": {
+            "en": "Flame strike"
+          },
+          "tell": {
+            "en": "It raises its hands and a column of flame appears next to you and follows you; about a second and a half later it bursts"
+          },
+          "effect": {
+            "en": "If it can still see you at the moment of the burst you take damage and are thrown up, with area damage around the flame"
+          },
+          "counter": {
+            "en": "Get behind a pillar or wall before the burst so it cannot see you; running in the open does not help"
+          }
+        },
+        {
+          "id": "raise_minion",
+          "name": {
+            "en": "Raise minion"
+          },
+          "tell": {
+            "en": "It walks to a fallen fire-throwing minion, waves a hand, and the body rises again"
+          },
+          "effect": {
+            "en": "The revived minion returns at full health and keeps attacking"
+          },
+          "counter": {
+            "en": "Prioritise the sorcerer itself, and keep it away from bodies"
+          }
+        },
+        {
+          "id": "minion_fireball",
+          "name": {
+            "en": "Minion fireball"
+          },
+          "tell": {
+            "en": "A fire-throwing minion stops and throws a fireball; up close it claws instead"
+          },
+          "effect": {
+            "en": "Fireballs and claws do low damage"
+          },
+          "counter": {
+            "en": "Strafe past fireballs; minions have little health and drop to one or two shotgun blasts"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "doom/mancubus",
+      "boss": {
+        "en": "Twin-Cannon Brute"
+      },
+      "summary": {
+        "en": "A slow, huge-bellied brute with a cannon on each arm, alone in an open hall with pillars at the corners. You only have a shotgun and a chaingun"
+      },
+      "moves": [
+        {
+          "id": "fan_volley",
+          "name": {
+            "en": "Three-round fan volley"
+          },
+          "tell": {
+            "en": "It raises both cannons and pauses about half a second, then fires three rounds of two fireballs each, about a third of a second apart"
+          },
+          "effect": {
+            "en": "Fireballs fan out: one round leans left, one leans right, one brackets your position; each hit does moderate damage"
+          },
+          "counter": {
+            "en": "Strafe widely as it raises the cannons to slip through the gaps, or hide behind a pillar"
+          }
+        },
+        {
+          "id": "slow_advance",
+          "name": {
+            "en": "Slow advance"
+          },
+          "tell": {
+            "en": "Between volleys it walks slowly toward you"
+          },
+          "effect": {
+            "en": "Its only attack is the volley; it has no melee"
+          },
+          "counter": {
+            "en": "Shoot while backing up, then strafe when it raises its cannons"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "doom/revenant",
+      "boss": {
+        "en": "Shoulder-Cannon Skeleton"
+      },
+      "summary": {
+        "en": "A skeleton with shoulder-mounted rocket launchers: little health but quick. The arena is a cloister of pillar rows, with several fire-throwing minions around. You only have a shotgun and a chaingun"
+      },
+      "moves": [
+        {
+          "id": "homing_missile",
+          "name": {
+            "en": "Homing missile"
+          },
+          "tell": {
+            "en": "It raises the shoulder launcher, pauses about a third of a second, then releases a smoking missile that flies slowly"
+          },
+          "effect": {
+            "en": "The missile slowly turns to chase you and does moderate damage on hit"
+          },
+          "counter": {
+            "en": "Put a pillar between you and the missile so it hits the pillar; you can also shoot it down"
+          }
+        },
+        {
+          "id": "fist",
+          "name": {
+            "en": "Fist punch"
+          },
+          "tell": {
+            "en": "When you are very close it winds up an arm and swings about half a second later"
+          },
+          "effect": {
+            "en": "Moderate melee damage"
+          },
+          "counter": {
+            "en": "Do not stay in melee range; back away"
+          }
+        },
+        {
+          "id": "minion_fireball",
+          "name": {
+            "en": "Minion fireball"
+          },
+          "tell": {
+            "en": "The surrounding fire-throwing minions stop and throw fireballs"
+          },
+          "effect": {
+            "en": "Fireballs do low damage; minions and the skeleton may hurt each other by accident"
+          },
+          "counter": {
+            "en": "Strafe aside, and clear nearby minions first if needed"
+          }
+        }
+      ],
+      "phases": []
+    }
+  ]
+}

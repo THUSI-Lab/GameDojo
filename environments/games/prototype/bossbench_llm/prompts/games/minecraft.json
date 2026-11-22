@@ -1,0 +1,448 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "minecraft",
+  "rules": "minecraft-arena@7",
+  "title": {
+    "en": "Blocky World: Boss Duel"
+  },
+  "dimension": "3d",
+  "view": {
+    "en": "3D blocky world, first person by default: the crosshair is at the centre and the sword or bow in hand at the lower right (third person can be chosen at reset, showing the Voxel Wanderer). The HUD shows the boss's name and health bar, your health and armor, and the hotbar (slot 1 sword, slot 2 bow)."
+  },
+  "goal": {
+    "en": "Empty the boss's health bar to win; you lose if your health hits zero; each fight lasts at most 300 seconds and a timeout is not a win. Health does not regenerate."
+  },
+  "mouse": {
+    "kind": "camera",
+    "en": "X>0 turns right, Y>0 looks down; there is no aim assist; pitch is limited to about ±89°. The wheel Z switches the hotbar slot, one notch per slot (1 sword, 2 bow)"
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "move forward"
+    },
+    {
+      "key": "S",
+      "en": "move backward"
+    },
+    {
+      "key": "A",
+      "en": "strafe left"
+    },
+    {
+      "key": "D",
+      "en": "strafe right"
+    },
+    {
+      "key": "Space",
+      "en": "jump (hold to keep jumping)"
+    },
+    {
+      "key": "Shift",
+      "en": "sprint (only while holding W)"
+    },
+    {
+      "key": "J",
+      "en": "swing the sword; punches only when holding the bow"
+    },
+    {
+      "key": "LMB",
+      "en": "swing (same as J); punches only when holding the bow"
+    },
+    {
+      "key": "RMB",
+      "en": "hold to draw the bow, release to fire"
+    }
+  ],
+  "notes": [
+    {
+      "en": "At reset you choose the weapon (sword or bow) and the camera (first person by default, third person optional); in play the mouse wheel (Z in the action) switches between sword and bow, which resets the attack cooldown and cancels a draw."
+    },
+    {
+      "en": "The sword swings once per press and its damage scales with the attack cooldown charge (full in about 0.6 s), so mashing is weak. A fully charged, non-sprinting hit while falling is a critical; a sprinting full-charge hit adds knockback."
+    },
+    {
+      "en": "The bow needs RMB held across steps; about 1 second is a full, critical draw. Drawing slows you and stops sprinting. Arrows drop with gravity and stop on terrain."
+    },
+    {
+      "en": "Each hit gives about 0.5 seconds of damage immunity; a stronger hit inside it deals only the difference."
+    },
+    {
+      "en": "You can walk in only one direction at a time (W over S, A, D), so there is no diagonal movement."
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "Walking direction (one at a time; W > S > A > D)",
+      "options": {
+        "none": "stand still",
+        "forward": "walk forward",
+        "back": "walk backward",
+        "left": "strafe left",
+        "right": "strafe right",
+        "sprint": "sprint forward (W+Shift)"
+      }
+    },
+    "action": {
+      "en": "Attack, jump or switch weapon",
+      "options": {
+        "none": "do nothing",
+        "swing": "sword swing at the start of the 200 ms step",
+        "swing_late": "sword swing late in the step",
+        "draw": "hold the bow draw (RMB) for the step",
+        "jump": "jump",
+        "switch": "switch between sword and bow"
+      }
+    },
+    "aim": {
+      "en": "Camera turn and pitch; dx>0 turns right, dy>0 looks down",
+      "options": {
+        "none": "no camera change",
+        "r8_c0": "turn right 1.2 deg",
+        "l8_c0": "turn left 1.2 deg",
+        "c0_d40": "look down 6 deg",
+        "c0_u40": "look up 6 deg",
+        "r25_c0": "turn right 3.75 deg",
+        "r25_d40": "turn right 3.75 deg, look down 6 deg",
+        "r25_u40": "turn right 3.75 deg, look up 6 deg",
+        "l25_c0": "turn left 3.75 deg",
+        "l25_d40": "turn left 3.75 deg, look down 6 deg",
+        "l25_u40": "turn left 3.75 deg, look up 6 deg",
+        "r60_c0": "turn right 9 deg",
+        "r60_d40": "turn right 9 deg, look down 6 deg",
+        "r60_u40": "turn right 9 deg, look up 6 deg",
+        "l60_c0": "turn left 9 deg",
+        "l60_d40": "turn left 9 deg, look down 6 deg",
+        "l60_u40": "turn left 9 deg, look up 6 deg",
+        "r150_c0": "turn right 22.5 deg",
+        "r150_d40": "turn right 22.5 deg, look down 6 deg",
+        "r150_u40": "turn right 22.5 deg, look up 6 deg",
+        "l150_c0": "turn left 22.5 deg",
+        "l150_d40": "turn left 22.5 deg, look down 6 deg",
+        "l150_u40": "turn left 22.5 deg, look up 6 deg",
+        "r300_c0": "turn right 45 deg",
+        "l300_c0": "turn left 45 deg",
+        "r600_c0": "turn right 90 deg",
+        "l600_c0": "turn left 90 deg"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "3d/minecraft_ender_dragon",
+      "boss": {
+        "en": "Violet Breath Flyer"
+      },
+      "summary": {
+        "en": "A huge flying boss circling over the tower platform; stone pillars topped with healing crystals stand around the arena."
+      },
+      "moves": [
+        {
+          "id": "fireball",
+          "name": {
+            "en": "Violet Fireball"
+          },
+          "tell": {
+            "en": "It lines up on you and its mouth glows."
+          },
+          "effect": {
+            "en": "Fires a ball that leaves a purple cloud; standing in it deals steady magic damage that armor ignores."
+          },
+          "counter": {
+            "en": "Step out of the cloud; after firing it returns to circling."
+          }
+        },
+        {
+          "id": "perch",
+          "name": {
+            "en": "Perch and Roar"
+          },
+          "tell": {
+            "en": "It lands on the central platform and roars for about 2 seconds."
+          },
+          "effect": {
+            "en": "A purple cloud under its head deals damage over time."
+          },
+          "counter": {
+            "en": "Arrows bounce off, but sword hits on the head deal full damage; enough damage makes it take off."
+          }
+        },
+        {
+          "id": "charge",
+          "name": {
+            "en": "Charging Rush"
+          },
+          "tell": {
+            "en": "After about 5 seconds perched with nobody close, it lifts off to rush."
+          },
+          "effect": {
+            "en": "Head contact and wing sweeps both hurt and shove you."
+          },
+          "counter": {
+            "en": "Sidestep; it flies past and climbs back to circling."
+          }
+        },
+        {
+          "id": "crystals",
+          "name": {
+            "en": "Healing Crystals"
+          },
+          "tell": {
+            "en": "A white beam links the nearest crystal to it."
+          },
+          "effect": {
+            "en": "Crystals heal it; a crystal explodes when broken and hurts nearby."
+          },
+          "counter": {
+            "en": "Shoot crystals with the bow to damage it, staying clear of the blast."
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "3d/minecraft_iron_golem",
+      "boss": {
+        "en": "Hurling Brute"
+      },
+      "summary": {
+        "en": "A huge melee guardian with a single heavy swing; kite it in circles."
+      },
+      "moves": [
+        {
+          "id": "swing",
+          "name": {
+            "en": "Two-Arm Swing"
+          },
+          "tell": {
+            "en": "Both arms are raised high."
+          },
+          "effect": {
+            "en": "Random damage within a range, reduced by armor, and it throws you."
+          },
+          "counter": {
+            "en": "It has a cooldown after each swing, so strike then; it cannot reach targets well above it."
+          }
+        },
+        {
+          "id": "chase",
+          "name": {
+            "en": "Closing In"
+          },
+          "tell": {
+            "en": "It walks straight at you."
+          },
+          "effect": {
+            "en": "It can only swing once you are in reach."
+          },
+          "counter": {
+            "en": "Back off and circle out of reach, then dash in after a miss."
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "3d/minecraft_skeleton",
+      "boss": {
+        "en": "Strafing Bowman"
+      },
+      "summary": {
+        "en": "A ranged enemy that strafes while drawing its bow; ruins in the arena give cover."
+      },
+      "moves": [
+        {
+          "id": "arrow",
+          "name": {
+            "en": "Bow Shot"
+          },
+          "tell": {
+            "en": "The bow is raised and drawn for most of a second."
+          },
+          "effect": {
+            "en": "Fires an arcing arrow; damage rises with difficulty and armor reduces it."
+          },
+          "counter": {
+            "en": "About 3 seconds between shots (about 2 on hard); walls stop arrows, so strafe or hide."
+          }
+        },
+        {
+          "id": "kite",
+          "name": {
+            "en": "Kiting"
+          },
+          "tell": {
+            "en": "It backs off and strafes as you approach."
+          },
+          "effect": {
+            "en": "Deals no damage itself but makes melee hard."
+          },
+          "counter": {
+            "en": "Corner it against the ruins or arena wall, then press with the sword."
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "3d/minecraft_warden",
+      "boss": {
+        "en": "Blind Shockwave Beast"
+      },
+      "summary": {
+        "en": "A heavy melee beast stalking through the dark cavern, able to release a ranged shockwave."
+      },
+      "moves": [
+        {
+          "id": "smash",
+          "name": {
+            "en": "Overhead Smash"
+          },
+          "tell": {
+            "en": "Arms rise and its chest glows."
+          },
+          "effect": {
+            "en": "A heavy close-range hit that armor reduces."
+          },
+          "counter": {
+            "en": "There is a cooldown but it keeps walking, so back off between swings."
+          }
+        },
+        {
+          "id": "shockwave",
+          "name": {
+            "en": "Charged Shockwave"
+          },
+          "tell": {
+            "en": "About 1.7 seconds of charging: chest lights up and rings gather."
+          },
+          "effect": {
+            "en": "The boom deals damage and knockback, ignoring armor and walls."
+          },
+          "counter": {
+            "en": "It only charges while you stay out of reach; about 1.3 seconds of recovery after the boom is your opening."
+          }
+        },
+        {
+          "id": "vision_dim",
+          "name": {
+            "en": "Vision Dim"
+          },
+          "tell": {
+            "en": "The screen pulses dark like a heartbeat."
+          },
+          "effect": {
+            "en": "Only impairs vision; no direct damage."
+          },
+          "counter": {
+            "en": "Slow down and rely on its outline and the HUD."
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "3d/minecraft_wither",
+      "boss": {
+        "en": "Three-Headed Hover Gun"
+      },
+      "summary": {
+        "en": "A hovering three-headed cannon with a long spawn-in charge; it gains a shell at half health."
+      },
+      "moves": [
+        {
+          "id": "shell",
+          "name": {
+            "en": "Shell"
+          },
+          "tell": {
+            "en": "A head turns to you; black shells fly fast, blue shells slowly."
+          },
+          "effect": {
+            "en": "A hit hurts and applies black-heart drain; the blast also hurts within about 2 blocks."
+          },
+          "counter": {
+            "en": "Break line of sight behind cover and it stops firing; sidestep the slow blue shells."
+          }
+        },
+        {
+          "id": "spawn",
+          "name": {
+            "en": "Spawn Blast"
+          },
+          "tell": {
+            "en": "About 11 seconds of flickering blue while its health bar fills."
+          },
+          "effect": {
+            "en": "Explodes at its centre when done, weaker with distance and harmless beyond about 14 blocks."
+          },
+          "counter": {
+            "en": "Run far away before the blast."
+          }
+        },
+        {
+          "id": "armor",
+          "name": {
+            "en": "Half-Health Shell"
+          },
+          "tell": {
+            "en": "A translucent shell appears around it at half health."
+          },
+          "effect": {
+            "en": "The shell makes arrows ineffective."
+          },
+          "counter": {
+            "en": "Switch to the sword and fight it up close on the ground."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "At half health it enters the shell phase and must be fought with the sword."
+        }
+      ]
+    },
+    {
+      "case_id": "3d/minecraft_zombie_leader",
+      "boss": {
+        "en": "Horde Caller"
+      },
+      "summary": {
+        "en": "A melee boss that keeps calling helpers to surround you."
+      },
+      "moves": [
+        {
+          "id": "swipe",
+          "name": {
+            "en": "Lunging Swipe"
+          },
+          "tell": {
+            "en": "Arms rise high and it lunges."
+          },
+          "effect": {
+            "en": "Damage rises with difficulty and armor reduces it."
+          },
+          "counter": {
+            "en": "About a 1-second cooldown after each swipe; it is knocked back on every hit, so use that to space."
+          }
+        },
+        {
+          "id": "reinforcements",
+          "name": {
+            "en": "Call Reinforcements"
+          },
+          "tell": {
+            "en": "Smoke appears and a helper climbs out of the ground."
+          },
+          "effect": {
+            "en": "Each helper swipes just like its caller."
+          },
+          "counter": {
+            "en": "Kill the caller first: the helpers remain but the fight ends."
+          }
+        }
+      ],
+      "phases": []
+    }
+  ]
+}

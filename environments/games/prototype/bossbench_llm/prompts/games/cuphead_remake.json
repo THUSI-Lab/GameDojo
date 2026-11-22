@@ -1,0 +1,668 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "cuphead_remake",
+  "rules": "cuphead-tiers-v5",
+  "title": {
+    "en": "Side-scrolling shooter: boss fights (on foot and by plane)"
+  },
+  "dimension": "2d",
+  "view": {
+    "en": "Side-view 2D. You control a reel gunner, on foot or in a small plane for the flying scenes; your health and cards are shown at the bottom of the screen, and the boss's state is shown on screen; read the health bar yourself."
+  },
+  "goal": {
+    "en": "Empty the boss's health bar in its last phase to win (the screen shows 'A KNOCKOUT!'). You have 3 health points and lose when they run out; a timeout is not a win. Health does not regenerate."
+  },
+  "mouse": {
+    "kind": "none",
+    "en": "The mouse does not aim in this game; left and right click only duplicate fire and EX."
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "ground: aim up; plane: fly up"
+    },
+    {
+      "key": "A",
+      "en": "left (run or fly)"
+    },
+    {
+      "key": "S",
+      "en": "ground: crouch / aim down (crouched shots go straight ahead); plane: fly down"
+    },
+    {
+      "key": "D",
+      "en": "right (run or fly)"
+    },
+    {
+      "key": "Space",
+      "en": "ground: jump, press again in the air to parry pink objects (bounce and gain 1 card); plane: parry pink objects any time"
+    },
+    {
+      "key": "Shift",
+      "en": "ground: dash (no invulnerability); plane: hold to shrink, smaller and faster but only short weak shots, no EX or super"
+    },
+    {
+      "key": "J",
+      "en": "hold to fire rapidly (plane default: auto gun)"
+    },
+    {
+      "key": "K",
+      "en": "EX move for 1 card; with 5 cards the super: a sweep ray on the ground, blast form in the plane"
+    },
+    {
+      "key": "L",
+      "en": "ground: hold to stand still and aim in 8 directions (cannot run)"
+    },
+    {
+      "key": "Q",
+      "en": "plane: swap auto gun and drop bombs (higher damage, slower, arcing fall)"
+    },
+    {
+      "key": "E",
+      "en": "release the super at 5 cards (same as K)"
+    },
+    {
+      "key": "LMB",
+      "en": "fire (same as J)"
+    },
+    {
+      "key": "RMB",
+      "en": "EX (same as K)"
+    }
+  ],
+  "notes": [
+    {
+      "en": "Four scenes are ground fights (seed bloom, bouncing blob, boxing frogs, garden trio) and two are plane fights (zodiac shifter, chick). Key meanings differ by scene; you play the reel gunner, on foot or in a plane."
+    },
+    {
+      "en": "Ground: W/S combined with A/D aims in 8 directions; crouching with S shoots straight ahead; holding L locks you in place, standing, unable to run."
+    },
+    {
+      "en": "Plane: W/A/S/D fly in 8 directions and L does nothing; Q swaps auto gun and drop bombs; holding Shift shrinks you, with no EX or super."
+    },
+    {
+      "en": "Pink objects can be parried: on the ground press jump (Space) again in the air, in the plane press Space any time; each parry gives 1 card, each card powers one EX, and 5 cards give the super."
+    },
+    {
+      "en": "Super: on the ground a horizontal sweep ray; in the plane a blast form that explodes on contact or timeout, followed by about 3 seconds of invulnerability."
+    },
+    {
+      "en": "Dash gives no invulnerability, so do not dash through attacks. You are briefly invulnerable after being hit."
+    },
+    {
+      "en": "In the action options, a sub-step is one of six slices of a 200 ms packet; jump, parry and dash only count on a new press, which is why options differ in press timing."
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "Movement and aiming; every option except none also holds shoot. On the ground W/S aim up/down and S crouches; in the plane W/S fly.",
+      "options": {
+        "none": "no movement, no shooting",
+        "fire": "stand and shoot",
+        "right": "move/aim right while shooting",
+        "right_short": "move/aim right for the first 2 sub-steps only, shooting",
+        "up_right": "move/aim up-right while shooting",
+        "up_right_short": "move/aim up-right for the first 2 sub-steps only, shooting",
+        "up": "move/aim up while shooting",
+        "up_short": "move/aim up for the first 2 sub-steps only, shooting",
+        "up_left": "move/aim up-left while shooting",
+        "up_left_short": "move/aim up-left for the first 2 sub-steps only, shooting",
+        "left": "move/aim left while shooting",
+        "left_short": "move/aim left for the first 2 sub-steps only, shooting",
+        "down_left": "move/aim down-left while shooting",
+        "down_left_short": "move/aim down-left for the first 2 sub-steps only, shooting",
+        "down": "move/aim down while shooting",
+        "down_short": "move/aim down for the first 2 sub-steps only, shooting",
+        "down_right": "move/aim down-right while shooting",
+        "down_right_short": "move/aim down-right for the first 2 sub-steps only, shooting",
+        "left_turn_1": "run left 1 sub-step(s) then turn to face right, shooting",
+        "right_turn_1": "run right 1 sub-step(s) then turn to face left, shooting",
+        "left_turn_2": "run left 2 sub-step(s) then turn to face right, shooting",
+        "right_turn_2": "run right 2 sub-step(s) then turn to face left, shooting",
+        "left_turn_3": "run left 3 sub-step(s) then turn to face right, shooting",
+        "right_turn_3": "run right 3 sub-step(s) then turn to face left, shooting",
+        "left_turn_4": "run left 4 sub-step(s) then turn to face right, shooting",
+        "right_turn_4": "run right 4 sub-step(s) then turn to face left, shooting",
+        "left_turn_5": "run left 5 sub-step(s) then turn to face right, shooting",
+        "right_turn_5": "run right 5 sub-step(s) then turn to face left, shooting"
+      }
+    },
+    "act": {
+      "en": "Jump / parry / EX / dash / aim-lock / weapon swap, one key action per sub-step.",
+      "options": {
+        "none": "nothing",
+        "jump_tap": "jump (plane: parry), press in sub-step 1 only",
+        "jump": "jump (plane: parry), held 4 sub-steps",
+        "jump_hold_parry": "jump held 2 sub-steps, then hold for an air parry from sub-step 4",
+        "jump_parry": "jump, then air parry at sub-step 4",
+        "press_2": "press jump at sub-step 2",
+        "press_3": "press jump at sub-step 3 (air parry timing)",
+        "press_4": "press jump at sub-step 4 (air parry timing)",
+        "press_5": "press jump at sub-step 5 (air parry timing)",
+        "lock_jump_parry": "hold aim-lock, jump, parry at sub-step 4",
+        "lock_jump": "hold aim-lock and jump",
+        "lock_press_4": "aim-lock, press jump at sub-step 4",
+        "lock_press_5": "aim-lock, press jump at sub-step 5",
+        "lock": "hold aim-lock (stand still, 8-way aim)",
+        "lock_from_2": "aim-lock from sub-step 2",
+        "lock_half": "aim-lock for the second half",
+        "lock_late": "aim-lock for the last two sub-steps",
+        "lock_end": "aim-lock at the last sub-step",
+        "ex": "EX shot (1 card; super at 5 cards)",
+        "dash": "dash (plane: hold to shrink)",
+        "dash_tap": "dash at sub-step 1",
+        "dash_2": "dash at sub-step 2",
+        "dash_3": "dash at sub-step 3",
+        "dash_mid": "dash at sub-step 4",
+        "dash_5": "dash at sub-step 5",
+        "dash_6": "dash at sub-step 6",
+        "jump_dash": "jump, then air dash at sub-step 4",
+        "jump3_dash6": "jump at sub-step 3, air dash at sub-step 6",
+        "swap": "plane: swap machine gun / drop bombs"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "cuphead/goopy",
+      "boss": {
+        "en": "Bouncing Blob"
+      },
+      "summary": {
+        "en": "Ground fight in a forest clearing: a blue blob bounces around, grows to throw punches, and finally drops tombstones."
+      },
+      "moves": [
+        {
+          "id": "bounce",
+          "name": {
+            "en": "Bounce"
+          },
+          "tell": {
+            "en": "It squashes down before each leap; small and big forms jump to different heights."
+          },
+          "effect": {
+            "en": "Landing on you deals 1 damage."
+          },
+          "counter": {
+            "en": "Track the landing spot and shoot it in the air; it rebounds off side walls."
+          }
+        },
+        {
+          "id": "punch",
+          "name": {
+            "en": "Punch"
+          },
+          "tell": {
+            "en": "It faces you and winds up; the giant form blinks before its first punch."
+          },
+          "effect": {
+            "en": "The fist deals 1 damage on hit."
+          },
+          "counter": {
+            "en": "Crouch under the punch; dash has no invulnerability."
+          }
+        },
+        {
+          "id": "transform",
+          "name": {
+            "en": "Transform"
+          },
+          "tell": {
+            "en": "It swallows a candy and three pink question marks appear."
+          },
+          "effect": {
+            "en": "Contact deals 1 damage."
+          },
+          "counter": {
+            "en": "Press jump again in the air to parry the pink marks; this is the only parry in this fight."
+          }
+        },
+        {
+          "id": "tombstone",
+          "name": {
+            "en": "Tombstone"
+          },
+          "tell": {
+            "en": "A tombstone slides back and forth in the background, then pauses."
+          },
+          "effect": {
+            "en": "Its slam deals 1 damage; the slide itself is harmless."
+          },
+          "counter": {
+            "en": "Leave the spot it has locked on to."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Small form first, then big form, and tombstones join in the last phase."
+        }
+      ]
+    },
+    {
+      "case_id": "cuphead/root_pack",
+      "boss": {
+        "en": "Garden Trio"
+      },
+      "summary": {
+        "en": "Ground fight against three vegetables in turn: potato, onion, carrot; not attacking the onion for about six seconds leads to the hidden-radish branch."
+      },
+      "moves": [
+        {
+          "id": "dirt_worm",
+          "name": {
+            "en": "Dirt Worm"
+          },
+          "tell": {
+            "en": "The potato spits several dirt balls, the last one a pink worm."
+          },
+          "effect": {
+            "en": "Dirt balls deal 1 damage."
+          },
+          "counter": {
+            "en": "Jump over the balls; parry the pink worm in mid-air."
+          }
+        },
+        {
+          "id": "tears",
+          "name": {
+            "en": "Tears"
+          },
+          "tell": {
+            "en": "The onion cries once hit; pink tears are mixed into the rain."
+          },
+          "effect": {
+            "en": "Tears deal 1 damage."
+          },
+          "counter": {
+            "en": "Watch the drop points above; about six seconds without attacking enters the hidden-radish branch."
+          }
+        },
+        {
+          "id": "homing_carrots",
+          "name": {
+            "en": "Homing Carrots"
+          },
+          "tell": {
+            "en": "The big carrot in the background summons homing mini carrots."
+          },
+          "effect": {
+            "en": "Mini carrots deal 1 damage on contact; the big background body is harmless."
+          },
+          "counter": {
+            "en": "Shoot the mini carrots down; they take only a few hits."
+          }
+        },
+        {
+          "id": "eye_laser",
+          "name": {
+            "en": "Eye Rings"
+          },
+          "tell": {
+            "en": "The third eye charges up, then fires rings aimed at you."
+          },
+          "effect": {
+            "en": "Rings deal 1 damage."
+          },
+          "counter": {
+            "en": "Keep repositioning; three shots in regular mode, two in simple and expert."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Potato, onion and carrot appear in order; a hidden-radish branch may follow."
+        }
+      ]
+    },
+    {
+      "case_id": "cuphead/hilda",
+      "boss": {
+        "en": "Zodiac Shifter"
+      },
+      "summary": {
+        "en": "Plane fight in the sky: the boss turns into a bull, twins and an archer in turn, ending with a moon phase."
+      },
+      "moves": [
+        {
+          "id": "laughter",
+          "name": {
+            "en": "Laughter"
+          },
+          "tell": {
+            "en": "In normal form it laughs and fires HA letters, then small planes enter."
+          },
+          "effect": {
+            "en": "The shots deal 1 damage."
+          },
+          "counter": {
+            "en": "Parry every fourth pink shot from purple planes; green fans cannot be parried."
+          }
+        },
+        {
+          "id": "horn_jab",
+          "name": {
+            "en": "Horn Jab"
+          },
+          "tell": {
+            "en": "The bull lines up with your height, pauses, then thrusts its horns."
+          },
+          "effect": {
+            "en": "The thrust deals 1 damage."
+          },
+          "counter": {
+            "en": "Dodge up or down once its height locks."
+          }
+        },
+        {
+          "id": "rotating_vortex",
+          "name": {
+            "en": "Rotating Vortex"
+          },
+          "tell": {
+            "en": "The twins summon rotating lines of bullets on your side."
+          },
+          "effect": {
+            "en": "Touching the lines deals 1 damage."
+          },
+          "counter": {
+            "en": "Stay clear of the lines and never cross the centre."
+          }
+        },
+        {
+          "id": "arrow_stars",
+          "name": {
+            "en": "Arrow and Stars"
+          },
+          "tell": {
+            "en": "The archer charges an arrow, then three blue stars follow."
+          },
+          "effect": {
+            "en": "The arrow or stars deal 1 damage."
+          },
+          "counter": {
+            "en": "The arrow keeps a fixed direction, so leave early; the blue stars can be shot down."
+          }
+        },
+        {
+          "id": "ufo_laser",
+          "name": {
+            "en": "UFO Laser"
+          },
+          "tell": {
+            "en": "In the moon phase a UFO slides sideways, changes colour, charges, then fires."
+          },
+          "effect": {
+            "en": "The laser deals 1 damage."
+          },
+          "counter": {
+            "en": "Red fires straight below you, gold fires ahead; shrink to slip through gaps."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Normal form, bull, twins, archer, and finally the moon with the UFO."
+        }
+      ]
+    },
+    {
+      "case_id": "cuphead/cagney",
+      "boss": {
+        "en": "Seed Bloom"
+      },
+      "summary": {
+        "en": "Ground fight in a garden with an upper and lower platform layer; in phase two the floor grows thorns and vines block paths."
+      },
+      "moves": [
+        {
+          "id": "lunge",
+          "name": {
+            "en": "Lunge"
+          },
+          "tell": {
+            "en": "Its face and arms sweep along the upper platform or the lower floor."
+          },
+          "effect": {
+            "en": "Being swept deals 1 damage."
+          },
+          "counter": {
+            "en": "Jump up or leave the platform to switch layers."
+          }
+        },
+        {
+          "id": "hands",
+          "name": {
+            "en": "Magic Hands"
+          },
+          "tell": {
+            "en": "Magic hands launch boomerang sycamore seeds, or 3-4 acorns aimed at you."
+          },
+          "effect": {
+            "en": "Seeds or acorns deal 1 damage."
+          },
+          "counter": {
+            "en": "Switch layers against seeds; move before the acorns are thrown."
+          }
+        },
+        {
+          "id": "gatling",
+          "name": {
+            "en": "Seed Gatling"
+          },
+          "tell": {
+            "en": "The head becomes a gun spitting seeds: blue homes in, purple becomes a small plant on the floor, pink can be parried."
+          },
+          "effect": {
+            "en": "Seeds and plants deal 1 damage."
+          },
+          "counter": {
+            "en": "Shoot homing seeds; parry pink seeds and pink shots from floating flowers."
+          }
+        },
+        {
+          "id": "pollen",
+          "name": {
+            "en": "Pollen"
+          },
+          "tell": {
+            "en": "In phase two the floor grows thorns, dandelions drift by and vines intermittently block platforms."
+          },
+          "effect": {
+            "en": "Thorns, dandelions and vines deal 1 damage."
+          },
+          "counter": {
+            "en": "Stay on platforms; switch when a vine shows its growth warning."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Phase two adds thorns, dandelions and vines."
+        }
+      ]
+    },
+    {
+      "case_id": "cuphead/ribby_croaks",
+      "boss": {
+        "en": "Boxing Frogs"
+      },
+      "summary": {
+        "en": "Ground fight: the left frog punches, the right frog spits fireflies, over three phases ending with a slot machine."
+      },
+      "moves": [
+        {
+          "id": "fists",
+          "name": {
+            "en": "Fists"
+          },
+          "tell": {
+            "en": "The left frog throws low, mid and high punch waves, some pink, going back and forth in phase one."
+          },
+          "effect": {
+            "en": "Punch waves deal 1 damage."
+          },
+          "counter": {
+            "en": "Jump or crouch under; pink punches can be parried."
+          }
+        },
+        {
+          "id": "firefly",
+          "name": {
+            "en": "Firefly"
+          },
+          "tell": {
+            "en": "The right frog spits fireflies that slowly close in."
+          },
+          "effect": {
+            "en": "Contact deals 1 damage."
+          },
+          "counter": {
+            "en": "One shot kills one."
+          }
+        },
+        {
+          "id": "roll",
+          "name": {
+            "en": "Roll"
+          },
+          "tell": {
+            "en": "At the end of a phase the left frog rolls along the floor across the arena."
+          },
+          "effect": {
+            "en": "Contact deals 1 damage."
+          },
+          "counter": {
+            "en": "Jump over it."
+          }
+        },
+        {
+          "id": "balls",
+          "name": {
+            "en": "Bouncing Balls"
+          },
+          "tell": {
+            "en": "In phase two the left frog slaps out three bouncing balls while the right frog turns and blows you toward it."
+          },
+          "effect": {
+            "en": "Balls deal 1 damage."
+          },
+          "counter": {
+            "en": "Run or dash against the wind and pass through gaps between balls."
+          }
+        },
+        {
+          "id": "slot",
+          "name": {
+            "en": "Slot Machine"
+          },
+          "tell": {
+            "en": "In phase three it spits coins first; the lever turns pink before it can be hurt; tiger, snake and bull spiked chip platforms."
+          },
+          "effect": {
+            "en": "Coins, spikes and fire deal 1 damage."
+          },
+          "counter": {
+            "en": "Parry the lever; jump over, stand on or dodge fire depending on the chip."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Three phases: fists and fireflies, wind and balls, slot machine."
+        }
+      ]
+    },
+    {
+      "case_id": "cuphead/wally",
+      "boss": {
+        "en": "Chick"
+      },
+      "summary": {
+        "en": "Plane fight against a birdhouse; phase two is the chick's egg shield and phase three is a stretcher."
+      },
+      "moves": [
+        {
+          "id": "eggs",
+          "name": {
+            "en": "Eggs"
+          },
+          "tell": {
+            "en": "The birdhouse spits eggs that burst into fragments at the screen edge."
+          },
+          "effect": {
+            "en": "Fragments deal 1 damage."
+          },
+          "counter": {
+            "en": "Predict the fragment directions."
+          }
+        },
+        {
+          "id": "finger",
+          "name": {
+            "en": "Finger"
+          },
+          "tell": {
+            "en": "The head becomes a three-fingered hand and, after a delay, fires three big shots in a fan."
+          },
+          "effect": {
+            "en": "The shots deal 1 damage."
+          },
+          "counter": {
+            "en": "Move out of the fan centre during the wind-up."
+          }
+        },
+        {
+          "id": "whistle",
+          "name": {
+            "en": "Whistle"
+          },
+          "tell": {
+            "en": "A whistle scream, then flapping that fires feathers in eight directions; it rests when tired."
+          },
+          "effect": {
+            "en": "Feathers deal 1 damage."
+          },
+          "counter": {
+            "en": "Slip through feather gaps; focus fire while it rests."
+          }
+        },
+        {
+          "id": "chick_shield",
+          "name": {
+            "en": "Egg Shield"
+          },
+          "tell": {
+            "en": "In phase two spiked eggs orbit the chick, extend and retract and block bullets; electric shots are always pink."
+          },
+          "effect": {
+            "en": "Spiked eggs and electric shots deal 1 damage."
+          },
+          "counter": {
+            "en": "Shoot through gaps when eggs retract; parry the electric shots."
+          }
+        },
+        {
+          "id": "stretcher",
+          "name": {
+            "en": "Stretcher"
+          },
+          "tell": {
+            "en": "In phase three the stretcher spits junk (pink boots can be parried), a heart rises, and the nurse bird's pills split and home in."
+          },
+          "effect": {
+            "en": "Junk and pills deal 1 damage; only the heart can be hurt once it appears."
+          },
+          "counter": {
+            "en": "Use bombs from above or up close; shoot the heart when it appears."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Three phases: birdhouse, chick egg shield, stretcher."
+        }
+      ]
+    }
+  ]
+}

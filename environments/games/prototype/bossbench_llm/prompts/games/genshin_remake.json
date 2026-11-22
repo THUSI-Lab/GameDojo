@@ -1,0 +1,1214 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "genshin_remake",
+  "rules": "genshin-bosses@8",
+  "title": {
+    "en": "Third-Person 3D: Four-Character Party Boss Fights"
+  },
+  "dimension": "3d",
+  "view": {
+    "en": "Third-person 3D: the camera follows behind the active character. The boss name, status line and health bar are at the top; a side panel shows the four party members (health, energy ring, skill cooldown); the active character's health and stamina are below, with skill and burst rings, the timer and the lock-on state."
+  },
+  "goal": {
+    "en": "Empty the boss's health bar to win; you lose when the whole party is down; each fight lasts at most 300 seconds and a timeout is not a win. Health does not regenerate by itself; only the healer's abilities or healing effects restore it."
+  },
+  "mouse": {
+    "kind": "camera",
+    "en": "The mouse turns the camera, but only while lock-on is off. The fight opens with the camera unlocked (free camera); press R to lock onto the target. In this game dx > 0 turns the view RIGHT and dx < 0 turns it left; dy > 0 lowers the aim pitch, which only affects unlocked bow aiming."
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "move forward relative to the camera"
+    },
+    {
+      "key": "A",
+      "en": "move left relative to the camera"
+    },
+    {
+      "key": "S",
+      "en": "move backward relative to the camera"
+    },
+    {
+      "key": "D",
+      "en": "move right relative to the camera"
+    },
+    {
+      "key": "Space",
+      "en": "jump; clears ground rings"
+    },
+    {
+      "key": "Shift",
+      "en": "dash: brief invulnerability on press; holding runs and drains stamina"
+    },
+    {
+      "key": "J",
+      "en": "normal attack, hold to chain; pressed in the air it is a plunge attack"
+    },
+    {
+      "key": "LMB",
+      "en": "hold to charge a heavy attack; the archer taps for one arrow and fully charges for a fire arrow"
+    },
+    {
+      "key": "K",
+      "en": "elemental skill; the archer can hold it to set the decoy throw distance"
+    },
+    {
+      "key": "RMB",
+      "en": "elemental skill (same as K)"
+    },
+    {
+      "key": "L",
+      "en": "elemental burst; needs full energy and no cooldown"
+    },
+    {
+      "key": "Q",
+      "en": "swap to the previous living character"
+    },
+    {
+      "key": "E",
+      "en": "swap to the next living character"
+    },
+    {
+      "key": "R",
+      "en": "toggle target lock-on; off at the start"
+    }
+  ],
+  "notes": [
+    {
+      "en": "You control a party of four, one active at a time: swordsman (sword, ice), archer (bow, fire), spearman (polearm, fire) and healer (catalyst, water). Q / E swap, with a shared cooldown of about 1 s; fallen characters are skipped."
+    },
+    {
+      "en": "Each character has their own skill (K) and burst (L) with separate cooldowns and energy; energy builds from normal attacks and skills. Skill names are not shown; read the cooldown and energy rings."
+    },
+    {
+      "en": "Ice is useless against the wolf and some elements do nothing to the cube, so swap by scene: bosses and water creatures have different weak elements."
+    },
+    {
+      "en": "Elemental reactions: hitting a target with different elements in turn triggers reactions (overload, superconduct, vaporize, melt, freeze and so on) for bonus damage or effects."
+    },
+    {
+      "en": "Stamina is shared by the whole party; dashing, sprinting and swimming drain it, and without stamina you cannot dash."
+    },
+    {
+      "en": "J, LMB and the archer's K work while held; E, Q, R, L, Shift, Space and the other characters' K take effect on a press."
+    },
+    {
+      "en": "Archer: unlocked, holding LMB gives an over-the-shoulder aim and arrows follow the crosshair, able to hit the colossus's eye and back weak points. Locked, arrows aim at the target automatically."
+    },
+    {
+      "en": "When locked the camera and facing follow the target and strafing does not turn the camera; when unlocked you steer the camera with the mouse."
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "Movement relative to the camera (WASD)",
+      "options": {
+        "none": "stand still",
+        "forward": "W",
+        "back": "S",
+        "left": "A",
+        "right": "D",
+        "forward_left": "W+A",
+        "forward_right": "W+D",
+        "back_left": "S+A",
+        "back_right": "S+D"
+      }
+    },
+    "action": {
+      "en": "Attack, skill and dodge for the active character",
+      "options": {
+        "none": "no action",
+        "attack": "hold J for normal attack chain",
+        "charge": "hold LMB to charge a heavy attack",
+        "charge_release": "hold LMB for 3 sub-steps then release",
+        "shot": "tap LMB: one arrow, or a normal attack",
+        "shot_up": "tap LMB and raise aim ~5 degrees",
+        "shot_down": "tap LMB and lower aim ~5 degrees",
+        "skill": "tap skill key K",
+        "skill_hold": "hold skill key K",
+        "burst": "tap ultimate L",
+        "dash": "tap Shift to dash",
+        "jump": "tap Space to jump"
+      }
+    },
+    "view": {
+      "en": "Camera, lock-on and character swap",
+      "options": {
+        "none": "no change",
+        "next": "swap to next character (E)",
+        "prev": "swap to previous character (Q)",
+        "lock": "toggle lock-on (R)",
+        "lock_left_18": "toggle lock and turn left 18 degrees",
+        "left_5": "turn view left 5 degrees",
+        "right_5": "turn view right 5 degrees",
+        "left_45": "turn view left 45 degrees",
+        "right_45": "turn view right 45 degrees"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "genshin/electro_hypostasis",
+      "boss": {
+        "en": "Floating Square Array"
+      },
+      "summary": {
+        "en": "A floating cube boss that alternates between a closed shell and an exposed core, in a flat arena."
+      },
+      "moves": [
+        {
+          "id": "fist",
+          "name": {
+            "en": "Block Punch"
+          },
+          "tell": {
+            "en": "The cube raises a block fist and winds up for about 0.7 s"
+          },
+          "effect": {
+            "en": "Lunges forward with a punch that damages on hit"
+          },
+          "counter": {
+            "en": "Sidestep or dash through"
+          }
+        },
+        {
+          "id": "clap",
+          "name": {
+            "en": "Twin-Plate Clap"
+          },
+          "tell": {
+            "en": "Two plates swing open, then snap shut after about 0.9 s"
+          },
+          "effect": {
+            "en": "Frontal fan-shaped clamp"
+          },
+          "counter": {
+            "en": "Back out of the fan or circle behind"
+          }
+        },
+        {
+          "id": "rps",
+          "name": {
+            "en": "Three-Shape Combo"
+          },
+          "tell": {
+            "en": "The body morphs in turn into scissors, fist and palm shapes"
+          },
+          "effect": {
+            "en": "Each shape has a different reach, hit in a row"
+          },
+          "counter": {
+            "en": "Read the current shape: scissors are narrow and long, palm is widest; keep moving"
+          }
+        },
+        {
+          "id": "drill",
+          "name": {
+            "en": "Spiral Dash"
+          },
+          "tell": {
+            "en": "Spins into a spiral and charges up for about 0.8 s"
+          },
+          "effect": {
+            "en": "Charges at speed in a straight line"
+          },
+          "counter": {
+            "en": "Dodge perpendicular to the line"
+          }
+        },
+        {
+          "id": "lasers",
+          "name": {
+            "en": "Rotating Beams"
+          },
+          "tell": {
+            "en": "Four beam ports light up, then rotate for several seconds after about 1 s"
+          },
+          "effect": {
+            "en": "Rotating beams sweep the floor and hurt on contact"
+          },
+          "counter": {
+            "en": "Jump or dash through the gaps between beams"
+          }
+        },
+        {
+          "id": "missiles",
+          "name": {
+            "en": "Diamond Barrage"
+          },
+          "tell": {
+            "en": "A ring of diamond crystals floats up, then fires after about 1 s"
+          },
+          "effect": {
+            "en": "Projectiles fly at your position and explode"
+          },
+          "counter": {
+            "en": "Keep strafing and leave your spot before the blasts"
+          }
+        },
+        {
+          "id": "cage",
+          "name": {
+            "en": "Eight-Pillar Cage"
+          },
+          "tell": {
+            "en": "Eight light pillars rise around the edge, warning for about 1.6 s"
+          },
+          "effect": {
+            "en": "Pillars link into a lasting energy net that traps you"
+          },
+          "counter": {
+            "en": "Stay in the safe zone inside; do not touch the pillars"
+          }
+        },
+        {
+          "id": "waves",
+          "name": {
+            "en": "Ground Rings"
+          },
+          "tell": {
+            "en": "The boss drops down and rings start to spread on the ground"
+          },
+          "effect": {
+            "en": "Spreading rings that hurt along the ground"
+          },
+          "counter": {
+            "en": "Jump with Space as a ring reaches you"
+          }
+        },
+        {
+          "id": "prism",
+          "name": {
+            "en": "Crystal Blocks"
+          },
+          "tell": {
+            "en": "Three crystal blocks are left after the shell closes"
+          },
+          "effect": {
+            "en": "The blocks carry shields and keep the boss protected until broken"
+          },
+          "counter": {
+            "en": "Use a character or element that counters them; break the blocks, then hit the exposed core"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "The boss is mostly closed and cannot be damaged; the core is exposed only after certain moves. Burst it then."
+        },
+        {
+          "en": "One kind of element does nothing to this boss, so swap characters."
+        }
+      ]
+    },
+    {
+      "case_id": "genshin/ruin_guard",
+      "boss": {
+        "en": "Back-Cannon Colossus"
+      },
+      "summary": {
+        "en": "A large mechanical colossus with weak points on the eye and back; its body is tough."
+      },
+      "moves": [
+        {
+          "id": "stomp",
+          "name": {
+            "en": "Stomp Quake"
+          },
+          "tell": {
+            "en": "Lifts one foot, then stomps after about 0.6 s"
+          },
+          "effect": {
+            "en": "Small circular quake around the foot"
+          },
+          "counter": {
+            "en": "Move away from the foot or dash out"
+          }
+        },
+        {
+          "id": "clap",
+          "name": {
+            "en": "Arm Slam"
+          },
+          "tell": {
+            "en": "Raises an arm, then slams forward after about 0.5 s"
+          },
+          "effect": {
+            "en": "Narrow frontal heavy hit"
+          },
+          "counter": {
+            "en": "Sidestep"
+          }
+        },
+        {
+          "id": "combo",
+          "name": {
+            "en": "Punch and Leap-Slam"
+          },
+          "tell": {
+            "en": "Two punches, then a leap and landing"
+          },
+          "effect": {
+            "en": "Two punches followed by a wide landing slam"
+          },
+          "counter": {
+            "en": "Back away or dash and avoid the landing point"
+          }
+        },
+        {
+          "id": "spin",
+          "name": {
+            "en": "Spin Crush"
+          },
+          "tell": {
+            "en": "Crouches and spins, then marches while spinning after about 0.7 s"
+          },
+          "effect": {
+            "en": "Repeatedly hits nearby targets while spinning"
+          },
+          "counter": {
+            "en": "Keep a good distance"
+          }
+        },
+        {
+          "id": "volley",
+          "name": {
+            "en": "Back-Cannon Volley"
+          },
+          "tell": {
+            "en": "Back cannons swivel and open; six missiles in about 2 s"
+          },
+          "effect": {
+            "en": "Homing missiles that curve"
+          },
+          "counter": {
+            "en": "Run in circles so they miss; hit the back weak point to interrupt"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Two quick aimed hits on the eye or back weak point paralyse it; burst then."
+        },
+        {
+          "en": "Its body strongly resists physical damage; use elemental damage."
+        }
+      ]
+    },
+    {
+      "case_id": "genshin/oceanid",
+      "boss": {
+        "en": "Tidepool Summoner"
+      },
+      "summary": {
+        "en": "A 3x3 platform in a pond. The boss itself cannot be hit; defeat the water creatures it summons."
+      },
+      "moves": [
+        {
+          "id": "summon",
+          "name": {
+            "en": "Summon Water Creatures"
+          },
+          "tell": {
+            "en": "Water swells and forms animal shapes in about 1 s"
+          },
+          "effect": {
+            "en": "Five waves; each kind has a different weak element and some heal, explode or fly"
+          },
+          "counter": {
+            "en": "Swap to the character that counters the element; kill healers first"
+          }
+        },
+        {
+          "id": "sink",
+          "name": {
+            "en": "Platform Sinks"
+          },
+          "tell": {
+            "en": "Some platforms bubble and begin sinking, warning for about 1.7 s"
+          },
+          "effect": {
+            "en": "Sunken tiles become deep water; swimming drains stamina"
+          },
+          "counter": {
+            "en": "Jump to a tile that is still above water"
+          }
+        },
+        {
+          "id": "torrent",
+          "name": {
+            "en": "Chasing Whirlpool"
+          },
+          "tell": {
+            "en": "If the fight drags on, a whirlpool forms on the water"
+          },
+          "effect": {
+            "en": "The whirlpool follows you and hurts on contact"
+          },
+          "counter": {
+            "en": "Keep moving and clear the wave fast"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "There are five waves; platforms sink after waves 2 and 4 are cleared."
+        },
+        {
+          "en": "Use the archer's arrows against flying or in-water targets."
+        }
+      ]
+    },
+    {
+      "case_id": "genshin/maguu_kenki",
+      "boss": {
+        "en": "Masked Dual-Blade"
+      },
+      "summary": {
+        "en": "A fast melee boss. Attacks from far away are deflected by the mask, so you must close in."
+      },
+      "moves": [
+        {
+          "id": "ichimonji",
+          "name": {
+            "en": "Triple Slash"
+          },
+          "tell": {
+            "en": "Raises a blade, then slashes three times after about 0.4 s"
+          },
+          "effect": {
+            "en": "Each slash lunges a little, frontal fan"
+          },
+          "counter": {
+            "en": "Back off or sidestep; close in during the gaps"
+          }
+        },
+        {
+          "id": "rush",
+          "name": {
+            "en": "Straight Dash-Slash"
+          },
+          "tell": {
+            "en": "Crouches, then dashes in a line after about 0.6 s"
+          },
+          "effect": {
+            "en": "Line damage with another blade strike at the end"
+          },
+          "counter": {
+            "en": "Dodge perpendicular to the line"
+          }
+        },
+        {
+          "id": "sweeper",
+          "name": {
+            "en": "Pulling Sweep"
+          },
+          "tell": {
+            "en": "Raises the blade for about 1 s while air pulls inward"
+          },
+          "effect": {
+            "en": "Pulls you in, then sweeps in a circle"
+          },
+          "counter": {
+            "en": "Dash through, or keep distance during the wind-up"
+          }
+        },
+        {
+          "id": "pushMask",
+          "name": {
+            "en": "Thrown Mask"
+          },
+          "tell": {
+            "en": "Throws a mask forward after about 0.5 s"
+          },
+          "effect": {
+            "en": "Mask flies in a straight line and hurts"
+          },
+          "counter": {
+            "en": "Move sideways"
+          }
+        },
+        {
+          "id": "explodeMask",
+          "name": {
+            "en": "Mask Blast"
+          },
+          "tell": {
+            "en": "A mask lands and detonates after about 1.4 s"
+          },
+          "effect": {
+            "en": "Explosion around the landing point"
+          },
+          "counter": {
+            "en": "Leave the mask area before it explodes"
+          }
+        },
+        {
+          "id": "taunt",
+          "name": {
+            "en": "Standing Challenge"
+          },
+          "tell": {
+            "en": "The boss stands still for about 2 s"
+          },
+          "effect": {
+            "en": "No attack; a damage window"
+          },
+          "counter": {
+            "en": "Close in and attack"
+          }
+        },
+        {
+          "id": "dash",
+          "name": {
+            "en": "Hop Dash"
+          },
+          "tell": {
+            "en": "Five short hops in a row"
+          },
+          "effect": {
+            "en": "Its position keeps changing"
+          },
+          "counter": {
+            "en": "Keep chasing it"
+          }
+        },
+        {
+          "id": "transition",
+          "name": {
+            "en": "Ground-Pound Ice Ring"
+          },
+          "tell": {
+            "en": "Slams the ground after about 1.2 s; invulnerable then"
+          },
+          "effect": {
+            "en": "Large ice ring"
+          },
+          "counter": {
+            "en": "Get away or prepare to jump before it lands"
+          }
+        },
+        {
+          "id": "dualBurst",
+          "name": {
+            "en": "Dual-Blade Ice Ring"
+          },
+          "tell": {
+            "en": "Plants both blades in the ground after about 1 s"
+          },
+          "effect": {
+            "en": "Large ice ring"
+          },
+          "counter": {
+            "en": "Keep distance"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "shadowIchimonji",
+          "name": {
+            "en": "Clone Triple Slash"
+          },
+          "tell": {
+            "en": "Clone adds a delayed slash after the main body's"
+          },
+          "effect": {
+            "en": "Two waves of attacks offset in time"
+          },
+          "counter": {
+            "en": "The second wave arrives slightly later; dodge again"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "shadowSweeper",
+          "name": {
+            "en": "Clone Pulling Sweep"
+          },
+          "tell": {
+            "en": "Main body winds up while a clone adds an outer sweep"
+          },
+          "effect": {
+            "en": "Inner and outer hits"
+          },
+          "counter": {
+            "en": "Evade the inner ring, then the outer"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "shadowBlade",
+          "name": {
+            "en": "Clone Blade Throw"
+          },
+          "tell": {
+            "en": "Clones fire three blades one after another"
+          },
+          "effect": {
+            "en": "Straight blades"
+          },
+          "counter": {
+            "en": "Strafe"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "At around 70% health the boss turns invulnerable and changes phase; clone and dual-blade moves appear."
+        },
+        {
+          "en": "From a distance, all your attacks are deflected by the mask."
+        }
+      ]
+    },
+    {
+      "case_id": "genshin/andrius",
+      "boss": {
+        "en": "Tundra Wolf"
+      },
+      "summary": {
+        "en": "A huge tundra wolf in a round arena, immune to ice and wind; phase 2 starts around half health."
+      },
+      "moves": [
+        {
+          "id": "slash",
+          "name": {
+            "en": "Claw Slash"
+          },
+          "tell": {
+            "en": "Lifts a paw, swipes forward after about 0.4 s"
+          },
+          "effect": {
+            "en": "Frontal melee fan"
+          },
+          "counter": {
+            "en": "Sidestep"
+          }
+        },
+        {
+          "id": "leap",
+          "name": {
+            "en": "Leaping Pounce"
+          },
+          "tell": {
+            "en": "Crouches, then leaps onto your position after about 0.7 s"
+          },
+          "effect": {
+            "en": "Circular damage at the landing point"
+          },
+          "counter": {
+            "en": "Leave the landing spot while it is airborne"
+          }
+        },
+        {
+          "id": "charge",
+          "name": {
+            "en": "Straight Charge"
+          },
+          "tell": {
+            "en": "Backs up and winds up for about 0.9 s"
+          },
+          "effect": {
+            "en": "Charges in a line leaving a trail"
+          },
+          "counter": {
+            "en": "Run perpendicular"
+          }
+        },
+        {
+          "id": "tail",
+          "name": {
+            "en": "Tail Ice Spikes"
+          },
+          "tell": {
+            "en": "Turns and flicks 5 ice spikes that explode a few seconds later"
+          },
+          "effect": {
+            "en": "Spikes land and then explode"
+          },
+          "counter": {
+            "en": "Leave the spikes before they pop"
+          }
+        },
+        {
+          "id": "tailMelee",
+          "name": {
+            "en": "Close Tail Swing"
+          },
+          "tell": {
+            "en": "Swings its tail when you are close"
+          },
+          "effect": {
+            "en": "Wide close-range fan"
+          },
+          "counter": {
+            "en": "Back off or dash through"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "spin",
+          "name": {
+            "en": "Spinning Ice Ring"
+          },
+          "tell": {
+            "en": "Spins, then releases an ice ring after about 0.9 s"
+          },
+          "effect": {
+            "en": "Large circle around its body"
+          },
+          "counter": {
+            "en": "Get outside the circle or dash"
+          }
+        },
+        {
+          "id": "interlude",
+          "name": {
+            "en": "Arena Run"
+          },
+          "tell": {
+            "en": "At about half health it leaves and runs around the arena"
+          },
+          "effect": {
+            "en": "Cannot be targeted; leads to phase 2"
+          },
+          "counter": {
+            "en": "Keep distance and wait"
+          }
+        },
+        {
+          "id": "storm",
+          "name": {
+            "en": "Falling Ice"
+          },
+          "tell": {
+            "en": "Howls up; ice falls in 3 waves after about 1.1 s"
+          },
+          "effect": {
+            "en": "Several drop circles per wave"
+          },
+          "counter": {
+            "en": "Leave each circle as it appears"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "roar",
+          "name": {
+            "en": "Arena Roar"
+          },
+          "tell": {
+            "en": "Roars, then the whole arena hurts for a while after about 1 s"
+          },
+          "effect": {
+            "en": "Continuous damage across the arena and detonates ice pillars"
+          },
+          "counter": {
+            "en": "Hide behind an ice pillar or dash"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "blades",
+          "name": {
+            "en": "Fan Air Slashes"
+          },
+          "tell": {
+            "en": "Raises a paw, then fires 3 fan air slashes after about 0.6 s"
+          },
+          "effect": {
+            "en": "Three blades travelling far"
+          },
+          "counter": {
+            "en": "Step into the gaps or move to the side"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "iceWave",
+          "name": {
+            "en": "Straight Ice Wave"
+          },
+          "tell": {
+            "en": "Ice lines appear on the ground, a wave moves along them after about 0.8 s"
+          },
+          "effect": {
+            "en": "A long wave that slows"
+          },
+          "counter": {
+            "en": "Leave the line"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "wolves",
+          "name": {
+            "en": "Summon Wolves"
+          },
+          "tell": {
+            "en": "At low health it howls and calls small wolves"
+          },
+          "effect": {
+            "en": "Small wolves chase and bite"
+          },
+          "counter": {
+            "en": "Clear the wolves first or keep dodging while hitting the boss"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Immune to ice and wind, so the swordsman is nearly useless; use fire and other elements."
+        },
+        {
+          "en": "Around half health there is an arena-run interlude, then phase 2 adds ice pillars and more moves."
+        },
+        {
+          "en": "Fire melts ice pillars; roars or air slashes detonate them."
+        }
+      ]
+    },
+    {
+      "case_id": "genshin/signora",
+      "boss": {
+        "en": "Frost-Flame Caster"
+      },
+      "summary": {
+        "en": "A two-phase caster that fights with ice first, then fire. There are beacons at the four corners and a temperature gauge on screen."
+      },
+      "moves": [
+        {
+          "id": "wheel",
+          "name": {
+            "en": "Ice Shard Fan"
+          },
+          "tell": {
+            "en": "Raises a hand, fires a spread of ice shards after about 0.5 s"
+          },
+          "effect": {
+            "en": "Shards flying in a fan"
+          },
+          "counter": {
+            "en": "Dodge to the side"
+          }
+        },
+        {
+          "id": "hail",
+          "name": {
+            "en": "Targeted Ice Fall"
+          },
+          "tell": {
+            "en": "A circle shows on the ground; ice falls after about 0.7 s"
+          },
+          "effect": {
+            "en": "Damage in the circle"
+          },
+          "counter": {
+            "en": "Step out of the circle"
+          }
+        },
+        {
+          "id": "flower",
+          "name": {
+            "en": "Triple Ice Burst"
+          },
+          "tell": {
+            "en": "Three frost blooms appear and explode after about 1.5 s"
+          },
+          "effect": {
+            "en": "Three area explosions"
+          },
+          "counter": {
+            "en": "Stay away from all three"
+          }
+        },
+        {
+          "id": "biting",
+          "name": {
+            "en": "Homing Ice Spears"
+          },
+          "tell": {
+            "en": "Fires 5 homing ice spears in sequence"
+          },
+          "effect": {
+            "en": "They track but turn slowly"
+          },
+          "counter": {
+            "en": "Run in circles so they cannot turn"
+          }
+        },
+        {
+          "id": "snowfall",
+          "name": {
+            "en": "Close Ice Burst"
+          },
+          "tell": {
+            "en": "At close range she gathers ice and bursts after about 0.7 s"
+          },
+          "effect": {
+            "en": "Medium area around her"
+          },
+          "counter": {
+            "en": "Back off"
+          }
+        },
+        {
+          "id": "benevolence",
+          "name": {
+            "en": "Underfoot Ice Array"
+          },
+          "tell": {
+            "en": "An ice array forms under you, warning for about 1.3 s"
+          },
+          "effect": {
+            "en": "Damage after the array finishes"
+          },
+          "counter": {
+            "en": "Leave during the warning"
+          }
+        },
+        {
+          "id": "frozenVoid",
+          "name": {
+            "en": "Delayed Giant Spear"
+          },
+          "tell": {
+            "en": "Hurls a giant spear that stays in the ground and explodes after about 4 s"
+          },
+          "effect": {
+            "en": "Delayed explosion"
+          },
+          "counter": {
+            "en": "Get away before it blows"
+          }
+        },
+        {
+          "id": "cocoon",
+          "name": {
+            "en": "Ice Shell Charge"
+          },
+          "tell": {
+            "en": "At low health she is encased in an ice shell while flames float around"
+          },
+          "effect": {
+            "en": "The shell has a large shield and normal damage fails"
+          },
+          "counter": {
+            "en": "Pick up a floating flame and hit the shell with it"
+          }
+        },
+        {
+          "id": "lash",
+          "name": {
+            "en": "Fire Whip Slash"
+          },
+          "tell": {
+            "en": "A fire whip appears, swings after about 0.4 s"
+          },
+          "effect": {
+            "en": "Frontal fire fan"
+          },
+          "counter": {
+            "en": "Back off or sidestep"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "lashLong",
+          "name": {
+            "en": "Fire Whip Thrust"
+          },
+          "tell": {
+            "en": "The whip straightens and thrusts after about 0.5 s"
+          },
+          "effect": {
+            "en": "Long narrow line"
+          },
+          "counter": {
+            "en": "Dodge sideways"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "lashTriple",
+          "name": {
+            "en": "Triple Fire Whip"
+          },
+          "tell": {
+            "en": "Three fire whips lash out in different directions and then pop"
+          },
+          "effect": {
+            "en": "Three arcs plus a blast"
+          },
+          "counter": {
+            "en": "Stand in the gap between whips"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "warp",
+          "name": {
+            "en": "Close-Range Dash"
+          },
+          "tell": {
+            "en": "Her form turns to fire and rushes at you"
+          },
+          "effect": {
+            "en": "Collides with you"
+          },
+          "counter": {
+            "en": "Dash away"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "fireball",
+          "name": {
+            "en": "Slow Fireball"
+          },
+          "tell": {
+            "en": "A fireball forms and launches after about 0.5 s"
+          },
+          "effect": {
+            "en": "A slow fireball that keeps going"
+          },
+          "counter": {
+            "en": "Walk or jump away"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "wrath",
+          "name": {
+            "en": "Falling Fire Pillars"
+          },
+          "tell": {
+            "en": "Markers appear in the sky; fire pillars fall in 3 waves after about 0.8 s"
+          },
+          "effect": {
+            "en": "Five circles per wave"
+          },
+          "counter": {
+            "en": "Leave each wave's circles at once"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "onslaught",
+          "name": {
+            "en": "Floating Flame Volley"
+          },
+          "tell": {
+            "en": "Releases 6 floating flames at once"
+          },
+          "effect": {
+            "en": "The flames fly toward you"
+          },
+          "counter": {
+            "en": "Strafe so they miss"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "moth",
+          "name": {
+            "en": "Homing Flame"
+          },
+          "tell": {
+            "en": "A slow homing flame"
+          },
+          "effect": {
+            "en": "Follows you for a long time"
+          },
+          "counter": {
+            "en": "Walk around it"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "blaze",
+          "name": {
+            "en": "Patrol Fire Whirl"
+          },
+          "tell": {
+            "en": "A fire whirl patrols the arena and sheds small flames"
+          },
+          "effect": {
+            "en": "Large whirl and small flames"
+          },
+          "counter": {
+            "en": "Keep moving and avoid its path"
+          },
+          "only": {
+            "en": "later phase only"
+          }
+        },
+        {
+          "id": "counter",
+          "name": {
+            "en": "Retaliation"
+          },
+          "tell": {
+            "en": "When she is hit hard in some states she retaliates"
+          },
+          "effect": {
+            "en": "Area damage around her; painful"
+          },
+          "counter": {
+            "en": "Do not burst her down all at once; shoot from outside its range"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "The temperature gauge is the arena clock: you bleed when it is full; use the beacons (ice lamps and fire braziers) to adjust it."
+        },
+        {
+          "en": "At about 20% health she is covered in an ice shell; you need to pick up a floating flame to break it."
+        },
+        {
+          "en": "Phase 2 uses fire moves and resists fire strongly."
+        }
+      ]
+    }
+  ]
+}

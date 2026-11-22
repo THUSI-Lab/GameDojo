@@ -1,0 +1,462 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "terraria_remake",
+  "rules": "terraria-1458-arena-r7",
+  "title": {
+    "en": "Pixel Arena: Sword and Bow"
+  },
+  "dimension": "2d",
+  "view": {
+    "en": "Side-view 2D arena: two wooden platforms you can stand on above the ground, with pillars at both edges. You control an adventurer with a sword and a bow, and the mouse moves a crosshair; your health, flight and mana bars are at the top left, the boss's name, health bar and phase at the top right"
+  },
+  "goal": {
+    "en": "Empty the boss's health bar to win; you lose if your health reaches zero; each fight lasts at most 300 seconds and a timeout is not a win. Health does not regenerate on its own; only hearts sometimes dropped by defeated minions or boss segments restore it"
+  },
+  "mouse": {
+    "kind": "pointer",
+    "en": "The bow fires toward the crosshair; the crosshair starts at the centre of the arena"
+  },
+  "keys": [
+    {
+      "key": "A",
+      "en": "move left (speeds up to a sprint)"
+    },
+    {
+      "key": "D",
+      "en": "move right (speeds up to a sprint)"
+    },
+    {
+      "key": "Space",
+      "en": "jump, higher the longer you hold it; holding it in the air flies for a short time, and once flight runs out holding it glides"
+    },
+    {
+      "key": "S",
+      "en": "drop down through the wooden platform you stand on"
+    },
+    {
+      "key": "J",
+      "en": "use the current weapon (sword or bow)"
+    },
+    {
+      "key": "LMB",
+      "en": "use the current weapon (same as J)"
+    },
+    {
+      "key": "Q",
+      "en": "switch the current weapon between sword and bow"
+    },
+    {
+      "key": "E",
+      "en": "shoot the bow at the crosshair directly"
+    },
+    {
+      "key": "RMB",
+      "en": "swing the sword directly"
+    }
+  ],
+  "notes": [
+    {
+      "en": "Flight refills when you land and lasts about 1.5 seconds"
+    },
+    {
+      "en": "The bow fires about every 0.33 s and the sword swings about every 0.38 s; holding the attack key repeats automatically"
+    },
+    {
+      "en": "The sword sweeps an arc in the direction you face and can hit several targets at once; arrows fly toward the crosshair and stop at the first target. Both can destroy the boss's projectiles"
+    },
+    {
+      "en": "You are briefly invulnerable after being hit; attacking or flying gives no invulnerability"
+    },
+    {
+      "en": "The easy, normal and hard tiers all use classic rules; moves tagged [expert mode only] appear only at difficulty 0.75 or above"
+    }
+  ],
+  "compact_glossary": {},
+  "scenes": [
+    {
+      "case_id": "terraria/king_slime",
+      "boss": {
+        "en": "Bouncing Gel Giant"
+      },
+      "summary": {
+        "en": "A giant gel creature keeps leaping to crush you, sheds small gel blobs when hit, and sometimes vanishes and reappears near you."
+      },
+      "moves": [
+        {
+          "id": "jump",
+          "name": {
+            "en": "Leap"
+          },
+          "tell": {
+            "en": "Watch the direction and arc of its jump"
+          },
+          "effect": {
+            "en": "It lands on you with its body; touching it hurts"
+          },
+          "counter": {
+            "en": "Step aside from the landing spot and attack while it pauses after landing"
+          }
+        },
+        {
+          "id": "low_jump",
+          "name": {
+            "en": "Low leap"
+          },
+          "tell": {
+            "en": "The third of every four jumps is lower and faster sideways"
+          },
+          "effect": {
+            "en": "It rushes in low and fast; touching it hurts"
+          },
+          "counter": {
+            "en": "Jump over it, or fly briefly and let it pass underneath"
+          }
+        },
+        {
+          "id": "high_jump",
+          "name": {
+            "en": "High leap"
+          },
+          "tell": {
+            "en": "The fourth of every four jumps goes very high"
+          },
+          "effect": {
+            "en": "It comes down from high up over a wide area"
+          },
+          "counter": {
+            "en": "Run along the ground away from where it is heading"
+          }
+        },
+        {
+          "id": "teleport",
+          "name": {
+            "en": "Teleport"
+          },
+          "tell": {
+            "en": "Its body fades out over about a second, then reappears over half a second, usually not far from you"
+          },
+          "effect": {
+            "en": "Once it reappears it can hit you again"
+          },
+          "counter": {
+            "en": "Keep moving once it starts fading, then attack after it reappears"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "It shrinks and jumps more often as it loses health, and spawns small gel blobs when damaged"
+        }
+      ]
+    },
+    {
+      "case_id": "terraria/eye_of_cthulhu",
+      "boss": {
+        "en": "Charging Giant Eye"
+      },
+      "summary": {
+        "en": "A huge floating eyeball that summons small eyes and then charges at you repeatedly; after losing half its health it transforms and charges harder."
+      },
+      "moves": [
+        {
+          "id": "dash",
+          "name": {
+            "en": "Triple charge"
+          },
+          "tell": {
+            "en": "It hovers, then charges at you three times; each charge keeps its direction once it starts"
+          },
+          "effect": {
+            "en": "Contact damage"
+          },
+          "counter": {
+            "en": "Move sideways once it commits, then attack as it slows at the end of the charge"
+          }
+        },
+        {
+          "id": "transform",
+          "name": {
+            "en": "Transformation"
+          },
+          "tell": {
+            "en": "It spins in place and its pupil turns into a mouth (in expert mode it also summons extra small eyes)"
+          },
+          "effect": {
+            "en": "Afterwards it enters its second form and charges faster"
+          },
+          "counter": {
+            "en": "You can hit it while it transforms; watch the small eyes still around"
+          }
+        },
+        {
+          "id": "chain_dash",
+          "name": {
+            "en": "Rapid charges"
+          },
+          "tell": {
+            "en": "In its second form it adds faster rushes after the three normal charges, almost nonstop at low health"
+          },
+          "effect": {
+            "en": "Contact damage"
+          },
+          "counter": {
+            "en": "Keep changing direction; never stand still"
+          },
+          "only": {
+            "en": "expert mode only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "In the first form it summons small eyes that ram you; it transforms into the second form at about half health"
+        }
+      ]
+    },
+    {
+      "case_id": "terraria/skeletron",
+      "boss": {
+        "en": "Twin-Handed Giant Skull"
+      },
+      "summary": {
+        "en": "A giant skull with two independent hands: the hands slam and sweep, and the skull periodically spins after you."
+      },
+      "moves": [
+        {
+          "id": "hand_sweep",
+          "name": {
+            "en": "Hand slams"
+          },
+          "tell": {
+            "en": "Each hand rises and slams down, or lines up with you and sweeps sideways"
+          },
+          "effect": {
+            "en": "The hands hurt on contact"
+          },
+          "counter": {
+            "en": "Destroy the hands first; the skull becomes weaker and spins slower"
+          }
+        },
+        {
+          "id": "spin",
+          "name": {
+            "en": "Spinning chase"
+          },
+          "tell": {
+            "en": "After hovering for a while it roars, then spins after you for several seconds"
+          },
+          "effect": {
+            "en": "The spinning skull hurts on contact"
+          },
+          "counter": {
+            "en": "Its defence drops while spinning; dodge and hit it"
+          }
+        },
+        {
+          "id": "skull_shot",
+          "name": {
+            "en": "Homing skulls"
+          },
+          "tell": {
+            "en": "Once the skull is hurt enough or a hand is destroyed, it fires skulls that home in on you; not while spinning"
+          },
+          "effect": {
+            "en": "The projectiles hurt on hit"
+          },
+          "counter": {
+            "en": "Change direction to shake them off"
+          },
+          "only": {
+            "en": "expert mode only"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "terraria/eater_of_worlds",
+      "boss": {
+        "en": "Burrowing Great Worm"
+      },
+      "summary": {
+        "en": "A long worm made of dozens of segments that tunnels through the ground and platforms after you; breaking a middle segment splits it in two."
+      },
+      "moves": [
+        {
+          "id": "burrow",
+          "name": {
+            "en": "Burrowing chase"
+          },
+          "tell": {
+            "en": "It speeds toward you while inside the ground or a platform and falls under gravity when it leaves them; there is no extra warning"
+          },
+          "effect": {
+            "en": "Both head and body hurt on contact; the head hurts most"
+          },
+          "counter": {
+            "en": "Avoid the head and attack the body as it passes"
+          }
+        },
+        {
+          "id": "split",
+          "name": {
+            "en": "Splitting"
+          },
+          "tell": {
+            "en": "When a middle segment is destroyed the worm breaks into two, each growing a new head and tail"
+          },
+          "effect": {
+            "en": "More worms chase you"
+          },
+          "counter": {
+            "en": "Focus heads and tails, or use the sword to hit several segments at once"
+          }
+        },
+        {
+          "id": "acid_spit",
+          "name": {
+            "en": "Corrosive spit"
+          },
+          "tell": {
+            "en": "Segments that can see you spit projectiles at you; the tail does not"
+          },
+          "effect": {
+            "en": "The projectiles hurt on hit"
+          },
+          "counter": {
+            "en": "Any attack destroys a spit in one hit"
+          },
+          "only": {
+            "en": "expert mode only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "You win when every segment is gone; dying segments sometimes drop hearts"
+        }
+      ]
+    },
+    {
+      "case_id": "terraria/queen_bee",
+      "boss": {
+        "en": "Charging Giant Bee"
+      },
+      "summary": {
+        "en": "A giant bee that charges back and forth horizontally, summons small bees, or fires stingers from above you."
+      },
+      "moves": [
+        {
+          "id": "charge",
+          "name": {
+            "en": "Horizontal charges"
+          },
+          "tell": {
+            "en": "It flies to your left or right at your height, then charges horizontally back and forth three times; it always opens with this"
+          },
+          "effect": {
+            "en": "Contact damage"
+          },
+          "counter": {
+            "en": "Once you see the height it lines up at, jump or switch platform level, then hit it from behind after it passes"
+          }
+        },
+        {
+          "id": "summon",
+          "name": {
+            "en": "Bee swarm"
+          },
+          "tell": {
+            "en": "It hovers above you and releases a swarm of small bees"
+          },
+          "effect": {
+            "en": "The small bees chase you and hurt on contact"
+          },
+          "counter": {
+            "en": "The small bees are fragile, so clear them with arrows or the sword; she is an easy target while hovering"
+          }
+        },
+        {
+          "id": "stingers",
+          "name": {
+            "en": "Stinger volley"
+          },
+          "tell": {
+            "en": "She drifts left and right above you, firing yellow stingers"
+          },
+          "effect": {
+            "en": "Stingers hurt on hit and may poison you"
+          },
+          "counter": {
+            "en": "Move sideways out of the spread and attack while she repositions"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "terraria/brain_of_cthulhu",
+      "boss": {
+        "en": "Teleporting Flesh Brain"
+      },
+      "summary": {
+        "en": "A translucent brain ringed by guardian eyes; only after you clear the eyes does it expose its heart and take damage, and then it teleports after you."
+      },
+      "moves": [
+        {
+          "id": "guard_charge",
+          "name": {
+            "en": "Guardian eye lunges"
+          },
+          "tell": {
+            "en": "About 20 guardian eyes circle the translucent brain and take turns lunging at you; the brain cannot be hurt meanwhile"
+          },
+          "effect": {
+            "en": "The eyes hurt on contact"
+          },
+          "counter": {
+            "en": "Clear the eyes first: they are fragile, the sword can hit several at once, and the one lunging at you is easiest to hit"
+          }
+        },
+        {
+          "id": "teleport",
+          "name": {
+            "en": "Teleport"
+          },
+          "tell": {
+            "en": "At first it drifts closer, flickers and teleports to another spot near you; once its heart is exposed it fades in and out often and chases you closely"
+          },
+          "effect": {
+            "en": "Contact damage"
+          },
+          "counter": {
+            "en": "It cannot touch you until it has fully faded in; spot the new position and turn to attack at once"
+          }
+        },
+        {
+          "id": "illusions",
+          "name": {
+            "en": "Mirror decoys"
+          },
+          "tell": {
+            "en": "In the second phase three mirror-image decoys appear around you, more convincing as its health drops"
+          },
+          "effect": {
+            "en": "The decoys deal no damage; they only confuse you"
+          },
+          "counter": {
+            "en": "Only the real brain flashes when hit; the decoys mirror around you, so follow the real one's movement"
+          },
+          "only": {
+            "en": "expert mode only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "In the first phase the guardian eyes protect the brain from damage; once they are cleared the second phase begins and the exposed brain can be hurt"
+        }
+      ]
+    }
+  ]
+}

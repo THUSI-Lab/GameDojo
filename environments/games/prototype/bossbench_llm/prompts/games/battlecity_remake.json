@@ -1,0 +1,423 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "battlecity_remake",
+  "rules": "battlecity-nes-rom-20261102-r6",
+  "title": {
+    "en": "Top-Down Tank Battle: Defend the Eagle Base"
+  },
+  "dimension": "2d",
+  "view": {
+    "en": "Top-down 2D grid battlefield with brick, steel, water, ice and forest terrain. You drive a player tank, and the eagle base at the bottom must be protected; the side panel shows remaining enemy tanks and your lives"
+  },
+  "goal": {
+    "en": "Destroy every enemy tank to clear the stage (10 on easy, 20 on medium, 60 on hard). Protect the eagle base at the bottom: any shell, including your own, that hits it is an instant loss; losing all lives also loses (4 on easy, 3 on medium, 2 on hard). Lives do not regenerate except via the extra-life pickup"
+  },
+  "mouse": {
+    "kind": "none",
+    "en": ""
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "Drive up"
+    },
+    {
+      "key": "A",
+      "en": "Drive left"
+    },
+    {
+      "key": "S",
+      "en": "Drive down"
+    },
+    {
+      "key": "D",
+      "en": "Drive right"
+    },
+    {
+      "key": "J",
+      "en": "Fire"
+    },
+    {
+      "key": "K",
+      "en": "Fire (same as J)"
+    },
+    {
+      "key": "Space",
+      "en": "Fire (same as J)"
+    },
+    {
+      "key": "LMB",
+      "en": "Fire (same as J)"
+    }
+  ],
+  "notes": [
+    {
+      "en": "The tank moves in four directions only; with several direction keys held, only one is used (right > left > down > up); perpendicular turns snap to the 8px grid."
+    },
+    {
+      "en": "Each shot needs a fresh key press; holding does not auto-fire. Only one of your shells can be on the field at first, two from two stars."
+    },
+    {
+      "en": "Brick, steel, water, the base and other tanks block movement; water blocks tanks but not shells; forest hides tanks but not shells; on ice you slide in a locked direction after starting."
+    },
+    {
+      "en": "Each shot removes one layer of brick; only three-star shells break steel; never fire toward your own base."
+    },
+    {
+      "en": "Flashing red tanks drop pickups when hit: star (upgrade), shield (invulnerable about 10.7 s), fortify (base wall becomes steel), freeze (enemies halt), blast (destroys all enemies on screen), extra life."
+    },
+    {
+      "en": "Four enemy types: light, swift (fast), long-gun (strong shells) and heavy (four hits, colour changes with armour)."
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "Tank driving, one 200 ms packet (12 frames) per action",
+      "options": {
+        "none": "stand still",
+        "up": "drive up all 12 frames",
+        "down": "drive down all 12 frames",
+        "left": "drive left all 12 frames",
+        "right": "drive right all 12 frames",
+        "face_up": "turn to face up only (first sub-step, no travel)",
+        "up_early": "drive up for sub-steps 1-3 then stop",
+        "up_late": "drive up for sub-steps 4-6 only",
+        "face_down": "turn to face down only (first sub-step, no travel)",
+        "down_early": "drive down for sub-steps 1-3 then stop",
+        "down_late": "drive down for sub-steps 4-6 only",
+        "face_left": "turn to face left only (first sub-step, no travel)",
+        "left_early": "drive left for sub-steps 1-3 then stop",
+        "left_late": "drive left for sub-steps 4-6 only",
+        "face_right": "turn to face right only (first sub-step, no travel)",
+        "right_early": "drive right for sub-steps 1-3 then stop",
+        "right_late": "drive right for sub-steps 4-6 only",
+        "up_then_left_1": "drive up for 1 sub-steps, then turn and drive left",
+        "up_then_left_2": "drive up for 2 sub-steps, then turn and drive left",
+        "up_then_left_3": "drive up for 3 sub-steps, then turn and drive left",
+        "up_then_left_4": "drive up for 4 sub-steps, then turn and drive left",
+        "up_then_left_5": "drive up for 5 sub-steps, then turn and drive left",
+        "up_then_right_1": "drive up for 1 sub-steps, then turn and drive right",
+        "up_then_right_2": "drive up for 2 sub-steps, then turn and drive right",
+        "up_then_right_3": "drive up for 3 sub-steps, then turn and drive right",
+        "up_then_right_4": "drive up for 4 sub-steps, then turn and drive right",
+        "up_then_right_5": "drive up for 5 sub-steps, then turn and drive right",
+        "down_then_left_1": "drive down for 1 sub-steps, then turn and drive left",
+        "down_then_left_2": "drive down for 2 sub-steps, then turn and drive left",
+        "down_then_left_3": "drive down for 3 sub-steps, then turn and drive left",
+        "down_then_left_4": "drive down for 4 sub-steps, then turn and drive left",
+        "down_then_left_5": "drive down for 5 sub-steps, then turn and drive left",
+        "down_then_right_1": "drive down for 1 sub-steps, then turn and drive right",
+        "down_then_right_2": "drive down for 2 sub-steps, then turn and drive right",
+        "down_then_right_3": "drive down for 3 sub-steps, then turn and drive right",
+        "down_then_right_4": "drive down for 4 sub-steps, then turn and drive right",
+        "down_then_right_5": "drive down for 5 sub-steps, then turn and drive right",
+        "left_then_up_1": "drive left for 1 sub-steps, then turn and drive up",
+        "left_then_up_2": "drive left for 2 sub-steps, then turn and drive up",
+        "left_then_up_3": "drive left for 3 sub-steps, then turn and drive up",
+        "left_then_up_4": "drive left for 4 sub-steps, then turn and drive up",
+        "left_then_up_5": "drive left for 5 sub-steps, then turn and drive up",
+        "left_then_down_1": "drive left for 1 sub-steps, then turn and drive down",
+        "left_then_down_2": "drive left for 2 sub-steps, then turn and drive down",
+        "left_then_down_3": "drive left for 3 sub-steps, then turn and drive down",
+        "left_then_down_4": "drive left for 4 sub-steps, then turn and drive down",
+        "left_then_down_5": "drive left for 5 sub-steps, then turn and drive down",
+        "right_then_up_1": "drive right for 1 sub-steps, then turn and drive up",
+        "right_then_up_2": "drive right for 2 sub-steps, then turn and drive up",
+        "right_then_up_3": "drive right for 3 sub-steps, then turn and drive up",
+        "right_then_up_4": "drive right for 4 sub-steps, then turn and drive up",
+        "right_then_up_5": "drive right for 5 sub-steps, then turn and drive up",
+        "right_then_down_1": "drive right for 1 sub-steps, then turn and drive down",
+        "right_then_down_2": "drive right for 2 sub-steps, then turn and drive down",
+        "right_then_down_3": "drive right for 3 sub-steps, then turn and drive down",
+        "right_then_down_4": "drive right for 4 sub-steps, then turn and drive down",
+        "right_then_down_5": "drive right for 5 sub-steps, then turn and drive down"
+      }
+    },
+    "fire": {
+      "en": "Fire button taps within the packet",
+      "options": {
+        "none": "no firing",
+        "fire": "press fire on sub-steps 1/3/5",
+        "fire_odd": "press fire on sub-steps 2/4/6 (pairs with turning)"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "battlecity/brick_front",
+      "boss": {
+        "en": "Brick Lane Front"
+      },
+      "summary": {
+        "en": "A brick-heavy open field with the base at the bottom; enemy tanks spawn from three points along the top."
+      },
+      "moves": [
+        {
+          "id": "wave",
+          "name": {
+            "en": "Enemy tank waves"
+          },
+          "tell": {
+            "en": "The left, middle and right spawn points at the top flash in turn; up to four tanks are on the field."
+          },
+          "effect": {
+            "en": "Enemy tanks shoot at you or the eagle base; a hit on your tank costs a life and a hit on the base is an instant loss."
+          },
+          "counter": {
+            "en": "Each shot chips only one layer of brick; line up on the spawn points at the lane mouths in advance, and never fire toward the base."
+          }
+        },
+        {
+          "id": "powerup",
+          "name": {
+            "en": "Flashing carrier and pickups"
+          },
+          "tell": {
+            "en": "The 4th, 11th and 18th tanks flash red."
+          },
+          "effect": {
+            "en": "Does no damage; shooting a flashing tank drops a pickup that you collect by driving onto it."
+          },
+          "counter": {
+            "en": "Fortify turns the base brick wall to steel for about 21 seconds; stars give speed, twin shots, then steel-breaking."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Tanks get more aggressive over time: on medium they hunt you after about 26 s and rush the base after about 50 s; on hard after about 7 s and 14 s."
+        }
+      ]
+    },
+    {
+      "case_id": "battlecity/jungle_ambush",
+      "boss": {
+        "en": "Jungle Ambush"
+      },
+      "summary": {
+        "en": "Dense forest hides tanks and shells; swift tanks make up over half the wave; a steel block above the base stops shells."
+      },
+      "moves": [
+        {
+          "id": "wave",
+          "name": {
+            "en": "Enemy tank waves"
+          },
+          "tell": {
+            "en": "Tanks are hidden in the forest; swift tanks move fast and dash out of the trees."
+          },
+          "effect": {
+            "en": "Enemy tanks shoot at you or the eagle base; a hit on your tank costs a life and a hit on the base is an instant loss."
+          },
+          "counter": {
+            "en": "Hold the clearing exits and shoot swift tanks as they leave the trees; enemies mostly circle down the side forests."
+          }
+        },
+        {
+          "id": "powerup",
+          "name": {
+            "en": "Flashing carrier and pickups"
+          },
+          "tell": {
+            "en": "The 4th, 11th and 18th tanks flash red (swift, light, swift)."
+          },
+          "effect": {
+            "en": "Does no damage; shooting a flashing tank drops a pickup that you collect by driving onto it."
+          },
+          "counter": {
+            "en": "Freeze lasts about 10.7 seconds; use it to clear tanks hiding in the forest."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "On easy and medium enemies hunt you after about 13 s and rush the base after about 26 s; on hard after about 7 s and 14 s."
+        }
+      ]
+    },
+    {
+      "case_id": "battlecity/river_delta",
+      "boss": {
+        "en": "River Delta"
+      },
+      "summary": {
+        "en": "Two north-south rivers split the field into three lanes, crossable only at three fords; shells fly over water."
+      },
+      "moves": [
+        {
+          "id": "wave",
+          "name": {
+            "en": "Enemy tank waves"
+          },
+          "tell": {
+            "en": "Long-gun tanks fire across the rivers from the side lanes; enemies cross at the fords."
+          },
+          "effect": {
+            "en": "Enemy tanks shoot at you or the eagle base; a hit on your tank costs a life and a hit on the base is an instant loss."
+          },
+          "counter": {
+            "en": "Hold the middle brick island and shoot across the water; the fords are chokepoints."
+          }
+        },
+        {
+          "id": "powerup",
+          "name": {
+            "en": "Flashing carrier and pickups"
+          },
+          "tell": {
+            "en": "The 4th, 11th and 18th tanks flash red (light, long-gun, swift)."
+          },
+          "effect": {
+            "en": "Does no damage; shooting a flashing tank drops a pickup that you collect by driving onto it."
+          },
+          "counter": {
+            "en": "Fortify turns the base wall to steel for about 21 seconds; stars give speed, twin shots, then steel-breaking."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "On easy and medium enemies hunt you after about 17 s and rush the base after about 34 s; on hard after about 7 s and 14 s."
+        }
+      ]
+    },
+    {
+      "case_id": "battlecity/river_ice",
+      "boss": {
+        "en": "Ice River Woods"
+      },
+      "summary": {
+        "en": "Ice, water and forest mixed; forest hides tanks but shells still fly."
+      },
+      "moves": [
+        {
+          "id": "wave",
+          "name": {
+            "en": "Enemy tank waves"
+          },
+          "tell": {
+            "en": "On ice a tank locks its direction and slides after starting; tanks in woods are hidden."
+          },
+          "effect": {
+            "en": "Enemy tanks shoot at you or the eagle base; a hit on your tank costs a life and a hit on the base is an instant loss."
+          },
+          "counter": {
+            "en": "Release keys early to avoid sliding too far; guard the ice lane above the base."
+          }
+        },
+        {
+          "id": "powerup",
+          "name": {
+            "en": "Flashing carrier and pickups"
+          },
+          "tell": {
+            "en": "A flashing carrier drops a pickup at one of 16 fixed points when hit."
+          },
+          "effect": {
+            "en": "Does no damage; shooting a flashing tank drops a pickup that you collect by driving onto it."
+          },
+          "counter": {
+            "en": "Freeze and shield each last about 10.7 seconds and help you push through the woods."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "On easy and medium enemies hunt you after about 11 s and rush the base after about 21 s; on hard after about 7 s and 14 s."
+        }
+      ]
+    },
+    {
+      "case_id": "battlecity/steel_fort",
+      "boss": {
+        "en": "Steel Fortress"
+      },
+      "summary": {
+        "en": "A fortress of steel walls and water; swift tanks open, followed by heavy tanks."
+      },
+      "moves": [
+        {
+          "id": "wave",
+          "name": {
+            "en": "Enemy tank waves"
+          },
+          "tell": {
+            "en": "Swift tanks open, then heavy tanks that take four hits and change colour as armour drops."
+          },
+          "effect": {
+            "en": "Enemy tanks shoot at you or the eagle base; a hit on your tank costs a life and a hit on the base is an instant loss."
+          },
+          "counter": {
+            "en": "Water blocks tanks but not shells, so shoot across it; only three-star shells break steel."
+          }
+        },
+        {
+          "id": "powerup",
+          "name": {
+            "en": "Flashing carrier and pickups"
+          },
+          "tell": {
+            "en": "A flashing carrier drops a pickup when hit; a red heavy tank drops only on its first hit."
+          },
+          "effect": {
+            "en": "Does no damage; shooting a flashing tank drops a pickup that you collect by driving onto it."
+          },
+          "counter": {
+            "en": "At three stars you can shoot through steel to open shortcuts."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "On easy and medium enemies hunt you after about 12 s and rush the base after about 23 s; on hard after about 7 s and 14 s."
+        }
+      ]
+    },
+    {
+      "case_id": "battlecity/steel_maze",
+      "boss": {
+        "en": "Steel Maze"
+      },
+      "summary": {
+        "en": "A steel maze with only a few brick seams; the base has a steel roof, so enemies must reach the bottom two rows and hit the brick wall from the sides."
+      },
+      "moves": [
+        {
+          "id": "wave",
+          "name": {
+            "en": "Enemy tank waves"
+          },
+          "tell": {
+            "en": "Enemies circle to the bottom two rows and hit the base brick wall from left and right."
+          },
+          "effect": {
+            "en": "Enemy tanks shoot at you or the eagle base; a hit on your tank costs a life and a hit on the base is an instant loss."
+          },
+          "counter": {
+            "en": "Guard the two bottom-row corridors beside the base; three-star shells break steel for shortcuts."
+          }
+        },
+        {
+          "id": "powerup",
+          "name": {
+            "en": "Flashing carrier and pickups"
+          },
+          "tell": {
+            "en": "The 4th, 11th and 18th tanks flash red (long-gun, heavy, light); a red heavy tank drops only on its first hit."
+          },
+          "effect": {
+            "en": "Does no damage; shooting a flashing tank drops a pickup that you collect by driving onto it."
+          },
+          "counter": {
+            "en": "Shoot red tanks first for stars; at three stars the maze becomes straight roads."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "On easy and medium enemies hunt you after about 10 s and rush the base after about 19 s; on hard after about 7 s and 14 s."
+        }
+      ]
+    }
+  ]
+}

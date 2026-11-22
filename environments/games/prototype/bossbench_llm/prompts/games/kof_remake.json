@@ -1,0 +1,811 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "kof_remake",
+  "rules": "kof97-advanced-v8",
+  "title": {
+    "en": "Fighting Arena: One-on-One Duels"
+  },
+  "dimension": "2d",
+  "view": {
+    "en": "Side-view 2D fighting: you control the Flame Fist against one opponent on a flat stage. Health bars and power gauges are at the top left and right, with the round timer in the middle; the mouse is not used."
+  },
+  "goal": {
+    "en": "Empty the opponent's health bar to win; you lose if yours reaches zero. Each round is timed and, on timeout, the fighter with the larger share of health wins. Health does not regenerate by itself; only after knocking out an opponent do you recover a share depending on remaining time."
+  },
+  "mouse": {
+    "kind": "none",
+    "en": ""
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "jump (same as Space)"
+    },
+    {
+      "key": "A",
+      "en": "move left; held while facing right it blocks"
+    },
+    {
+      "key": "S",
+      "en": "crouch; back-down blocks low attacks"
+    },
+    {
+      "key": "D",
+      "en": "move right; held while facing left it blocks"
+    },
+    {
+      "key": "Space",
+      "en": "jump (same as W)"
+    },
+    {
+      "key": "J",
+      "en": "light punch"
+    },
+    {
+      "key": "K",
+      "en": "light kick"
+    },
+    {
+      "key": "L",
+      "en": "heavy punch"
+    },
+    {
+      "key": "Q",
+      "en": "heavy kick"
+    },
+    {
+      "key": "Shift",
+      "en": "roll (same as J+K pressed together); while blocking, a one-gauge guard cancel"
+    },
+    {
+      "key": "E",
+      "en": "enter MAX mode (one gauge, same as J+K+L together)"
+    },
+    {
+      "key": "R",
+      "en": "super helper key (needs one gauge): triggers the charged flame sweep"
+    }
+  ],
+  "notes": [
+    {
+      "en": "Directions are absolute left/right and do not flip with facing; read which way you face from the screen, then convert forward/back. When facing left, mirror the left/right in the commands below."
+    },
+    {
+      "en": "Your command specials (key sequences facing right; middle diagonals may be omitted): down, down-forward, forward + punch = dash punch (heavy punch = heavy dash punch); forward, down, down-forward + punch = rising fire punch (anti-air, brief invulnerability on start-up); down, down-forward, forward + kick = two-hit kick; back, down, down-back + kick = leaping downward kick; forward, down-forward, down, down-back, back + kick = dash kick."
+    },
+    {
+      "en": "Supers need one gauge: down, down-forward, forward, down, down-forward, forward + punch = multi-hit rush combo; down, down-back, back, down-back, down, down-forward, forward + punch = charged flame sweep, or simply press R. Without a gauge the same input only produces the final special."
+    },
+    {
+      "en": "Commands are lenient: middle diagonals may be skipped and the button may be pressed about 50 ms before the direction. Normal attacks can only cancel into specials or supers."
+    },
+    {
+      "en": "Block by holding back: standing back blocks mid attacks and jump-ins, back-down blocks lows; holding back in the air blocks air attacks and projectiles. Command throws cannot be blocked or teched."
+    },
+    {
+      "en": "Up close, forward or back plus heavy punch/kick is a throw; press heavy punch or kick to tech a normal throw. Heavy punch + heavy kick is a launcher, and while blocking it is a one-gauge guard cancel. Combo keys must be pressed within about 50 ms."
+    },
+    {
+      "en": "Power gauge: it rises when you hit, when you are blocked and when you are hit, and carries over between rounds. Supers in MAX mode are stronger. Both fighters pause briefly when a super starts."
+    },
+    {
+      "en": "Depending on difficulty a match can be 1 to 3 opponents in a row, one round each; after a knockout there is a short swap, and more remaining time restores more health (limited fraction)."
+    }
+  ],
+  "compact_glossary": {
+    "direction": {
+      "en": "direction or command direction sequence (absolute left/right); the attack button below is pressed on the last sub-step of a sequence",
+      "options": {
+        "none": "no direction",
+        "left": "hold left",
+        "right": "hold right",
+        "down": "hold down (crouch)",
+        "down_left": "hold down-left (crouch block when facing right)",
+        "down_right": "hold down-right (crouch block when facing left)",
+        "down_short": "down for two sub-steps then release",
+        "tap_left": "tap left on sub-step 1 (for roll / close throw)",
+        "tap_right": "tap right on sub-step 1 (for roll / close throw)",
+        "dash_left": "double-tap left and hold (run when facing left)",
+        "dash_right": "double-tap right and hold (run when facing right)",
+        "double_left": "double-tap left (back hop when facing right)",
+        "double_right": "double-tap right (back hop when facing left)",
+        "jump_up": "vertical jump (up for 3 sub-steps)",
+        "jump_left": "jump left",
+        "jump_right": "jump right",
+        "hop_left": "short hop left (up on sub-step 1 only)",
+        "hop_right": "short hop right (up on sub-step 1 only)",
+        "superjump_left": "down then up-left: high jump left",
+        "superjump_right": "down then up-right: high jump right",
+        "qcf_left": "quarter-circle motion toward the left, done on sub-step 3",
+        "qcf_right": "quarter-circle motion toward the right, done on sub-step 3",
+        "dp_left": "rising-punch motion toward the left, done on sub-step 3",
+        "dp_right": "rising-punch motion toward the right, done on sub-step 3",
+        "hcb_left": "half-circle motion ending left, done on sub-step 5",
+        "hcb_right": "half-circle motion ending right, done on sub-step 5",
+        "double_qcf_left": "simplified double quarter-circle leftward, done on sub-step 4",
+        "double_qcf_right": "simplified double quarter-circle rightward, done on sub-step 4"
+      }
+    },
+    "button": {
+      "en": "attack button and press timing within the 200 ms packet; combine with a command direction to perform a special",
+      "options": {
+        "none": "no attack button",
+        "lp_1": "light punch pressed on sub-step 1",
+        "lp_3": "light punch pressed on sub-step 3",
+        "lp_4": "light punch pressed on sub-step 4",
+        "lp_5": "light punch pressed on sub-step 5",
+        "lk_1": "light kick pressed on sub-step 1",
+        "lk_3": "light kick pressed on sub-step 3",
+        "lk_4": "light kick pressed on sub-step 4",
+        "lk_5": "light kick pressed on sub-step 5",
+        "hp_1": "heavy punch pressed on sub-step 1",
+        "hp_3": "heavy punch pressed on sub-step 3",
+        "hp_4": "heavy punch pressed on sub-step 4",
+        "hp_5": "heavy punch pressed on sub-step 5",
+        "hk_1": "heavy kick pressed on sub-step 1",
+        "hk_3": "heavy kick pressed on sub-step 3",
+        "hk_4": "heavy kick pressed on sub-step 4",
+        "hk_5": "heavy kick pressed on sub-step 5",
+        "lp_x3": "light punch three times (sub-steps 1,3,5)",
+        "lk_x3": "light kick three times (sub-steps 1,3,5)",
+        "super": "super helper key R (needs one gauge)",
+        "roll": "roll (Shift); guard cancel while blocking",
+        "max": "enter MAX mode (E, needs one gauge)",
+        "blowaway": "launcher: heavy punch + heavy kick together"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "kof97/iori",
+      "boss": {
+        "en": "Violet Claw"
+      },
+      "summary": {
+        "en": "A close-pressure fighter with ground flame shots, claw chains and an invulnerable rising anti-air; with gauge it unleashes a rush frenzy."
+      },
+      "moves": [
+        {
+          "id": "ground_flame",
+          "name": {
+            "en": "Ground Violet Flame"
+          },
+          "tell": {
+            "en": "He crouches and pushes out a violet flame along the ground."
+          },
+          "effect": {
+            "en": "Projectile with medium damage."
+          },
+          "counter": {
+            "en": "Jump over it and close in; punish the recovery."
+          }
+        },
+        {
+          "id": "claw_chain",
+          "name": {
+            "en": "Triple Claw Chain"
+          },
+          "tell": {
+            "en": "He leans forward and claws, possibly for three hits."
+          },
+          "effect": {
+            "en": "Close multi-hit attack of medium damage."
+          },
+          "counter": {
+            "en": "Punish after blocking the last hit; when pinned, use a one-gauge guard-cancel roll."
+          }
+        },
+        {
+          "id": "rising_flame",
+          "name": {
+            "en": "Rising Flame"
+          },
+          "tell": {
+            "en": "His body spins upward, invulnerable for a moment on start-up."
+          },
+          "effect": {
+            "en": "Anti-air counter with high damage."
+          },
+          "counter": {
+            "en": "Do not jump in carelessly; bait it and strike in the long landing recovery."
+          }
+        },
+        {
+          "id": "close_grab",
+          "name": {
+            "en": "Close Grab"
+          },
+          "tell": {
+            "en": "He opens both arms at close range."
+          },
+          "effect": {
+            "en": "A command throw that cannot be blocked or teched."
+          },
+          "counter": {
+            "en": "Jump or keep your distance."
+          }
+        },
+        {
+          "id": "dash_elbow",
+          "name": {
+            "en": "Dash Elbow"
+          },
+          "tell": {
+            "en": "He drops low and dashes forward with an elbow."
+          },
+          "effect": {
+            "en": "Dashing attack with high damage."
+          },
+          "counter": {
+            "en": "Block it; his long recovery lets you counter."
+          }
+        },
+        {
+          "id": "binding_flame",
+          "name": {
+            "en": "Binding Flame"
+          },
+          "tell": {
+            "en": "He spends one gauge and slowly pushes a blue-violet flame along the ground."
+          },
+          "effect": {
+            "en": "If it hits, you are pinned until the next hit; low damage."
+          },
+          "counter": {
+            "en": "It is slow with long recovery: jump or block, then counter."
+          }
+        },
+        {
+          "id": "rush_frenzy",
+          "name": {
+            "en": "Rush Frenzy"
+          },
+          "tell": {
+            "en": "After spending gauge he dashes into a flurry of strikes."
+          },
+          "effect": {
+            "en": "High-damage super."
+          },
+          "counter": {
+            "en": "Block back and wait for recovery; it hurts more in MAX mode."
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "kof97/orochi",
+      "boss": {
+        "en": "Radiant Deity"
+      },
+      "summary": {
+        "en": "A ranged deity who controls space with huge shock waves, an energy mirror, light pillars and a barrier, plus a pull grab and screen-wide flash when he has gauge."
+      },
+      "moves": [
+        {
+          "id": "triple_wave",
+          "name": {
+            "en": "Triple Shock Wave"
+          },
+          "tell": {
+            "en": "Light gathers in front of his palm, then three large waves are pushed out."
+          },
+          "effect": {
+            "en": "Projectile with a tall hitbox."
+          },
+          "counter": {
+            "en": "Superjump over or roll through; a short hop gets hit."
+          }
+        },
+        {
+          "id": "mirror",
+          "name": {
+            "en": "Energy Mirror"
+          },
+          "tell": {
+            "en": "An energy mirror appears with almost no wind-up."
+          },
+          "effect": {
+            "en": "Reflects projectiles."
+          },
+          "counter": {
+            "en": "Attack after the mirror ends."
+          }
+        },
+        {
+          "id": "pillar",
+          "name": {
+            "en": "Light Pillar"
+          },
+          "tell": {
+            "en": "He raises a hand; a ring appears on the ground, then a pillar of light rises through the screen."
+          },
+          "effect": {
+            "en": "Strikes the position where you were seen; high damage."
+          },
+          "counter": {
+            "en": "Leave the spot during the wind-up; the pillar does not keep tracking."
+          }
+        },
+        {
+          "id": "barrier",
+          "name": {
+            "en": "Barrier"
+          },
+          "tell": {
+            "en": "A barrier opens in front of him; an angled one catches air attacks."
+          },
+          "effect": {
+            "en": "Catches ground attacks and counters."
+          },
+          "counter": {
+            "en": "Hold back when you see it and wait for recovery; throws and projectiles are not caught."
+          }
+        },
+        {
+          "id": "pull_grab",
+          "name": {
+            "en": "Pull Grab"
+          },
+          "tell": {
+            "en": "He spends one gauge and pulls a grounded opponent in from mid range."
+          },
+          "effect": {
+            "en": "A super with very high damage."
+          },
+          "counter": {
+            "en": "Stay out of range or jump and it whiffs, leaving long recovery."
+          }
+        },
+        {
+          "id": "close_throw",
+          "name": {
+            "en": "Close Throw"
+          },
+          "tell": {
+            "en": "He grabs at close range."
+          },
+          "effect": {
+            "en": "A throw that cannot be teched."
+          },
+          "counter": {
+            "en": "Do not linger up close."
+          }
+        },
+        {
+          "id": "screen_flash",
+          "name": {
+            "en": "Screen Flash"
+          },
+          "tell": {
+            "en": "He spends one gauge, spreads both arms and gathers a screen-wide flash."
+          },
+          "effect": {
+            "en": "A super with very high damage."
+          },
+          "counter": {
+            "en": "The wind-up is long: block back to reduce damage or roll on timing."
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "kof97/orochi_chris",
+      "boss": {
+        "en": "Blaze Youth"
+      },
+      "summary": {
+        "en": "A fire fighter mixing slow fireballs, a hopping fire arm, an anti-air rising arm and an unblockable strike throw."
+      },
+      "moves": [
+        {
+          "id": "slow_fireball",
+          "name": {
+            "en": "Slow Fireball"
+          },
+          "tell": {
+            "en": "A slow multi-part fireball with short range."
+          },
+          "effect": {
+            "en": "Projectile of medium damage."
+          },
+          "counter": {
+            "en": "Jump forward or roll when you see the start."
+          }
+        },
+        {
+          "id": "hop_arm",
+          "name": {
+            "en": "Hopping Fire Arm"
+          },
+          "tell": {
+            "en": "A short hop then a downward swing of a flaming arm."
+          },
+          "effect": {
+            "en": "Dashing attack."
+          },
+          "counter": {
+            "en": "Crouch under it (it misses crouching) or block and counter."
+          }
+        },
+        {
+          "id": "rising_arm",
+          "name": {
+            "en": "Rising Fire Arm"
+          },
+          "tell": {
+            "en": "He swings a flaming arm upward as an anti-air."
+          },
+          "effect": {
+            "en": "Anti-air with medium-high damage."
+          },
+          "counter": {
+            "en": "Do not jump in head-on; his landing recovery is long."
+          }
+        },
+        {
+          "id": "strike_throw",
+          "name": {
+            "en": "Unblockable Punch Throw"
+          },
+          "tell": {
+            "en": "Up close: five fire punches then an upward kick."
+          },
+          "effect": {
+            "en": "An effectively unblockable strike throw with high damage."
+          },
+          "counter": {
+            "en": "Leave close range or jump."
+          }
+        },
+        {
+          "id": "fire_rush",
+          "name": {
+            "en": "Fireball Rush"
+          },
+          "tell": {
+            "en": "He spends one gauge and rushes in wrapped in fireballs."
+          },
+          "effect": {
+            "en": "A super."
+          },
+          "counter": {
+            "en": "Block, then punish."
+          }
+        },
+        {
+          "id": "dark_sweep",
+          "name": {
+            "en": "Dark Flame Sweep"
+          },
+          "tell": {
+            "en": "A one-gauge dark flame sweep that can be charged."
+          },
+          "effect": {
+            "en": "A super."
+          },
+          "counter": {
+            "en": "Block or back away."
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "kof97/orochi_iori",
+      "boss": {
+        "en": "Frenzied Claw"
+      },
+      "summary": {
+        "en": "A berserk version of the Violet Claw with the same toolkit but more pressure; it also needs gauge for supers."
+      },
+      "moves": [
+        {
+          "id": "ground_flame",
+          "name": {
+            "en": "Ground Violet Flame"
+          },
+          "tell": {
+            "en": "He crouches and pushes a violet flame along the ground."
+          },
+          "effect": {
+            "en": "Projectile of medium damage."
+          },
+          "counter": {
+            "en": "Jump over it and punish the recovery."
+          }
+        },
+        {
+          "id": "claw_chain",
+          "name": {
+            "en": "Triple Claw Chain"
+          },
+          "tell": {
+            "en": "A berserk three-hit claw chain."
+          },
+          "effect": {
+            "en": "Close multi-hit attack."
+          },
+          "counter": {
+            "en": "Block the last hit and keep a low guard."
+          }
+        },
+        {
+          "id": "rising_flame",
+          "name": {
+            "en": "Rising Flame"
+          },
+          "tell": {
+            "en": "A rising violet-flame anti-air."
+          },
+          "effect": {
+            "en": "Anti-air with high damage."
+          },
+          "counter": {
+            "en": "Jump safely or counter on landing."
+          }
+        },
+        {
+          "id": "close_grab",
+          "name": {
+            "en": "Close Grab"
+          },
+          "tell": {
+            "en": "A close-range command grab."
+          },
+          "effect": {
+            "en": "Command throw that cannot be teched."
+          },
+          "counter": {
+            "en": "Avoid it by jumping or spacing."
+          }
+        },
+        {
+          "id": "dash_elbow",
+          "name": {
+            "en": "Dash Elbow"
+          },
+          "tell": {
+            "en": "He drops low and dashes with an elbow."
+          },
+          "effect": {
+            "en": "Dashing attack, high damage."
+          },
+          "counter": {
+            "en": "Block, then counter his long recovery."
+          }
+        },
+        {
+          "id": "binding_flame",
+          "name": {
+            "en": "Binding Flame"
+          },
+          "tell": {
+            "en": "One gauge: a slow blue-violet flame along the ground."
+          },
+          "effect": {
+            "en": "If it hits, you are pinned until the next hit."
+          },
+          "counter": {
+            "en": "Slow with long recovery: jump or block, then counter."
+          }
+        },
+        {
+          "id": "rush_frenzy",
+          "name": {
+            "en": "Rush Frenzy"
+          },
+          "tell": {
+            "en": "After spending gauge he dashes at high speed."
+          },
+          "effect": {
+            "en": "High-damage super."
+          },
+          "counter": {
+            "en": "Block, then punish."
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "kof97/orochi_shermie",
+      "boss": {
+        "en": "Storm Dancer"
+      },
+      "summary": {
+        "en": "A fighter who places lingering electric orbs and uses lightning kicks; with gauge she has an anti-air spark punch and multi-hit flying kicks."
+      },
+      "moves": [
+        {
+          "id": "placed_orb",
+          "name": {
+            "en": "Placed Lightning Orb"
+          },
+          "tell": {
+            "en": "She blows, then an orb appears far away; its position depends on the button."
+          },
+          "effect": {
+            "en": "The orb lingers a long time and hurts on contact."
+          },
+          "counter": {
+            "en": "Roll through or wait until it disappears; do not stand on it."
+          }
+        },
+        {
+          "id": "spark_shot",
+          "name": {
+            "en": "Close Spark Shot"
+          },
+          "tell": {
+            "en": "Two chops, then a short-range electric shot."
+          },
+          "effect": {
+            "en": "Short-range multi-part attack."
+          },
+          "counter": {
+            "en": "Block, then close in."
+          }
+        },
+        {
+          "id": "spin_kick",
+          "name": {
+            "en": "Lightning Spin Kick"
+          },
+          "tell": {
+            "en": "A spin kick with lightning wrapped on the leg."
+          },
+          "effect": {
+            "en": "Close kick attack."
+          },
+          "counter": {
+            "en": "Block, then counter."
+          }
+        },
+        {
+          "id": "air_heel",
+          "name": {
+            "en": "Aerial Heel Drop"
+          },
+          "tell": {
+            "en": "A downward heel chop in the air."
+          },
+          "effect": {
+            "en": "Aerial downward chop."
+          },
+          "counter": {
+            "en": "Hit her out of the air."
+          }
+        },
+        {
+          "id": "anti_air_spark",
+          "name": {
+            "en": "Anti-air Spark Punch"
+          },
+          "tell": {
+            "en": "A one-gauge lightning punch with fast start-up."
+          },
+          "effect": {
+            "en": "Anti-air super with high damage."
+          },
+          "counter": {
+            "en": "Do not jump around when she has gauge."
+          }
+        },
+        {
+          "id": "flying_kicks",
+          "name": {
+            "en": "Multi-hit Flying Kicks"
+          },
+          "tell": {
+            "en": "A one-gauge horizontal flying kick."
+          },
+          "effect": {
+            "en": "Multi-hit but does not knock down."
+          },
+          "counter": {
+            "en": "Block, then punish."
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "kof97/orochi_yashiro",
+      "boss": {
+        "en": "Grappler"
+      },
+      "summary": {
+        "en": "A heavyweight built around command throws: nearly every close move is a grab, plus a charged beam and a super slam when he has gauge."
+      },
+      "moves": [
+        {
+          "id": "instant_grab",
+          "name": {
+            "en": "One-frame Command Throw"
+          },
+          "tell": {
+            "en": "A grab at close range, possibly after a normal attack."
+          },
+          "effect": {
+            "en": "Command throw with high damage; cannot be teched."
+          },
+          "counter": {
+            "en": "Keep your distance; jump or step back."
+          }
+        },
+        {
+          "id": "back_slam",
+          "name": {
+            "en": "Back Slam"
+          },
+          "tell": {
+            "en": "A close-range slam command throw."
+          },
+          "effect": {
+            "en": "Command throw."
+          },
+          "counter": {
+            "en": "Same as above."
+          }
+        },
+        {
+          "id": "dash_suplex",
+          "name": {
+            "en": "Dash Suplex"
+          },
+          "tell": {
+            "en": "He dashes forward and follows with a suplex."
+          },
+          "effect": {
+            "en": "Dashing grab."
+          },
+          "counter": {
+            "en": "Interrupt the dash with a punch, or jump back."
+          }
+        },
+        {
+          "id": "leap_wrap",
+          "name": {
+            "en": "Leaping Wrap Grab"
+          },
+          "tell": {
+            "en": "He leaps, grabs and ends up behind you."
+          },
+          "effect": {
+            "en": "No damage itself; a throw follows."
+          },
+          "counter": {
+            "en": "Block right away once he is behind you."
+          }
+        },
+        {
+          "id": "charge_beam",
+          "name": {
+            "en": "Charged Beam"
+          },
+          "tell": {
+            "en": "He spends one gauge, charges, then fires a beam."
+          },
+          "effect": {
+            "en": "Unblockable when fully charged; high damage."
+          },
+          "counter": {
+            "en": "Close in or jump over when you see him charging."
+          }
+        },
+        {
+          "id": "super_slam",
+          "name": {
+            "en": "Super Slam"
+          },
+          "tell": {
+            "en": "A one-gauge close-range super throw."
+          },
+          "effect": {
+            "en": "His most painful move."
+          },
+          "counter": {
+            "en": "Do not throw out attacks at close range."
+          }
+        }
+      ]
+    }
+  ]
+}

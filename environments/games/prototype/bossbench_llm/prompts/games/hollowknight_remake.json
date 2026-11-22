@@ -1,0 +1,993 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "hollowknight_remake",
+  "rules": "hk-arena-20261103-r5",
+  "title": {
+    "en": "Side-View Blade Boss Fights"
+  },
+  "dimension": "2d",
+  "view": {
+    "en": "Side-view 2D: a cloaked swordsman stands in a closed room facing a boss. Your health points and energy are shown at the top or corner of the screen, and the boss's health bar at the top"
+  },
+  "goal": {
+    "en": "Empty the boss's health bar to win; you lose when your health points reach zero; each fight has a time limit and a timeout is not a win. Health does not regenerate by itself; you must build energy by hitting the boss and then channel healing"
+  },
+  "mouse": {
+    "kind": "none",
+    "en": ""
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "hold to slash upward; used with the slash button"
+    },
+    {
+      "key": "A",
+      "en": "move left"
+    },
+    {
+      "key": "S",
+      "en": "hold in the air and slash to strike downward; hitting the boss or a bounceable attack bounces you up (pogo)"
+    },
+    {
+      "key": "D",
+      "en": "move right"
+    },
+    {
+      "key": "Space",
+      "en": "jump: hold for height, release to cut it short"
+    },
+    {
+      "key": "Shift",
+      "en": "dash: once per air time, about 0.6 s cooldown"
+    },
+    {
+      "key": "J",
+      "en": "slash"
+    },
+    {
+      "key": "LMB",
+      "en": "slash (same as J)"
+    },
+    {
+      "key": "K",
+      "en": "hold on the ground to heal: standing still for about 1.1 s spends 33 energy for 1 health"
+    }
+  ],
+  "notes": [
+    {
+      "en": "Each hit on the boss stores 11 energy; healing needs 33 and takes about 1.1 s holding K on the ground; moving, leaving the ground or being hit cancels it"
+    },
+    {
+      "en": "Side slashes alternate between two swings, resetting after 0.5 s; slashes have about a 0.41 s cooldown"
+    },
+    {
+      "en": "Early presses are buffered: jump about 0.04 s, slash about 0.1 s, dash about 0.2 s"
+    },
+    {
+      "en": "A downward hit on the boss or a bounceable attack bounces you up and refreshes the air dash (not the dash cooldown), so you can chain pogos"
+    },
+    {
+      "en": "You cannot dash during the first 0.1 s of a slash"
+    },
+    {
+      "en": "Each boss's stagger (collapsing when pressured) is the time to deal concentrated damage"
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "left/right movement",
+      "options": {
+        "none": "stand still",
+        "left": "walk left, whole packet",
+        "right": "walk right, whole packet",
+        "left_tap": "tap left once at sub-step 1 (to turn around)",
+        "right_tap": "tap right once at sub-step 1 (to turn around)"
+      }
+    },
+    "jump": {
+      "en": "jumping",
+      "options": {
+        "none": "do not jump",
+        "hold": "hold jump for the whole packet (high jump; only starts if jump was not held at the end of the previous packet)",
+        "press2_hold": "press jump at sub-step 2 and hold (use after holding jump in the previous packet)",
+        "tap1": "short hop, tap at sub-step 1",
+        "tap2": "short hop, tap at sub-step 2",
+        "tap3": "short hop, tap at sub-step 3",
+        "tap4": "short hop, tap at sub-step 4",
+        "tap5": "short hop, tap at sub-step 5",
+        "tap6": "short hop, tap at sub-step 6"
+      }
+    },
+    "action": {
+      "en": "slash / dash / heal",
+      "options": {
+        "none": "do not attack",
+        "down_1": "downward slash, repeated presses from sub-step 1 (air only)",
+        "down_2": "downward slash, repeated presses from sub-step 2 (air only)",
+        "down_3": "downward slash, repeated presses from sub-step 3 (air only)",
+        "down_4": "downward slash, repeated presses from sub-step 4 (air only)",
+        "down_5": "downward slash, repeated presses from sub-step 5 (air only)",
+        "down_6": "downward slash, repeated presses from sub-step 6 (air only)",
+        "slash_101010": "side slash, press timing 101010",
+        "slash_010101": "side slash, press timing 010101",
+        "slash_100000": "side slash, press timing 100000",
+        "slash_010000": "side slash, press timing 010000",
+        "slash_001010": "side slash, press timing 001010",
+        "slash_000101": "side slash, press timing 000101",
+        "slash_000010": "side slash, press timing 000010",
+        "slash_000001": "side slash, press timing 000001",
+        "up_1": "upward slash, press timing 101010",
+        "up_2": "upward slash, press timing 010101",
+        "up_3": "upward slash, press timing 100000",
+        "up_5": "upward slash, press timing 000010",
+        "dash": "dash at sub-steps 1-2",
+        "dash_mid": "dash at sub-step 4 (pair with a jump for an air dash)",
+        "heal": "channel healing, held the whole packet (stand still on the ground)"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "2d/hollow_vessel",
+      "boss": {
+        "en": "Orange-Ooze Berserker"
+      },
+      "summary": {
+        "en": "A closed room duel against a blade-wielding berserker who dashes, leaps, and pours orange ooze from the walls and roof."
+      },
+      "moves": [
+        {
+          "id": "dash",
+          "name": {
+            "en": "Dash"
+          },
+          "tell": {
+            "en": "Steps back and crouches with the blade drawn back, then crosses most of the room in one dash"
+          },
+          "effect": {
+            "en": "Contact damage along the ground"
+          },
+          "counter": {
+            "en": "Jump over it or stay clear; the 0.25 s recovery after the dash is your opening"
+          }
+        },
+        {
+          "id": "air_dash",
+          "name": {
+            "en": "Air dash"
+          },
+          "tell": {
+            "en": "Jumps and hangs in the air with the blade drawn, then dashes at head height"
+          },
+          "effect": {
+            "en": "Dashes sideways at head height; contact hurts"
+          },
+          "counter": {
+            "en": "Stay low, out of its height line; it falls after the dash with about 0.25 s of recovery to punish"
+          }
+        },
+        {
+          "id": "jump",
+          "name": {
+            "en": "Leap"
+          },
+          "tell": {
+            "en": "Crouches, then jumps to a random point in the room"
+          },
+          "effect": {
+            "en": "Landing on you hurts"
+          },
+          "counter": {
+            "en": "Move off the landing point; it has about 0.17 s of landing recovery"
+          }
+        },
+        {
+          "id": "downstab",
+          "name": {
+            "en": "Plunge stab"
+          },
+          "tell": {
+            "en": "Jumps over you, hangs with the blade pointing down, then plunges and splashes four blobs along the floor"
+          },
+          "effect": {
+            "en": "The plunge and the blobs both hurt"
+          },
+          "counter": {
+            "en": "Leave the landing spot and jump the blobs; the roughly 0.9 s of recovery after landing is your opening"
+          }
+        },
+        {
+          "id": "overhead",
+          "name": {
+            "en": "Overhead flail"
+          },
+          "tell": {
+            "en": "Raises the blade and flails it over its head while you are above it"
+          },
+          "effect": {
+            "en": "Hits you when you are above it"
+          },
+          "counter": {
+            "en": "Do not hover above it; about 0.17 s of recovery afterwards"
+          }
+        },
+        {
+          "id": "evade",
+          "name": {
+            "en": "Hop back"
+          },
+          "tell": {
+            "en": "Hops backwards away from a close player"
+          },
+          "effect": {
+            "en": "Not an attack, but often leads into one"
+          },
+          "counter": {
+            "en": "Do not chase; anticipate the follow-up"
+          }
+        },
+        {
+          "id": "cascade",
+          "name": {
+            "en": "Ooze cascade"
+          },
+          "tell": {
+            "en": "Jumps to the middle and shakes; orange blobs pour from both walls and the roof for about four seconds"
+          },
+          "effect": {
+            "en": "Falling blobs hurt on contact"
+          },
+          "counter": {
+            "en": "Weave through gaps between blobs; do not stand under falling ones"
+          }
+        },
+        {
+          "id": "balloon",
+          "name": {
+            "en": "Balloons"
+          },
+          "tell": {
+            "en": "Once its health bar is below about four fifths, balloons drift in every 4-5 seconds and chase you"
+          },
+          "effect": {
+            "en": "Balloons that reach you hurt"
+          },
+          "counter": {
+            "en": "One strike pops them; do not let them pile up"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Below about four fifths health, chasing balloons are added."
+        }
+      ]
+    },
+    {
+      "case_id": "2d/iron_bulwark",
+      "boss": {
+        "en": "Iron-Bell Mace Soldier"
+      },
+      "summary": {
+        "en": "A heavily armoured mace soldier hunts you on flat ground while barrels drop from the roof."
+      },
+      "moves": [
+        {
+          "id": "leap",
+          "name": {
+            "en": "Leap"
+          },
+          "tell": {
+            "en": "Crouches with the mace on its shoulder, then leaps toward you (half of the leaps go to a random spot)"
+          },
+          "effect": {
+            "en": "Landing on you hurts"
+          },
+          "counter": {
+            "en": "Step away from the landing; about 0.5 s of landing recovery is your opening"
+          }
+        },
+        {
+          "id": "bludgeon",
+          "name": {
+            "en": "Bludgeon"
+          },
+          "tell": {
+            "en": "Leaps with the mace raised and brings it down in front of it on landing"
+          },
+          "effect": {
+            "en": "Slams in front of it; the area hurts"
+          },
+          "counter": {
+            "en": "Stay out of the front of its landing; about 0.25 s of recoil after the slam"
+          }
+        },
+        {
+          "id": "smash",
+          "name": {
+            "en": "Wind-up smash"
+          },
+          "tell": {
+            "en": "Jumps back, then winds the mace far behind its head for over a second"
+          },
+          "effect": {
+            "en": "The smash sends a shockwave along the floor"
+          },
+          "counter": {
+            "en": "Jump the shockwave; about 0.42 s of recovery after the smash"
+          }
+        },
+        {
+          "id": "charge",
+          "name": {
+            "en": "Charge"
+          },
+          "tell": {
+            "en": "When you are far away it runs at you and follows up with the leaping slam"
+          },
+          "effect": {
+            "en": "Both the run and the slam hurt"
+          },
+          "counter": {
+            "en": "Do not stay far away; jump the run, then dodge the slam"
+          }
+        },
+        {
+          "id": "rage",
+          "name": {
+            "en": "Rage slams"
+          },
+          "tell": {
+            "en": "After the exposed rider is beaten back into the armour, it jumps to the middle and slams left and right"
+          },
+          "effect": {
+            "en": "Slams the floor on both sides in succession"
+          },
+          "counter": {
+            "en": "Move and jump in the gaps between slams"
+          }
+        },
+        {
+          "id": "barrel",
+          "name": {
+            "en": "Falling barrel"
+          },
+          "tell": {
+            "en": "Dust trickles from the roof where a barrel is about to drop"
+          },
+          "effect": {
+            "en": "The barrel hurts if it lands on you"
+          },
+          "counter": {
+            "en": "Leave the spot as soon as dust appears"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "When the armour breaks an exposed rider appears; beating it back into the armour triggers the rage slams."
+        }
+      ]
+    },
+    {
+      "case_id": "2d/lumen_moth",
+      "boss": {
+        "en": "Four-Winged Sword Wielder"
+      },
+      "summary": {
+        "en": "A glowing four-winged boss fills the arena with light orbs, sword patterns and beams; later the floor turns into an abyss."
+      },
+      "moves": [
+        {
+          "id": "orbs",
+          "name": {
+            "en": "Light orbs"
+          },
+          "tell": {
+            "en": "Her core flares and up to three orbs of light peel away from her, then home in"
+          },
+          "effect": {
+            "en": "Orbs deal 2 damage on contact"
+          },
+          "counter": {
+            "en": "Lead them into the floor or a wall so they burst"
+          }
+        },
+        {
+          "id": "sword_burst",
+          "name": {
+            "en": "Sword ring"
+          },
+          "tell": {
+            "en": "Twelve swords stand in a ring around her, points outward"
+          },
+          "effect": {
+            "en": "Swords shoot outward and deal 2 damage"
+          },
+          "counter": {
+            "en": "Stand between two swords' lines; farther away is safer"
+          }
+        },
+        {
+          "id": "sword_rain",
+          "name": {
+            "en": "Sword rain"
+          },
+          "tell": {
+            "en": "Rows of swords hang along the ceiling, points down, with two wide gaps"
+          },
+          "effect": {
+            "en": "Swords fall and deal 2 damage"
+          },
+          "counter": {
+            "en": "Stand under a gap; she teleports half-way through"
+          }
+        },
+        {
+          "id": "sword_wall",
+          "name": {
+            "en": "Sword wall"
+          },
+          "tell": {
+            "en": "A column of swords forms along one side wall, with one gap open at the floor or at full-jump height"
+          },
+          "effect": {
+            "en": "The wall sweeps across, dealing 2 damage"
+          },
+          "counter": {
+            "en": "Stand in a floor gap; for a high gap, jump as it arrives"
+          }
+        },
+        {
+          "id": "beam_burst",
+          "name": {
+            "en": "Beam burst"
+          },
+          "tell": {
+            "en": "Thin lines of light spread from her in eight directions"
+          },
+          "effect": {
+            "en": "Beams deal 2 damage"
+          },
+          "counter": {
+            "en": "Stand between two lines; the next burst turns half a step"
+          }
+        },
+        {
+          "id": "beam_sweep",
+          "name": {
+            "en": "Beam sweep"
+          },
+          "tell": {
+            "en": "Light gathers along one side wall"
+          },
+          "effect": {
+            "en": "A wall of light sweeps the arena for 2 damage"
+          },
+          "counter": {
+            "en": "Run to the far end; it fades just short of the far wall"
+          }
+        },
+        {
+          "id": "spikes",
+          "name": {
+            "en": "Floor spikes"
+          },
+          "tell": {
+            "en": "One half of the floor glows, then spikes rise there"
+          },
+          "effect": {
+            "en": "Spikes deal 1 damage"
+          },
+          "counter": {
+            "en": "Stand on the other half"
+          }
+        },
+        {
+          "id": "abyss",
+          "name": {
+            "en": "Abyss"
+          },
+          "tell": {
+            "en": "After the stagger the floor darkens into an abyss between four pale footholds"
+          },
+          "effect": {
+            "en": "Falling into the abyss deals 1 damage"
+          },
+          "counter": {
+            "en": "Stay on the footholds and jump the gaps"
+          }
+        },
+        {
+          "id": "big_beam",
+          "name": {
+            "en": "Big beam"
+          },
+          "tell": {
+            "en": "A thin line of light drops where you stand"
+          },
+          "effect": {
+            "en": "The light pillar deals 2 damage"
+          },
+          "counter": {
+            "en": "Step aside; after the third beam she sinks within reach and one strike ends her"
+          }
+        },
+        {
+          "id": "teleport",
+          "name": {
+            "en": "Teleport"
+          },
+          "tell": {
+            "en": "She dissolves into light and re-forms elsewhere"
+          },
+          "effect": {
+            "en": "No direct damage"
+          },
+          "counter": {
+            "en": "Re-locate her; do not chase blindly"
+          }
+        },
+        {
+          "id": "scream",
+          "name": {
+            "en": "Scream"
+          },
+          "tell": {
+            "en": "She screams and the arena changes"
+          },
+          "effect": {
+            "en": "No direct damage, but marks a phase change"
+          },
+          "counter": {
+            "en": "Use the moment to reposition for the new arena"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "After a stagger the arena becomes an abyss with footholds; after the last big beams she sinks low and can be finished with one strike."
+        }
+      ]
+    },
+    {
+      "case_id": "2d/needle_warden",
+      "boss": {
+        "en": "Green-Robed Lancer"
+      },
+      "summary": {
+        "en": "An agile green-robed fighter attacks with a spear, dashes and whirlwinds; her pause after throwing gives you an opening."
+      },
+      "moves": [
+        {
+          "id": "g_dash",
+          "name": {
+            "en": "Ground dash"
+          },
+          "tell": {
+            "en": "Crouches low facing you with the spear drawn back"
+          },
+          "effect": {
+            "en": "Contact damage during the dash"
+          },
+          "counter": {
+            "en": "Jump over her and pogo; she slides to a stop for about 0.33 s"
+          }
+        },
+        {
+          "id": "a_dash",
+          "name": {
+            "en": "Aerial dash"
+          },
+          "tell": {
+            "en": "Jumps, then freezes mid-air and aims at your feet; the aim is locked when the freeze starts"
+          },
+          "effect": {
+            "en": "Dives along the locked line"
+          },
+          "counter": {
+            "en": "Move once she freezes; the 0.5 s hard landing is your opening"
+          }
+        },
+        {
+          "id": "throw",
+          "name": {
+            "en": "Spear throw"
+          },
+          "tell": {
+            "en": "Rears back with the spear; always thrown horizontally"
+          },
+          "effect": {
+            "en": "The spear flies horizontally and hurts on its way out and back"
+          },
+          "counter": {
+            "en": "Jump it; she stands still until the spear returns (about 1 s), so attack her then"
+          }
+        },
+        {
+          "id": "g_sphere",
+          "name": {
+            "en": "Ground whirlwind"
+          },
+          "tell": {
+            "en": "Plants her feet while a whirlwind gathers around her"
+          },
+          "effect": {
+            "en": "The whirlwind hurts when it bursts"
+          },
+          "counter": {
+            "en": "Keep away from her; about 0.17 s of recovery after the burst"
+          }
+        },
+        {
+          "id": "a_sphere",
+          "name": {
+            "en": "Aerial whirlwind"
+          },
+          "tell": {
+            "en": "Stalls on the way down while a whirlwind gathers"
+          },
+          "effect": {
+            "en": "The whirlwind hurts when it bursts"
+          },
+          "counter": {
+            "en": "Go around; do not stand right below her"
+          }
+        },
+        {
+          "id": "evade",
+          "name": {
+            "en": "Back-step"
+          },
+          "tell": {
+            "en": "Short crouch, then a fast back-step when you are close"
+          },
+          "effect": {
+            "en": "Not an attack"
+          },
+          "counter": {
+            "en": "Do not chase; wait for her next move"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "While she throws she stands still, and stagger does not accumulate during that time."
+        }
+      ]
+    },
+    {
+      "case_id": "2d/pale_vessel",
+      "boss": {
+        "en": "Split-Chest Swordsman"
+      },
+      "summary": {
+        "en": "A pale swordsman with a split chest and a huge move set: it teleports, counters and sprays orange blobs, and changes forms as its health drops."
+      },
+      "moves": [
+        {
+          "id": "slash",
+          "name": {
+            "en": "Triple slash"
+          },
+          "tell": {
+            "en": "Plants the blade behind its shoulder, then three wide swings stepping forward; the 2nd and 3rd also reach behind it"
+          },
+          "effect": {
+            "en": "All three swings have a wide reach"
+          },
+          "counter": {
+            "en": "Back off or jump; about 0.33 s of recovery after the third swing"
+          }
+        },
+        {
+          "id": "dash",
+          "name": {
+            "en": "Lunge dash"
+          },
+          "tell": {
+            "en": "Crouches with the blade pointed forward, then lunges along the ground"
+          },
+          "effect": {
+            "en": "Contact damage along the ground"
+          },
+          "counter": {
+            "en": "Jump it; it slides to a stop for about 0.45 s, your opening"
+          }
+        },
+        {
+          "id": "counter",
+          "name": {
+            "en": "Counter stance"
+          },
+          "tell": {
+            "en": "Raises the blade; when it shines, a frontal hit is blocked and answered by a fast sliding riposte"
+          },
+          "effect": {
+            "en": "Hitting the front gets you riposted"
+          },
+          "counter": {
+            "en": "Do not hit the front while the blade shines; it lowers the guard after about 0.75 s"
+          }
+        },
+        {
+          "id": "evade",
+          "name": {
+            "en": "Hop back"
+          },
+          "tell": {
+            "en": "Hops backwards away from a close player, often straight into another attack"
+          },
+          "effect": {
+            "en": "Not an attack itself"
+          },
+          "counter": {
+            "en": "Anticipate the follow-up on landing"
+          }
+        },
+        {
+          "id": "jump",
+          "name": {
+            "en": "Leap"
+          },
+          "tell": {
+            "en": "Crouches and leaps across the room"
+          },
+          "effect": {
+            "en": "Landing on you hurts"
+          },
+          "counter": {
+            "en": "Dodge the landing; about 0.33 s of landing recovery"
+          }
+        },
+        {
+          "id": "tele",
+          "name": {
+            "en": "Teleport"
+          },
+          "tell": {
+            "en": "Fades out and reappears at a distance (or high above you) ready to attack"
+          },
+          "effect": {
+            "en": "Attacks right after reappearing"
+          },
+          "counter": {
+            "en": "Watch where it appears and prepare to dodge"
+          }
+        },
+        {
+          "id": "dstab",
+          "name": {
+            "en": "Plunge stab"
+          },
+          "tell": {
+            "en": "Leaps (or teleports) above you, hangs with the blade pointing down, then slams into the floor"
+          },
+          "effect": {
+            "en": "The slam hurts and the pillars burst"
+          },
+          "counter": {
+            "en": "Leave the spot; it stands for about 1.1 s after landing while the pillars burst"
+          }
+        },
+        {
+          "id": "plume",
+          "name": {
+            "en": "Fire columns"
+          },
+          "tell": {
+            "en": "Orange glows spread across the floor from where it landed; columns of fire shoot up from every glow at once"
+          },
+          "effect": {
+            "en": "Fire columns deal 2 damage"
+          },
+          "counter": {
+            "en": "Stand in the gaps between glows, or jump"
+          }
+        },
+        {
+          "id": "barrage",
+          "name": {
+            "en": "Blob barrage"
+          },
+          "tell": {
+            "en": "Opens its cloak and sprays 9-10 blobs in a sweeping arc over about three quarters of the room"
+          },
+          "effect": {
+            "en": "Blobs hurt on contact"
+          },
+          "counter": {
+            "en": "Find gaps or the uncovered side; about 0.36 s of recovery"
+          }
+        },
+        {
+          "id": "outbreak",
+          "name": {
+            "en": "Chest outbreak"
+          },
+          "tell": {
+            "en": "Rises to the middle of the room and blobs burst out of its chest in arcs to both sides and downward"
+          },
+          "effect": {
+            "en": "Blobs hurt on contact"
+          },
+          "counter": {
+            "en": "Slip between the arcs; it can be hit from below the whole time, including its fall"
+          }
+        },
+        {
+          "id": "puppet",
+          "name": {
+            "en": "Puppet slams"
+          },
+          "tell": {
+            "en": "Jerked up like a puppet, it floats after you and slams down 2-5 times"
+          },
+          "effect": {
+            "en": "Each slam hurts"
+          },
+          "counter": {
+            "en": "Sidestep each slam; after the last it collapses for about 1.6 s"
+          }
+        },
+        {
+          "id": "self_stab",
+          "name": {
+            "en": "Self stab"
+          },
+          "tell": {
+            "en": "Turns the blade on itself and stabs its own chest; hits only deal 1 meanwhile, then it collapses"
+          },
+          "effect": {
+            "en": "No direct attack on you"
+          },
+          "counter": {
+            "en": "Save your damage for the full stagger after the collapse (about 2.25 s)"
+          }
+        },
+        {
+          "id": "weak_slash",
+          "name": {
+            "en": "Weak slash"
+          },
+          "tell": {
+            "en": "Staggers toward you, raises the blade for one swing and falls to its knees"
+          },
+          "effect": {
+            "en": "One swing"
+          },
+          "counter": {
+            "en": "Dodge the swing; it kneels for a full stagger of about 2.25 s"
+          }
+        },
+        {
+          "id": "roar",
+          "name": {
+            "en": "Roar"
+          },
+          "tell": {
+            "en": "Screams at each phase change"
+          },
+          "effect": {
+            "en": "No direct damage; marks a phase change"
+          },
+          "counter": {
+            "en": "Use it to reposition"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "As health drops it changes form and uses moves such as self stab and weak slash, each phase change marked by a roar."
+        }
+      ]
+    },
+    {
+      "case_id": "2d/sickle_sisters",
+      "boss": {
+        "en": "Triple Lancers"
+      },
+      "summary": {
+        "en": "Three lance fighters take turns attacking with dashes, plunges, boomerang blades and two-person combos."
+      },
+      "moves": [
+        {
+          "id": "dash",
+          "name": {
+            "en": "Floor-crossing dash"
+          },
+          "tell": {
+            "en": "Appears crouched at one end of the floor with the lance drawn back, then crosses the whole floor"
+          },
+          "effect": {
+            "en": "The whole floor is the damage path"
+          },
+          "counter": {
+            "en": "Jump it; it stands at the far end for about 0.63 s, your opening"
+          }
+        },
+        {
+          "id": "dstab",
+          "name": {
+            "en": "Plunge stab"
+          },
+          "tell": {
+            "en": "Appears high above you pointing the lance down, then drops straight onto the floor"
+          },
+          "effect": {
+            "en": "Drops straight on you"
+          },
+          "counter": {
+            "en": "Move sideways when it appears; about 0.67 s of landing pose"
+          }
+        },
+        {
+          "id": "throw",
+          "name": {
+            "en": "Blade throw"
+          },
+          "tell": {
+            "en": "Clings to a side wall high (blade will sink) or low (blade will rise) and winds up a throw"
+          },
+          "effect": {
+            "en": "Throws a boomerang blade"
+          },
+          "counter": {
+            "en": "Anticipate the rise or sink; she hangs on the wall about 1.2 s after the throw, so strike then"
+          }
+        },
+        {
+          "id": "blade",
+          "name": {
+            "en": "Spinning blade"
+          },
+          "tell": {
+            "en": "A spinning blade crosses the room, slows, and flies back to the thrower"
+          },
+          "effect": {
+            "en": "Hurts both going and returning"
+          },
+          "counter": {
+            "en": "Jump it and watch for the return"
+          }
+        },
+        {
+          "id": "high_throw",
+          "name": {
+            "en": "High throw"
+          },
+          "tell": {
+            "en": "When you hug a wall, a fighter appears on the far wall at your height and throws"
+          },
+          "effect": {
+            "en": "Throws a blade at your height"
+          },
+          "counter": {
+            "en": "Do not hug the wall; move up or down off the line"
+          }
+        },
+        {
+          "id": "duo",
+          "name": {
+            "en": "Duo combo"
+          },
+          "tell": {
+            "en": "Two fighters at once: dash + plunge combos, a pincer dash from both ends, or blades from both walls"
+          },
+          "effect": {
+            "en": "Attacks from two directions at once"
+          },
+          "counter": {
+            "en": "Read both positions first; jump in the gap between the two attacks"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "As health drops, the fight goes from one fighter at a time to two at once, and finally only one remains."
+        }
+      ]
+    }
+  ]
+}

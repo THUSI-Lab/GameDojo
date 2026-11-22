@@ -1,0 +1,459 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "quake2_remake",
+  "rules": "q2-arena@4",
+  "title": {
+    "en": "First-Person Shooter: Boss Arena"
+  },
+  "dimension": "3d",
+  "view": {
+    "en": "First-person 3D shooter: the crosshair is at the centre and your weapon at the lower right. The boss's name, phase and health bar are at the top; ammo, health, armour and the current weapon at the bottom. The arena has pillars, crates and other cover, with ammo, medical and armour pickups on the floor"
+  },
+  "goal": {
+    "en": "Empty the boss's health bar to win; you lose if your health reaches zero; each fight lasts at most 300 seconds and a timeout is not a win. Health does not regenerate: each medical or armour pickup can be taken only once, while ammo respawns over time"
+  },
+  "mouse": {
+    "kind": "camera",
+    "en": "Y > 0 looks down; pitch is limited to about ±89°"
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "move forward"
+    },
+    {
+      "key": "S",
+      "en": "move backward"
+    },
+    {
+      "key": "A",
+      "en": "strafe left"
+    },
+    {
+      "key": "D",
+      "en": "strafe right"
+    },
+    {
+      "key": "Shift",
+      "en": "hold to run (move faster)"
+    },
+    {
+      "key": "Space",
+      "en": "jump"
+    },
+    {
+      "key": "L",
+      "en": "crouch (move slower)"
+    },
+    {
+      "key": "Q",
+      "en": "turn left with the keyboard"
+    },
+    {
+      "key": "E",
+      "en": "turn right with the keyboard"
+    },
+    {
+      "key": "J",
+      "en": "fire; hold for continuous fire"
+    },
+    {
+      "key": "LMB",
+      "en": "fire (same as J)"
+    },
+    {
+      "key": "K",
+      "en": "next weapon"
+    },
+    {
+      "key": "RMB",
+      "en": "next weapon (same as K)"
+    },
+    {
+      "key": "R",
+      "en": "previous weapon"
+    }
+  ],
+  "notes": [
+    {
+      "en": "Each fight starts with a fixed set of weapons (such as shotguns, machine guns, a rocket launcher or a coilgun, depending on the fight); switch weapons when ammo runs low"
+    },
+    {
+      "en": "Most boss attacks travel in straight lines: strafing and ducking behind cover work best"
+    },
+    {
+      "en": "Bosses flinch briefly when hit; heavy weapons such as rockets interrupt them more easily"
+    },
+    {
+      "en": "Coilgun-type attacks first lock onto where you are; a red warning appears at the centre of the screen, and strafing right after the lock dodges the shot"
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "movement (always running)",
+      "options": {
+        "none": "stand still",
+        "forward": "run forward",
+        "back": "run backward",
+        "left": "strafe left",
+        "right": "strafe right",
+        "forward_left": "run forward-left",
+        "forward_right": "run forward-right",
+        "back_left": "run backward-left",
+        "back_right": "run backward-right"
+      }
+    },
+    "turn": {
+      "en": "horizontal turn",
+      "options": {
+        "none": "no turn",
+        "left_3": "turn left 3°",
+        "right_3": "turn right 3°",
+        "left_10": "turn left 10°",
+        "right_10": "turn right 10°",
+        "left_30": "turn left 30°",
+        "right_30": "turn right 30°"
+      }
+    },
+    "pitch": {
+      "en": "look up / down",
+      "options": {
+        "none": "no pitch change",
+        "up_2": "look up 2°",
+        "down_2": "look down 2°"
+      }
+    },
+    "action": {
+      "en": "fire / jump / weapon",
+      "options": {
+        "none": "nothing",
+        "fire": "fire for the whole 200 ms",
+        "fire_late": "fire, starting late in the 200 ms",
+        "jump": "jump",
+        "next_weapon": "next weapon"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "quake2/supertank",
+      "boss": {
+        "en": "Tracked Gun Carrier"
+      },
+      "summary": {
+        "en": "A heavy tracked machine armed with a chain gun and rocket launchers rolls at you across an open-air arena."
+      },
+      "moves": [
+        {
+          "id": "attack1",
+          "name": {
+            "en": "Chain-gun burst"
+          },
+          "tell": {
+            "en": "It turns toward you; it always uses this at close range"
+          },
+          "effect": {
+            "en": "A stream of instant-hit bullets that continues as long as it can see you"
+          },
+          "counter": {
+            "en": "Break line of sight behind cover"
+          }
+        },
+        {
+          "id": "attack2",
+          "name": {
+            "en": "Triple rockets"
+          },
+          "tell": {
+            "en": "At longer range it turns toward you and fires three rockets about 0.3 s apart"
+          },
+          "effect": {
+            "en": "The rockets fly straight at where you were when fired and splash on impact"
+          },
+          "counter": {
+            "en": "Strafe so they miss, and stay off walls"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "quake2/hornet",
+      "boss": {
+        "en": "Flying Gunship"
+      },
+      "summary": {
+        "en": "A heavy gunship hovering above you attacks with twin machine guns and rocket salvos; cover only blocks low shots."
+      },
+      "moves": [
+        {
+          "id": "attack_mg",
+          "name": {
+            "en": "Twin machine guns"
+          },
+          "tell": {
+            "en": "About 0.9 s of wind-up as it turns; it always uses this at close range"
+          },
+          "effect": {
+            "en": "Both guns fire continuously, and it keeps firing more often while you are in front of it"
+          },
+          "counter": {
+            "en": "Get to its side or put a full-height pillar between you"
+          }
+        },
+        {
+          "id": "attack_rocket",
+          "name": {
+            "en": "Rocket salvo"
+          },
+          "tell": {
+            "en": "After about 1.2 s of wind-up it launches four rockets at once"
+          },
+          "effect": {
+            "en": "Each rocket aims at you and hits hard"
+          },
+          "counter": {
+            "en": "Start strafing as soon as you see the wind-up"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "It always flies a little above you, so low cover does not block its fire"
+        }
+      ]
+    },
+    {
+      "case_id": "quake2/makron",
+      "boss": {
+        "en": "Twin-Cannon Mech → Armoured Pilot"
+      },
+      "summary": {
+        "en": "A two-phase fight: first a twin chain-gun mech, then the pilot that jumps out of it when it is destroyed; the two share one health bar."
+      },
+      "moves": [
+        {
+          "id": "jorg_attack1",
+          "name": {
+            "en": "Twin chain guns (mech)"
+          },
+          "tell": {
+            "en": "After about 0.8 s of wind-up both chain guns fire together"
+          },
+          "effect": {
+            "en": "Instant-hit bullets that continue while it can see you"
+          },
+          "counter": {
+            "en": "Break line of sight with a pillar"
+          }
+        },
+        {
+          "id": "jorg_attack2",
+          "name": {
+            "en": "Energy orb (mech)"
+          },
+          "tell": {
+            "en": "After a short wind-up it launches a slow, large green orb"
+          },
+          "effect": {
+            "en": "In flight the orb zaps visible targets nearby, and its hit or blast is extremely damaging"
+          },
+          "counter": {
+            "en": "Get far from it and behind cover"
+          }
+        },
+        {
+          "id": "makron_attack3",
+          "name": {
+            "en": "Energy orb (pilot)"
+          },
+          "tell": {
+            "en": "The pilot in the second phase also launches the large green orb"
+          },
+          "effect": {
+            "en": "Same as above, extremely damaging"
+          },
+          "counter": {
+            "en": "Get away and behind cover"
+          }
+        },
+        {
+          "id": "makron_attack4",
+          "name": {
+            "en": "Pulse sweep (pilot)"
+          },
+          "tell": {
+            "en": "After a short wind-up it fires a stream of blue energy bolts sweeping from one side to the other"
+          },
+          "effect": {
+            "en": "The bolts are fast and hit everything along the sweep"
+          },
+          "counter": {
+            "en": "Strafe or back behind cover before the sweep reaches you"
+          }
+        },
+        {
+          "id": "makron_attack5",
+          "name": {
+            "en": "Coilgun (pilot)"
+          },
+          "tell": {
+            "en": "While charging, a coilgun-charging warning appears, then it locks onto your position at that moment (red aim line / warning)"
+          },
+          "effect": {
+            "en": "An instant piercing shot along the locked line, very damaging"
+          },
+          "counter": {
+            "en": "Strafe the moment the lock warning appears"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Phase one is the twin-cannon mech; once it is destroyed the pilot appears and phase two begins"
+        }
+      ]
+    },
+    {
+      "case_id": "quake2/tank_commander",
+      "boss": {
+        "en": "Chain-Gun Heavy Trooper"
+      },
+      "summary": {
+        "en": "A humanoid heavy machine in a factory arena that attacks with energy-gun triple shots, rockets and a sweeping chain gun."
+      },
+      "moves": [
+        {
+          "id": "attack_blast",
+          "name": {
+            "en": "Energy-gun triple shot"
+          },
+          "tell": {
+            "en": "It turns toward you, steps back slightly and fires three energy bolts"
+          },
+          "effect": {
+            "en": "The bolts fly straight at you"
+          },
+          "counter": {
+            "en": "Strafe out of the way"
+          }
+        },
+        {
+          "id": "attack_rocket",
+          "name": {
+            "en": "Triple rockets"
+          },
+          "tell": {
+            "en": "At longer range it winds up for about 2 seconds, then fires three rockets"
+          },
+          "effect": {
+            "en": "The rockets hit and splash hard"
+          },
+          "counter": {
+            "en": "The long wind-up is a good window to attack; dodge once it fires"
+          }
+        },
+        {
+          "id": "attack_chain",
+          "name": {
+            "en": "Chain-gun sweep"
+          },
+          "tell": {
+            "en": "After briefly turning it fires for about 2 seconds without turning further"
+          },
+          "effect": {
+            "en": "A stream of instant-hit bullets"
+          },
+          "counter": {
+            "en": "It does not track you while firing, so run sideways out of its line"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "quake2/gladiator",
+      "boss": {
+        "en": "Blade-Arm Gunner"
+      },
+      "summary": {
+        "en": "A heavy soldier with a giant blade on one arm and a coilgun on the other, fighting at both ranges in an arena ringed by pillars."
+      },
+      "moves": [
+        {
+          "id": "attack_melee",
+          "name": {
+            "en": "Blade slash"
+          },
+          "tell": {
+            "en": "Up close it raises its blade, with a swing sound and motion"
+          },
+          "effect": {
+            "en": "Two heavy slashes that knock you back"
+          },
+          "counter": {
+            "en": "Do not stand next to it; keep a medium distance"
+          }
+        },
+        {
+          "id": "attack_gun",
+          "name": {
+            "en": "Coilgun"
+          },
+          "tell": {
+            "en": "When you are a little away, it first locks onto your position (the HUD shows the lock and an aim line), then fires about 0.4 s later"
+          },
+          "effect": {
+            "en": "An instant piercing shot along the locked line, very damaging"
+          },
+          "counter": {
+            "en": "Strafe as soon as you see the lock; it does not use this when you are very close"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "quake2/mutant",
+      "boss": {
+        "en": "Clawed Pouncer"
+      },
+      "summary": {
+        "en": "An agile clawed beast that leaps across a lab arena to close in, then strikes with both claws."
+      },
+      "moves": [
+        {
+          "id": "attack",
+          "name": {
+            "en": "Claw combo"
+          },
+          "tell": {
+            "en": "Up close it swings its left and right claws in turn"
+          },
+          "effect": {
+            "en": "Each claw hurts and pushes you back slightly; it keeps clawing while you stay in reach"
+          },
+          "counter": {
+            "en": "Back away and shoot while retreating"
+          }
+        },
+        {
+          "id": "jump",
+          "name": {
+            "en": "Pounce"
+          },
+          "tell": {
+            "en": "When it is some distance away at a similar height, it leaps at you"
+          },
+          "effect": {
+            "en": "The pounce hurts on hit; it cannot be interrupted until it lands"
+          },
+          "counter": {
+            "en": "Move sideways right after it takes off, then hit it as it lands"
+          }
+        }
+      ],
+      "phases": []
+    }
+  ]
+}

@@ -1,0 +1,1008 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "sekiro_remake",
+  "rules": "sekiro@12",
+  "title": {
+    "en": "Third-person Swordplay: Six Boss Duels"
+  },
+  "dimension": "3d",
+  "view": {
+    "en": "Third-person 3D: you control a shinobi. Top left: boss name, execution points and health bar; top centre: boss posture bar; bottom left: your health, revive points, gourd and poison/dread gauges; bottom centre: your posture bar. A red danger mark appears over you before a perilous attack."
+  },
+  "goal": {
+    "en": "Empty the boss's health bars and land the required executions to win; you lose if health reaches zero with no revive left; each fight lasts at most 300 seconds and a timeout is not a win. Health does not regenerate; only the gourd restores it."
+  },
+  "mouse": {
+    "kind": "camera",
+    "en": "The camera starts free: horizontal mouse (dx) turns it at any time, X>0 turns right. After E locks on, the camera follows the boss and mouse movement has no effect."
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "move forward relative to the camera"
+    },
+    {
+      "key": "A",
+      "en": "move left"
+    },
+    {
+      "key": "S",
+      "en": "move backward"
+    },
+    {
+      "key": "D",
+      "en": "move right"
+    },
+    {
+      "key": "Shift",
+      "en": "tap to dash-step (short dodge with invulnerable start); hold while moving to run; tap during a posture-break stagger to recover faster"
+    },
+    {
+      "key": "Space",
+      "en": "jump; press again in the air to kick (used to clear low sweeps)"
+    },
+    {
+      "key": "J",
+      "en": "tap to slash, hold to charge a thrust; a fresh press up close when a red dot shows on the enemy is an execution"
+    },
+    {
+      "key": "LMB",
+      "en": "slash (same as J)"
+    },
+    {
+      "key": "K",
+      "en": "hold to guard; a fresh press just before impact is a deflect"
+    },
+    {
+      "key": "RMB",
+      "en": "guard/deflect (same as K)"
+    },
+    {
+      "key": "Q",
+      "en": "drink the gourd to restore health; you cannot attack while drinking"
+    },
+    {
+      "key": "E",
+      "en": "toggle lock-on to the boss (starts unlocked)"
+    },
+    {
+      "key": "R",
+      "en": "revive after death (limited uses)"
+    }
+  ],
+  "notes": [
+    {
+      "en": "Fights are won through posture: deflects and hits fill the enemy's posture bar; when full they stagger and can be executed. Your own full posture bar breaks your guard."
+    },
+    {
+      "en": "Guarding is held; a deflect needs a fresh guard press just before impact. The window is short and mashing shortens it."
+    },
+    {
+      "en": "Perilous attacks show a red danger mark: dash toward thrusts, jump low sweeps, dash sideways or back out of grabs; none can be guarded."
+    },
+    {
+      "en": "When lightning strikes, jump to catch it and press attack again before landing to return it."
+    },
+    {
+      "en": "Full poison or dread gauges drain health or kill instantly; stay away from the source."
+    },
+    {
+      "en": "Actions are chosen per 200 ms packet, split into 6 sub-steps; press timing is counted in sub-steps."
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "Movement and camera turn (12 options)",
+      "options": {
+        "none": "no movement",
+        "forward": "hold W",
+        "forward_start": "W in first half of the packet",
+        "forward_end": "W in second half",
+        "forward_tap": "one short W step",
+        "back": "hold S",
+        "left": "hold A",
+        "right": "hold D",
+        "back_left": "S+A",
+        "back_right": "S+D",
+        "turn_left_30": "turn camera left about 30 degrees",
+        "turn_right_30": "turn camera right about 30 degrees"
+      }
+    },
+    "act": {
+      "en": "Action: slash, guard, deflect, dash, jump, items (one per packet)",
+      "options": {
+        "none": "no action",
+        "attack_0": "slash pressed at sub-step 1",
+        "deflect_0": "fresh guard press (deflect) at sub-step 1",
+        "jump_0": "jump/air kick pressed at sub-step 1",
+        "attack_1": "slash pressed at sub-step 2",
+        "deflect_1": "fresh guard press (deflect) at sub-step 2",
+        "jump_1": "jump/air kick pressed at sub-step 2",
+        "attack_2": "slash pressed at sub-step 3",
+        "deflect_2": "fresh guard press (deflect) at sub-step 3",
+        "jump_2": "jump/air kick pressed at sub-step 3",
+        "attack_3": "slash pressed at sub-step 4",
+        "deflect_3": "fresh guard press (deflect) at sub-step 4",
+        "jump_3": "jump/air kick pressed at sub-step 4",
+        "attack_4": "slash pressed at sub-step 5",
+        "deflect_4": "fresh guard press (deflect) at sub-step 5",
+        "jump_4": "jump/air kick pressed at sub-step 5",
+        "attack_5": "slash pressed at sub-step 6",
+        "deflect_5": "fresh guard press (deflect) at sub-step 6",
+        "jump_5": "jump/air kick pressed at sub-step 6",
+        "step_0": "dash-step at sub-step 1",
+        "step_1": "dash-step at sub-step 2",
+        "step_2": "dash-step at sub-step 3",
+        "step_3": "dash-step at sub-step 4",
+        "step_4": "dash-step at sub-step 5",
+        "deflect_attack_0_1": "guard at sub-step 1, slash at 2",
+        "deflect_attack_0_2": "guard at sub-step 1, slash at 3",
+        "deflect_attack_0_3": "guard at sub-step 1, slash at 4",
+        "deflect_attack_0_4": "guard at sub-step 1, slash at 5",
+        "deflect_attack_0_5": "guard at sub-step 1, slash at 6",
+        "deflect_attack_1_2": "guard at sub-step 2, slash at 3",
+        "deflect_attack_1_3": "guard at sub-step 2, slash at 4",
+        "deflect_attack_1_4": "guard at sub-step 2, slash at 5",
+        "deflect_attack_1_5": "guard at sub-step 2, slash at 6",
+        "deflect_attack_2_3": "guard at sub-step 3, slash at 4",
+        "deflect_attack_2_4": "guard at sub-step 3, slash at 5",
+        "deflect_attack_2_5": "guard at sub-step 3, slash at 6",
+        "deflect_attack_3_4": "guard at sub-step 4, slash at 5",
+        "deflect_attack_3_5": "guard at sub-step 4, slash at 6",
+        "deflect_attack_4_5": "guard at sub-step 5, slash at 6",
+        "deflect_0_4": "two deflect presses at sub-steps 1 and 5",
+        "deflect_0_5": "two deflect presses at sub-steps 1 and 6",
+        "deflect_2_4": "two deflect presses at sub-steps 3 and 5",
+        "deflect_2_5": "two deflect presses at sub-steps 3 and 6",
+        "deflect_3_5": "two deflect presses at sub-steps 4 and 6",
+        "deflect_2_4_5": "deflect presses at sub-steps 3, 5 and 6",
+        "step_alt_0": "repeated dash-steps from sub-step 1, every other",
+        "step_alt_1": "repeated dash-steps from sub-step 2, every other",
+        "jump_kick_0": "jump then air kick starting sub-step 1",
+        "jump_kick_1": "jump then air kick starting sub-step 2",
+        "jump_kick_2": "jump then air kick starting sub-step 3",
+        "jump_kick_3": "jump then air kick starting sub-step 4",
+        "jump_attack_0_1": "jump at sub-step 1, slash (lightning return) at 2",
+        "jump_attack_0_2": "jump at sub-step 1, slash (lightning return) at 3",
+        "jump_attack_0_3": "jump at sub-step 1, slash (lightning return) at 4",
+        "jump_attack_1_2": "jump at sub-step 2, slash (lightning return) at 3",
+        "jump_attack_1_3": "jump at sub-step 2, slash (lightning return) at 4",
+        "jump_attack_1_4": "jump at sub-step 2, slash (lightning return) at 5",
+        "jump_attack_2_3": "jump at sub-step 3, slash (lightning return) at 4",
+        "jump_attack_2_4": "jump at sub-step 3, slash (lightning return) at 5",
+        "jump_attack_2_5": "jump at sub-step 3, slash (lightning return) at 6",
+        "jump_attack_3_4": "jump at sub-step 4, slash (lightning return) at 5",
+        "jump_attack_3_5": "jump at sub-step 4, slash (lightning return) at 6",
+        "jump_attack_4_5": "jump at sub-step 5, slash (lightning return) at 6",
+        "guard_hold_2": "hold guard sub-steps 1-2",
+        "guard_hold_3": "hold guard sub-steps 1-3",
+        "guard_hold_6": "hold guard the whole packet",
+        "guard_hold_late": "hold guard sub-steps 4-6",
+        "run": "hold Shift to run",
+        "heal_0": "drink gourd at sub-step 1",
+        "heal_2": "drink at sub-step 3",
+        "heal_4": "drink at sub-step 5",
+        "revive": "revive after death",
+        "lock_toggle": "toggle boss lock-on"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "sekiro/demon",
+      "boss": {
+        "en": "Flame Behemoth"
+      },
+      "summary": {
+        "en": "A circular yard before a burning gate. The boss never guards and has hyper armour; it only staggers when its poise breaks. Standing under its belly dodges most attacks."
+      },
+      "moves": [
+        {
+          "id": "arm_swing",
+          "name": {
+            "en": "Arm swing"
+          },
+          "tell": {
+            "en": "Raises an arm then sweeps forward"
+          },
+          "effect": {
+            "en": "Single melee hit that costs health and posture"
+          },
+          "counter": {
+            "en": "Deflect or guard it, or move in under the belly"
+          }
+        },
+        {
+          "id": "stomp",
+          "name": {
+            "en": "Stomp"
+          },
+          "tell": {
+            "en": "Lifts a foot and holds about a second"
+          },
+          "effect": {
+            "en": "Ground impact with heavy damage"
+          },
+          "counter": {
+            "en": "Sidestep or dash before it lands, then counterattack"
+          }
+        },
+        {
+          "id": "fire_combo",
+          "name": {
+            "en": "Fire arm"
+          },
+          "tell": {
+            "en": "An arm ignites then slams down"
+          },
+          "effect": {
+            "en": "Cannot be deflected; guarding only reduces damage and builds burn"
+          },
+          "counter": {
+            "en": "Dash or back away; do not guard it"
+          }
+        },
+        {
+          "id": "fireballs",
+          "name": {
+            "en": "Fireballs"
+          },
+          "tell": {
+            "en": "Hands wave and each wave lobs a fireball"
+          },
+          "effect": {
+            "en": "Bursts on landing and leaves fire on the ground"
+          },
+          "counter": {
+            "en": "Dash through or stay clear of landing spots"
+          }
+        },
+        {
+          "id": "blast_leap",
+          "name": {
+            "en": "Blast leap"
+          },
+          "tell": {
+            "en": "Crouches then leaps high"
+          },
+          "effect": {
+            "en": "Large explosion on landing; cannot be guarded"
+          },
+          "counter": {
+            "en": "Run away or be airborne at landing; about a second of opening afterwards"
+          }
+        },
+        {
+          "id": "charge",
+          "name": {
+            "en": "Perilous charge"
+          },
+          "tell": {
+            "en": "A red danger mark appears and the boss rushes"
+          },
+          "effect": {
+            "en": "Perilous attack with heavy damage"
+          },
+          "counter": {
+            "en": "Jump over it"
+          }
+        },
+        {
+          "id": "fire_ring",
+          "name": {
+            "en": "Fire ring"
+          },
+          "tell": {
+            "en": "A ring of fire spreads on the ground (third phase)"
+          },
+          "effect": {
+            "en": "Touching it knocks you back and burns you; comes with a perilous sweep"
+          },
+          "counter": {
+            "en": "Jump over the ring"
+          },
+          "only": {
+            "en": "some phases only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Once burn fills, health drains continuously and posture stops recovering"
+        },
+        {
+          "en": "The third phase adds the fire ring, homing fireballs and a whip of fire"
+        }
+      ]
+    },
+    {
+      "case_id": "sekiro/genichiro",
+      "boss": {
+        "en": "Bow-and-Blade Swordsman"
+      },
+      "summary": {
+        "en": "A rectangular rooftop arena. He mixes sword and bow and has several health bars; in the last he becomes a lightning-calling swordsman."
+      },
+      "moves": [
+        {
+          "id": "slash",
+          "name": {
+            "en": "Slash"
+          },
+          "tell": {
+            "en": "Raises his sword for a straight cut"
+          },
+          "effect": {
+            "en": "Single hit costing health and posture"
+          },
+          "counter": {
+            "en": "Best deflected; guarding also works"
+          }
+        },
+        {
+          "id": "passage",
+          "name": {
+            "en": "String of cuts"
+          },
+          "tell": {
+            "en": "Two opening cuts, a spin, then many cuts ending in an uppercut"
+          },
+          "effect": {
+            "en": "Multi-hit string; the last hit pushes both back"
+          },
+          "counter": {
+            "en": "Deflect each cut; do not mash"
+          }
+        },
+        {
+          "id": "thrust",
+          "name": {
+            "en": "Perilous thrust"
+          },
+          "tell": {
+            "en": "Red danger mark, blade pointed forward"
+          },
+          "effect": {
+            "en": "Thrust with heavy damage"
+          },
+          "counter": {
+            "en": "Dash toward him to stomp the thrust for big posture damage"
+          }
+        },
+        {
+          "id": "sweep",
+          "name": {
+            "en": "Perilous sweep"
+          },
+          "tell": {
+            "en": "Red danger mark, blade sweeps low"
+          },
+          "effect": {
+            "en": "Low sweep"
+          },
+          "counter": {
+            "en": "Jump it; kick in the air"
+          }
+        },
+        {
+          "id": "grab",
+          "name": {
+            "en": "Perilous grab"
+          },
+          "tell": {
+            "en": "Red danger mark, he reaches out"
+          },
+          "effect": {
+            "en": "Grab that cannot be blocked"
+          },
+          "counter": {
+            "en": "Dash sideways or backwards"
+          }
+        },
+        {
+          "id": "volley",
+          "name": {
+            "en": "Bow shots"
+          },
+          "tell": {
+            "en": "Backs off and draws his bow, firing single or charged arrows"
+          },
+          "effect": {
+            "en": "Arrows hurt; charged shots have armour"
+          },
+          "counter": {
+            "en": "Dash aside, then close in"
+          }
+        },
+        {
+          "id": "lightning_slash",
+          "name": {
+            "en": "Lightning strike"
+          },
+          "tell": {
+            "en": "Final bar: he crouches and leaps, then lightning strikes (danger mark)"
+          },
+          "effect": {
+            "en": "Bolt along a line or arc; very heavy damage"
+          },
+          "counter": {
+            "en": "Jump to catch the bolt in the air, then press attack before landing to return it"
+          },
+          "only": {
+            "en": "some phases only"
+          }
+        },
+        {
+          "id": "heal_punish",
+          "name": {
+            "en": "Punishes healing"
+          },
+          "tell": {
+            "en": "You drink while he is idle"
+          },
+          "effect": {
+            "en": "He always answers with a charged shot or a dive thrust"
+          },
+          "counter": {
+            "en": "Do not drink while he stands idle"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "The first two bars are the swordsman; the last becomes the lightning swordsman with bolts"
+        },
+        {
+          "en": "Each bar needs an execution to finish"
+        }
+      ]
+    },
+    {
+      "case_id": "sekiro/guardian_ape",
+      "boss": {
+        "en": "Valley Giant Ape"
+      },
+      "summary": {
+        "en": "A round valley pool. First form: a hyper-armoured four-legged beast with poison. Second form: a headless apparition with a sword."
+      },
+      "moves": [
+        {
+          "id": "slam_combo",
+          "name": {
+            "en": "Slam combo"
+          },
+          "tell": {
+            "en": "Raises fists and slams four times"
+          },
+          "effect": {
+            "en": "Multi-hit slams"
+          },
+          "counter": {
+            "en": "Guardable; deflect each if possible"
+          }
+        },
+        {
+          "id": "swipe_grab",
+          "name": {
+            "en": "Perilous grab"
+          },
+          "tell": {
+            "en": "Red danger mark, a huge arm sweeps to grab"
+          },
+          "effect": {
+            "en": "Ground grab; cannot be guarded"
+          },
+          "counter": {
+            "en": "Jump over it"
+          }
+        },
+        {
+          "id": "belly_flop",
+          "name": {
+            "en": "Belly flop"
+          },
+          "tell": {
+            "en": "Danger mark, it throws itself down"
+          },
+          "effect": {
+            "en": "Body slam that cannot be jumped"
+          },
+          "counter": {
+            "en": "Back away"
+          }
+        },
+        {
+          "id": "fart",
+          "name": {
+            "en": "Poison gas and dung"
+          },
+          "tell": {
+            "en": "Releases a gas cloud then flees and throws dung"
+          },
+          "effect": {
+            "en": "Fills the poison gauge; once full, health drains"
+          },
+          "counter": {
+            "en": "Leave the cloud and dodge the throw"
+          }
+        },
+        {
+          "id": "sword4",
+          "name": {
+            "en": "Four cuts"
+          },
+          "tell": {
+            "en": "Headless form chops four times"
+          },
+          "effect": {
+            "en": "Multi-hit melee, deflectable"
+          },
+          "counter": {
+            "en": "Deflect each cut"
+          },
+          "only": {
+            "en": "some phases only"
+          }
+        },
+        {
+          "id": "diving_lunge",
+          "name": {
+            "en": "Diving lunge"
+          },
+          "tell": {
+            "en": "Headless form leaps and dives"
+          },
+          "effect": {
+            "en": "Heavy hit; afterwards its neck is exposed"
+          },
+          "counter": {
+            "en": "Deflect or dodge, then attack the exposed neck"
+          },
+          "only": {
+            "en": "some phases only"
+          }
+        },
+        {
+          "id": "scream_long",
+          "name": {
+            "en": "Blood roar"
+          },
+          "tell": {
+            "en": "Headless form throws back its head and roars (danger mark)"
+          },
+          "effect": {
+            "en": "Fills the dread gauge; full means instant death; guarding is useless"
+          },
+          "counter": {
+            "en": "Get out of range"
+          },
+          "only": {
+            "en": "some phases only"
+          }
+        },
+        {
+          "id": "overhead_slam",
+          "name": {
+            "en": "Perilous slam"
+          },
+          "tell": {
+            "en": "Danger mark, jump then heavy slam"
+          },
+          "effect": {
+            "en": "Heavy damage; deflect for big posture damage"
+          },
+          "counter": {
+            "en": "Deflect or dodge"
+          },
+          "only": {
+            "en": "some phases only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "The first execution is fake; it rises again with a hidden bar"
+        },
+        {
+          "en": "The second form drops poison and uses the roar to build dread"
+        }
+      ]
+    },
+    {
+      "case_id": "sekiro/gyoubu",
+      "boss": {
+        "en": "Mounted Spear General"
+      },
+      "summary": {
+        "en": "A large circular yard before a gate. The mounted boss never guards and has hyper armour until poise breaks; there is no grappling hook, and after riding off he always charges back."
+      },
+      "moves": [
+        {
+          "id": "combo3",
+          "name": {
+            "en": "Three cuts"
+          },
+          "tell": {
+            "en": "Three close cuts"
+          },
+          "effect": {
+            "en": "The third is heavy; deflecting it staggers him"
+          },
+          "counter": {
+            "en": "Deflect the third cut"
+          }
+        },
+        {
+          "id": "thrust_near",
+          "name": {
+            "en": "Perilous thrust"
+          },
+          "tell": {
+            "en": "Danger mark, close spear thrust"
+          },
+          "effect": {
+            "en": "Heavy thrust"
+          },
+          "counter": {
+            "en": "Dash toward him to stomp it"
+          }
+        },
+        {
+          "id": "horse_kick",
+          "name": {
+            "en": "Horse kick"
+          },
+          "tell": {
+            "en": "Hooves rise when you stand directly behind"
+          },
+          "effect": {
+            "en": "Kick that staggers"
+          },
+          "counter": {
+            "en": "Stay out of the rear"
+          }
+        },
+        {
+          "id": "charge_sweep",
+          "name": {
+            "en": "Perilous charge"
+          },
+          "tell": {
+            "en": "Danger mark, he gallops at you"
+          },
+          "effect": {
+            "en": "Rides through, then rides off and turns back"
+          },
+          "counter": {
+            "en": "Jump or sidestep"
+          }
+        },
+        {
+          "id": "figure8",
+          "name": {
+            "en": "Figure-eight"
+          },
+          "tell": {
+            "en": "Circles you with repeated strikes"
+          },
+          "effect": {
+            "en": "Multiple hits"
+          },
+          "counter": {
+            "en": "Deflect each or back off"
+          }
+        },
+        {
+          "id": "rope_sweep",
+          "name": {
+            "en": "Rope-spear sweep"
+          },
+          "tell": {
+            "en": "Swings a roped spearhead in wide circles"
+          },
+          "effect": {
+            "en": "Three wide circles; guardable"
+          },
+          "counter": {
+            "en": "Guard or deflect"
+          }
+        },
+        {
+          "id": "rope_thrust",
+          "name": {
+            "en": "Rope-spear thrust"
+          },
+          "tell": {
+            "en": "Danger mark, spearhead shot in a line"
+          },
+          "effect": {
+            "en": "Line attack that cannot be guarded"
+          },
+          "counter": {
+            "en": "Deflect only, or sidestep"
+          }
+        },
+        {
+          "id": "jump_attack",
+          "name": {
+            "en": "Jump attack"
+          },
+          "tell": {
+            "en": "Leaps then slams twice"
+          },
+          "effect": {
+            "en": "Two heavy slams"
+          },
+          "counter": {
+            "en": "Deflect or back away"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Hits land but cannot interrupt him; jumping cuts above the waist deal large posture damage"
+        }
+      ]
+    },
+    {
+      "case_id": "sekiro/isshin",
+      "boss": {
+        "en": "Old Sword-and-Spear Master"
+      },
+      "summary": {
+        "en": "A circular grass field. First a lightning swordsman, then the old master with sword, with spear and matchlock, and finally with lightning added."
+      },
+      "moves": [
+        {
+          "id": "cross",
+          "name": {
+            "en": "Cross cut"
+          },
+          "tell": {
+            "en": "Two crossing cuts"
+          },
+          "effect": {
+            "en": "Two hits"
+          },
+          "counter": {
+            "en": "Deflect both"
+          }
+        },
+        {
+          "id": "dragon_flash",
+          "name": {
+            "en": "Ranged slash"
+          },
+          "tell": {
+            "en": "Red blade wave at range (unblockable)"
+          },
+          "effect": {
+            "en": "Long-range slash"
+          },
+          "counter": {
+            "en": "Dash or run away"
+          }
+        },
+        {
+          "id": "mortal_blade",
+          "name": {
+            "en": "Dark blade"
+          },
+          "tell": {
+            "en": "Black-red blade spreads out"
+          },
+          "effect": {
+            "en": "Unblockable, twice"
+          },
+          "counter": {
+            "en": "Dash through or run"
+          }
+        },
+        {
+          "id": "wind_v",
+          "name": {
+            "en": "Energy blade"
+          },
+          "tell": {
+            "en": "Sword launches a wave"
+          },
+          "effect": {
+            "en": "Guarding bleeds health; deflecting does not hurt posture"
+          },
+          "counter": {
+            "en": "Sidestep vertical waves; jump flat ones"
+          }
+        },
+        {
+          "id": "pose_thrust",
+          "name": {
+            "en": "Perilous thrust"
+          },
+          "tell": {
+            "en": "Pose then perilous thrust"
+          },
+          "effect": {
+            "en": "Heavy damage"
+          },
+          "counter": {
+            "en": "Dash toward him to stomp it"
+          }
+        },
+        {
+          "id": "spear_sweep",
+          "name": {
+            "en": "Perilous spear sweep"
+          },
+          "tell": {
+            "en": "Spear danger-mark sweep"
+          },
+          "effect": {
+            "en": "Low sweep"
+          },
+          "counter": {
+            "en": "Jump"
+          },
+          "only": {
+            "en": "some phases only"
+          }
+        },
+        {
+          "id": "quad_shot",
+          "name": {
+            "en": "Four-shot volley"
+          },
+          "tell": {
+            "en": "Backs off and fires four times, the last delayed"
+          },
+          "effect": {
+            "en": "Guarding costs much posture; deflecting costs less"
+          },
+          "counter": {
+            "en": "Dash or deflect; a perilous attack always follows"
+          },
+          "only": {
+            "en": "some phases only"
+          }
+        },
+        {
+          "id": "thunder_chop",
+          "name": {
+            "en": "Lightning chop"
+          },
+          "tell": {
+            "en": "Cannot be interrupted while charging; bolt falls"
+          },
+          "effect": {
+            "en": "Heavy lightning damage"
+          },
+          "counter": {
+            "en": "Jump and return the bolt"
+          },
+          "only": {
+            "en": "some phases only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Lightning swordsman, sword, spear and matchlock, then lightning added; several bars"
+        },
+        {
+          "en": "Each bar needs an execution"
+        }
+      ]
+    },
+    {
+      "case_id": "sekiro/lady_butterfly",
+      "boss": {
+        "en": "Thread Kunoichi"
+      },
+      "summary": {
+        "en": "A courtyard with rows of pillars. She uses threads, kunai and aerial grabs; the second phase adds illusions and homing butterflies."
+      },
+      "moves": [
+        {
+          "id": "kunai_throw",
+          "name": {
+            "en": "Kunai throw"
+          },
+          "tell": {
+            "en": "Throws two kunai in quick succession"
+          },
+          "effect": {
+            "en": "Ranged damage"
+          },
+          "counter": {
+            "en": "Sidestep or deflect"
+          }
+        },
+        {
+          "id": "three_strike",
+          "name": {
+            "en": "Three strikes"
+          },
+          "tell": {
+            "en": "Two cuts then a downward strike"
+          },
+          "effect": {
+            "en": "Multi-hit"
+          },
+          "counter": {
+            "en": "Deflect each"
+          }
+        },
+        {
+          "id": "sweep",
+          "name": {
+            "en": "Perilous sweep"
+          },
+          "tell": {
+            "en": "Danger mark, two low sweeps"
+          },
+          "effect": {
+            "en": "Low, heavy damage"
+          },
+          "counter": {
+            "en": "Jump-kick for large posture damage"
+          }
+        },
+        {
+          "id": "drop_grab",
+          "name": {
+            "en": "Perilous aerial grab"
+          },
+          "tell": {
+            "en": "She climbs a thread, then dives with a danger mark"
+          },
+          "effect": {
+            "en": "Grab that cannot be jumped"
+          },
+          "counter": {
+            "en": "Back away"
+          }
+        },
+        {
+          "id": "illusion",
+          "name": {
+            "en": "Illusions"
+          },
+          "tell": {
+            "en": "Summons decoys that become homing butterflies"
+          },
+          "effect": {
+            "en": "Butterflies chase you"
+          },
+          "counter": {
+            "en": "Slash decoys; run straight and use pillars to block butterflies"
+          },
+          "only": {
+            "en": "some phases only"
+          }
+        },
+        {
+          "id": "flurry",
+          "name": {
+            "en": "Flurry"
+          },
+          "tell": {
+            "en": "Kick then many cuts, ending in a perilous sweep"
+          },
+          "effect": {
+            "en": "Multi-hit with a perilous finish"
+          },
+          "counter": {
+            "en": "Deflect cuts, jump the finish"
+          },
+          "only": {
+            "en": "some phases only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "After the first execution she rises into the illusion phase"
+        }
+      ]
+    }
+  ]
+}

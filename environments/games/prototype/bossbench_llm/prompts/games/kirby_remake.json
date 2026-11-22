@@ -1,0 +1,508 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "kirby_remake",
+  "rules": "kdl-bosses-2026-11-05-r8",
+  "title": {
+    "en": "Round Hero: Inhale-and-Spit Boss Fights"
+  },
+  "dimension": "2d",
+  "view": {
+    "en": "Side-view 2D single-screen arena. You control a small round pink creature that walks, jumps, puffs up to float, inhales and spits stars; your health bars and the boss's name and health bar are shown at the top of the screen"
+  },
+  "goal": {
+    "en": "Empty the boss's health bar to win; you lose when your health bars run out; each fight has a time limit and a timeout is not a win. Health does not regenerate. After a hit you blink and are invulnerable for about 1.5 seconds"
+  },
+  "mouse": {
+    "kind": "none",
+    "en": "The mouse is not used; LMB does the same as J"
+  },
+  "keys": [
+    {
+      "key": "A",
+      "en": "walk left (fly left in the airship fight)"
+    },
+    {
+      "key": "D",
+      "en": "walk right (fly right in the airship fight)"
+    },
+    {
+      "key": "W",
+      "en": "puff up and float and rise in the air; stops an inhale that pulls nothing; rises in the airship fight"
+    },
+    {
+      "key": "S",
+      "en": "duck on the ground with an empty mouth; swallows a full mouthful; sinks in the airship fight"
+    },
+    {
+      "key": "Space",
+      "en": "jump, higher the longer you hold; press again in the air to puff and float"
+    },
+    {
+      "key": "J",
+      "en": "hold to inhale what is in front; with a full mouth press to spit a star; while floating press to blow a puff (harmless to bosses); in the airship fight press to blow an air bullet to the right"
+    },
+    {
+      "key": "LMB",
+      "en": "same as J"
+    }
+  ],
+  "notes": [
+    {
+      "en": "In the ground scenes only a spat star hurts the boss: first inhale something the boss throws (an apple, a walker, a bomb, a box), then spit it back at the boss. You cannot walk while inhaling; reach is about 5 units, about 2.5 units of vertical tolerance"
+    },
+    {
+      "en": "The airship fight controls differ: you fly the whole fight, with no jumping or inhaling. A/D move horizontally and stop at once, W rises fast, S sinks slower, and with neither you hang in the air; you always face right, and each J/LMB press blows one air bullet to the right (about one every 0.25 s, at most two in the air). Stay on the left of the airship to hit it"
+    },
+    {
+      "en": "J and jump trigger on the press: inhale, spit, jump and puff all start the moment the key goes down; holding J keeps inhaling and holding Space makes the jump higher"
+    },
+    {
+      "en": "Pressing J while floating blows a puff and ends the float; holding W keeps flapping upward. A hit knocks you sideways but keeps your mouthful and your float"
+    },
+    {
+      "en": "Some things cannot be inhaled (spiky balls, air puffs) and still hurt you; dodge them. Most hits cost 1 health bar, spiky balls cost 3. Some moves appear only in the extended mode and are tagged expert mode only"
+    }
+  ],
+  "compact_glossary": {
+    "mouth": {
+      "en": "mouth action (J): inhale, spit, swallow timing",
+      "options": {
+        "none": "no J",
+        "hold": "hold J for the whole packet (inhale, or spit when full)",
+        "press_1": "tap J in sub-step 1",
+        "press_2": "tap J in sub-step 2",
+        "press_3": "tap J in sub-step 3",
+        "press_4": "tap J in sub-step 4",
+        "press_5": "tap J in sub-step 5",
+        "press_6": "tap J in sub-step 6",
+        "triple_odd": "tap J in sub-steps 1, 3 and 5",
+        "hold_from_2": "hold J from sub-step 2 on"
+      }
+    },
+    "walk": {
+      "en": "horizontal movement (A/D)",
+      "options": {
+        "none": "stand still",
+        "left": "hold A the whole packet",
+        "right": "hold D the whole packet",
+        "left_tap": "tap A in sub-step 1",
+        "right_tap": "tap D in sub-step 1",
+        "left_half": "hold A for sub-steps 1-3",
+        "right_half": "hold D for sub-steps 1-3",
+        "left_2": "hold A for sub-steps 1-2",
+        "right_2": "hold D for sub-steps 1-2"
+      }
+    },
+    "vertical": {
+      "en": "jump / float / duck (Space, W, S)",
+      "options": {
+        "none": "no vertical key",
+        "jump": "hold Space (high jump; rises when puffing in the air)",
+        "jump_tap": "tap Space in sub-step 1",
+        "jump_late": "press and hold Space from sub-step 2",
+        "float": "hold W (puff and rise; rise while flying)",
+        "float_tap": "tap W in sub-step 1",
+        "float_flap": "tap W in sub-steps 2 and 5",
+        "down": "hold S (duck; sink while flying)",
+        "down_tap": "tap S (swallow / drop through a thin platform)",
+        "down_alt": "tap S in sub-steps 1, 3 and 5",
+        "jump_half": "hold Space for the first half (medium jump)"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "kirby/kaboola",
+      "boss": {
+        "en": "Armed Airship"
+      },
+      "summary": {
+        "en": "A shooter-style fight high in the sky: you fly throughout and can only blow air bullets to the right, so stay on the airship's left. A hit gives about 1.5 seconds of blinking with no knockback"
+      },
+      "moves": [
+        {
+          "id": "shoot",
+          "name": {
+            "en": "Cannon Fire"
+          },
+          "tell": {
+            "en": "The cannon opens under the hull (or over it after the blimp rolls over), then fires one bullet, three in a row, or a fan of three"
+          },
+          "effect": {
+            "en": "A bullet hit costs 1 health bar; the straight shots fly about 16 px above or below its centre"
+          },
+          "counter": {
+            "en": "Level with its middle, only the fan's slanted bullets come at you; your air bullets pass through its bullets, so keep firing while dodging"
+          }
+        },
+        {
+          "id": "ram",
+          "name": {
+            "en": "Ram Dash"
+          },
+          "tell": {
+            "en": "The blimp backs away and tips toward your side (up, level or down), then dashes across the screen and floats back"
+          },
+          "effect": {
+            "en": "Contact costs 1 health bar, and you cannot outrun it sideways"
+          },
+          "counter": {
+            "en": "Move out of its line up or down (rising is twice as fast as sinking) and keep firing as it floats back"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "kirby/king_dedede",
+      "boss": {
+        "en": "Arena Hammer Brute"
+      },
+      "summary": {
+        "en": "A close-quarters fight on a ring stage: he has four moves, each aimed at where you were. You must inhale things he throws or drops and spit them back"
+      },
+      "moves": [
+        {
+          "id": "walk",
+          "name": {
+            "en": "Waddle and Belly Slide"
+          },
+          "tell": {
+            "en": "Steps back a little, waddles toward you, and within about 3 units throws himself into a belly slide"
+          },
+          "effect": {
+            "en": "The slide costs 1 health bar on contact; he has super armour during the slide and while lying there"
+          },
+          "counter": {
+            "en": "Jump or float over him as the slide starts; a star still hurts him while he lies there"
+          }
+        },
+        {
+          "id": "jump",
+          "name": {
+            "en": "High Leap Slam"
+          },
+          "tell": {
+            "en": "Crouches, then leaps high toward you (straight up if you are overhead) and crashes down"
+          },
+          "effect": {
+            "en": "The landing costs 1 health bar, and two stars pop out beside him, lasting only about 0.6 seconds"
+          },
+          "counter": {
+            "en": "Be inhaling next to the landing spot, then inhale a star and spit it back"
+          }
+        },
+        {
+          "id": "inhale",
+          "name": {
+            "en": "Suction"
+          },
+          "tell": {
+            "en": "Backs off, walks to where you were, opens his mouth and sucks for up to about 1.7 seconds"
+          },
+          "effect": {
+            "en": "If caught you are spat into the ropes for 1 health bar"
+          },
+          "counter": {
+            "en": "Stay out of the roughly 5.75-unit cone in front of his mouth; above or behind him is safe"
+          }
+        },
+        {
+          "id": "hammer",
+          "name": {
+            "en": "Hammer Swing"
+          },
+          "tell": {
+            "en": "Hops in place, walks to where you were, raises the hammer behind him and swings it over his head into the floor in front"
+          },
+          "effect": {
+            "en": "The swing covers his back, his head and about 4 units of floor in front for 1 health bar; one star drops in front of him on the ground hit"
+          },
+          "counter": {
+            "en": "Stand off, then inhale the dropped star and spit it back"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "kirby/kracko",
+      "boss": {
+        "en": "One-Eyed Thundercloud"
+      },
+      "summary": {
+        "en": "An aerial fight above the clouds: the cloud floats high and your ammunition is the one-eyed walkers it drops (bombs in the extended mode). It is easiest to hit at the bottom of a swoop"
+      },
+      "moves": [
+        {
+          "id": "move",
+          "name": {
+            "en": "Drift and Swoop"
+          },
+          "tell": {
+            "en": "Drifts about 12 units to the other side; if you are below on that side it rises, then swoops down near the floor and back up"
+          },
+          "effect": {
+            "en": "Touching the cloud costs 1 health bar; a swoop passes about 1.1 units above the floor"
+          },
+          "counter": {
+            "en": "Duck (S) under it or get out of the way; mid-swoop is the best moment to hit it"
+          }
+        },
+        {
+          "id": "beam",
+          "name": {
+            "en": "Spark Beams"
+          },
+          "tell": {
+            "en": "The cloud crackles; sparks shoot out from two opposite points and turn half a circle around it"
+          },
+          "effect": {
+            "en": "Touching a spark costs 1 health bar; they reach about 8.75 units from the centre"
+          },
+          "counter": {
+            "en": "Keep a long horizontal distance and stay off the diagonals"
+          }
+        },
+        {
+          "id": "doo",
+          "name": {
+            "en": "Release Walker"
+          },
+          "tell": {
+            "en": "A one-eyed walker pops out of the cloud and walks toward your side; one in two stops, flashes and sweeps a beam from overhead to the floor in front"
+          },
+          "effect": {
+            "en": "Contact or the beam costs 1 health bar"
+          },
+          "counter": {
+            "en": "This is your ammunition: face it, hold J to inhale it, then jump and spit it straight up at the cloud"
+          }
+        },
+        {
+          "id": "bombs",
+          "name": {
+            "en": "Bomb Drop"
+          },
+          "only": {
+            "en": "expert mode only"
+          },
+          "tell": {
+            "en": "The cloud loops out and back across the arena dropping three bombs that fall and burst above the floor"
+          },
+          "effect": {
+            "en": "A bomb burst that reaches you costs 1 health bar"
+          },
+          "counter": {
+            "en": "Inhale a falling bomb before it bursts; in this mode bombs are the only ammunition, and the far corner is out of reach"
+          }
+        },
+        {
+          "id": "charge",
+          "name": {
+            "en": "Dive Charge"
+          },
+          "only": {
+            "en": "expert mode only"
+          },
+          "tell": {
+            "en": "Rears back away from you, then dives fast down to the floor on your side and loops back"
+          },
+          "effect": {
+            "en": "Contact costs 1 health bar; it is the only attack in this mode that reaches the corner"
+          },
+          "counter": {
+            "en": "Duck under it with S"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "kirby/lololo_lalala",
+      "boss": {
+        "en": "Box-Pushing Twins"
+      },
+      "summary": {
+        "en": "A fight in castle corridors: two brothers come out of gates at the ends of a corridor to push a box. The key is turning the box into your weapon"
+      },
+      "moves": [
+        {
+          "id": "push",
+          "name": {
+            "en": "Box Push"
+          },
+          "tell": {
+            "en": "A brother pops out of a gate at one end of the corridor with a box in front of him, stands a moment, then starts pushing"
+          },
+          "effect": {
+            "en": "The box is pushed down the corridor and costs 1 health bar if it hits you"
+          },
+          "counter": {
+            "en": "Get into that corridor ahead of the box, inhale it, and spit the star straight back down the corridor; the brother is right behind it"
+          }
+        },
+        {
+          "id": "gate",
+          "name": {
+            "en": "Gate Change"
+          },
+          "tell": {
+            "en": "After a push ends, the brother goes back through his gate and the gate at the other end opens for the next one"
+          },
+          "effect": {
+            "en": "It does no damage itself, it only changes the direction of the push"
+          },
+          "counter": {
+            "en": "Watch which gate opens and move to that corridor to inhale the box"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "kirby/poppy_bros_sr",
+      "boss": {
+        "en": "Bomb-Throwing Jester"
+      },
+      "summary": {
+        "en": "A one-on-one on flat ground: he stays near his spot, and the threat comes from his bombs and big leaps. Bombs are your ammunition"
+      },
+      "moves": [
+        {
+          "id": "hop",
+          "name": {
+            "en": "Small Hops"
+          },
+          "tell": {
+            "en": "Small hops on the spot, back and forth, in two pairs"
+          },
+          "effect": {
+            "en": "His body costs 1 health bar on contact"
+          },
+          "counter": {
+            "en": "He only hops in place; stay a few units away and wait for the bomb"
+          }
+        },
+        {
+          "id": "throw",
+          "name": {
+            "en": "Bomb Throw"
+          },
+          "tell": {
+            "en": "Jumps straight up with a bomb overhead; either lobs it from the top of the jump, or hangs there, lands and rolls it along the floor"
+          },
+          "effect": {
+            "en": "The bomb comes toward you and bursts in a 5 by 5 unit blast where its path ends, costing 1 health bar"
+          },
+          "counter": {
+            "en": "Inhale the bomb first, then spit it back at him"
+          }
+        },
+        {
+          "id": "leap",
+          "name": {
+            "en": "Huge Leap"
+          },
+          "tell": {
+            "en": "A medium hop toward you and back, then a huge leap across the room; he always returns to his spot"
+          },
+          "effect": {
+            "en": "Contact near the landing costs 1 health bar; he drops no bomb during the leap"
+          },
+          "counter": {
+            "en": "Get clear of the landing, or duck (his box stops about 9 px above his feet)"
+          }
+        },
+        {
+          "id": "dash",
+          "name": {
+            "en": "Floor Dash"
+          },
+          "only": {
+            "en": "expert mode only"
+          },
+          "tell": {
+            "en": "Backs up a step and dashes across the floor at full speed, then runs back"
+          },
+          "effect": {
+            "en": "Contact costs 1 health bar"
+          },
+          "counter": {
+            "en": "Jump or float over the dash, or duck under his box"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "kirby/whispy_woods",
+      "boss": {
+        "en": "Ancient Apple Tree"
+      },
+      "summary": {
+        "en": "A stationary target on a grassy field: the tree stands at one end and attacks with air puffs and falling apples. Inhale its apples and spit them at the trunk"
+      },
+      "moves": [
+        {
+          "id": "puffs",
+          "name": {
+            "en": "Air Puff"
+          },
+          "tell": {
+            "en": "The mouth opens into an O, then an air puff shoots out low along the floor, drifting up or down"
+          },
+          "effect": {
+            "en": "A puff costs 1 health bar on contact and cannot be inhaled"
+          },
+          "counter": {
+            "en": "Hop or float over it, or duck under one drifting up"
+          }
+        },
+        {
+          "id": "puff_burst",
+          "name": {
+            "en": "Puff Burst"
+          },
+          "tell": {
+            "en": "Four puffs in quick succession, the mouth snapping open each time"
+          },
+          "effect": {
+            "en": "Each puff costs 1 health bar on contact"
+          },
+          "counter": {
+            "en": "Float above the floor until the burst passes"
+          }
+        },
+        {
+          "id": "apples",
+          "name": {
+            "en": "Falling Apples"
+          },
+          "tell": {
+            "en": "An apple blinks among the leaves, drops, then bounces along the floor toward you"
+          },
+          "effect": {
+            "en": "An apple hitting you costs 1 health bar"
+          },
+          "counter": {
+            "en": "Face it, hold J to inhale it, then spit it at the trunk; this is the only way to hurt the tree"
+          }
+        },
+        {
+          "id": "drop",
+          "name": {
+            "en": "Mixed Drop"
+          },
+          "only": {
+            "en": "expert mode only"
+          },
+          "tell": {
+            "en": "A spiky ball, then an apple, then either one, are dropped in turn"
+          },
+          "effect": {
+            "en": "A spiky ball costs 3 health bars on contact and cannot be inhaled"
+          },
+          "counter": {
+            "en": "Only the apples are ammunition; dodge the spiky balls"
+          }
+        }
+      ]
+    }
+  ]
+}

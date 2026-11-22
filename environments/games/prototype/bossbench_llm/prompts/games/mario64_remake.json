@@ -1,0 +1,646 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "mario64_remake",
+  "rules": "sm64-bosses@5",
+  "title": {
+    "en": "3D Platformer: Boss Trials"
+  },
+  "dimension": "3d",
+  "view": {
+    "en": "Third-person 3D: a follow camera behind the player, a capped jumper. The HUD shows boss info and a pie-shaped power meter in a corner; arenas are floating platforms with a drop or lava beyond the edges."
+  },
+  "goal": {
+    "en": "Defeat the boss (each fight counts differently: hits or lava dunks until zero) to win; you lose when your power meter empties; each fight lasts at most 300 seconds and a timeout is not a win. Health does not regenerate"
+  },
+  "mouse": {
+    "kind": "camera",
+    "en": "Dragging the mouse rotates the camera continuously (double-click the screen to lock it); Q/E turn it 45 degrees at a time and R recenters. The compact actions offer only Q/E/R"
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "move forward relative to the camera (full stick)"
+    },
+    {
+      "key": "A",
+      "en": "move left"
+    },
+    {
+      "key": "S",
+      "en": "move back"
+    },
+    {
+      "key": "D",
+      "en": "move right"
+    },
+    {
+      "key": "Space",
+      "en": "jump; press again on landing for a double then triple jump; while crouching it is a backflip; during a sharp turn a side flip; held longer jumps higher"
+    },
+    {
+      "key": "Shift",
+      "en": "crouch; while running it is a slide, then Space is a long jump; in the air it is the slam-down"
+    },
+    {
+      "key": "RMB",
+      "en": "same as Shift: crouch / slide / mid-air slam-down"
+    },
+    {
+      "key": "J",
+      "en": "punch-punch-kick combo; dive when running fast; flying kick in the air; grabs a grabbable target when close, throws when holding"
+    },
+    {
+      "key": "LMB",
+      "en": "same as J: attack / grab / throw"
+    },
+    {
+      "key": "K",
+      "en": "hold to walk slowly (half stick)"
+    },
+    {
+      "key": "Q",
+      "en": "turn camera left 45 degrees"
+    },
+    {
+      "key": "E",
+      "en": "turn camera right 45 degrees"
+    },
+    {
+      "key": "R",
+      "en": "snap camera behind you, facing the boss"
+    },
+    {
+      "key": "L",
+      "en": "toggle camera distance"
+    }
+  ],
+  "notes": [
+    {
+      "en": "Movement is relative to the camera: W is where the camera faces, so turning the camera changes what each key does"
+    },
+    {
+      "en": "Triple jump, long jump, backflip, side flip and slam-down are available; slam-down is Shift in mid-air and attacks on landing"
+    },
+    {
+      "en": "After being hurt you are briefly invulnerable; falling into lava or a deep drop is a heavy hit"
+    },
+    {
+      "en": "When grabbed, mash Space or flick the stick to break free"
+    },
+    {
+      "en": "A compact packet of 200 ms has 6 sub-steps; punching on a sub-step where the stick is released gives a punch instead of a dive"
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "stick direction for the whole 200 ms packet (relative to the camera), or a camera turn (Q/E/R); one packet is either movement or a camera turn",
+      "options": {
+        "none": "stand still",
+        "cam_left": "camera turns left 45 degrees (Q), stand still",
+        "cam_right": "camera turns right 45 degrees (E), stand still",
+        "cam_reset": "camera snaps behind you, facing the boss (R), stand still",
+        "w": "move forward",
+        "wa": "move forward-left",
+        "a": "move left",
+        "as": "move back-left",
+        "s": "move back",
+        "sd": "move back-right",
+        "d": "move right",
+        "wd": "move forward-right",
+        "m_w_a_s_d_w_a": "6 sub-steps of stick: forward, left, back, right, forward, left",
+        "m_wa_as_sd_wd_wa_as": "6 sub-steps of stick: forward-left, back-left, back-right, forward-right, forward-left, back-left",
+        "m_a_s_d_w_a_s": "6 sub-steps of stick: left, back, right, forward, left, back",
+        "m_as_sd_wd_wa_as_sd": "6 sub-steps of stick: back-left, back-right, forward-right, forward-left, back-left, back-right",
+        "m_s_d_w_a_s_d": "6 sub-steps of stick: back, right, forward, left, back, right",
+        "m_sd_wd_wa_as_sd_wd": "6 sub-steps of stick: back-right, forward-right, forward-left, back-left, back-right, forward-right",
+        "m_d_w_a_s_d_w": "6 sub-steps of stick: right, forward, left, back, right, forward",
+        "m_wd_wa_as_sd_wd_wa": "6 sub-steps of stick: forward-right, forward-left, back-left, back-right, forward-right, forward-left",
+        "m_w_x_w_w_w_w": "6 sub-steps of stick: forward, stop, forward, forward, forward, forward (a release lets a punch land as a punch instead of a dive)",
+        "m_wa_x_wa_wa_wa_wa": "6 sub-steps of stick: forward-left, stop, forward-left, forward-left, forward-left, forward-left (a release lets a punch land as a punch instead of a dive)",
+        "m_a_x_a_a_a_a": "6 sub-steps of stick: left, stop, left, left, left, left (a release lets a punch land as a punch instead of a dive)",
+        "m_as_x_as_as_as_as": "6 sub-steps of stick: back-left, stop, back-left, back-left, back-left, back-left (a release lets a punch land as a punch instead of a dive)",
+        "m_s_x_s_s_s_s": "6 sub-steps of stick: back, stop, back, back, back, back (a release lets a punch land as a punch instead of a dive)",
+        "m_sd_x_sd_sd_sd_sd": "6 sub-steps of stick: back-right, stop, back-right, back-right, back-right, back-right (a release lets a punch land as a punch instead of a dive)",
+        "m_d_x_d_d_d_d": "6 sub-steps of stick: right, stop, right, right, right, right (a release lets a punch land as a punch instead of a dive)",
+        "m_wd_x_wd_wd_wd_wd": "6 sub-steps of stick: forward-right, stop, forward-right, forward-right, forward-right, forward-right (a release lets a punch land as a punch instead of a dive)",
+        "m_w_w_x_w_w_w": "6 sub-steps of stick: forward, forward, stop, forward, forward, forward (a release lets a punch land as a punch instead of a dive)",
+        "m_wa_wa_x_wa_wa_wa": "6 sub-steps of stick: forward-left, forward-left, stop, forward-left, forward-left, forward-left (a release lets a punch land as a punch instead of a dive)",
+        "m_a_a_x_a_a_a": "6 sub-steps of stick: left, left, stop, left, left, left (a release lets a punch land as a punch instead of a dive)",
+        "m_s_s_x_s_s_s": "6 sub-steps of stick: back, back, stop, back, back, back (a release lets a punch land as a punch instead of a dive)",
+        "m_d_d_x_d_d_d": "6 sub-steps of stick: right, right, stop, right, right, right (a release lets a punch land as a punch instead of a dive)",
+        "m_wd_wd_x_wd_wd_wd": "6 sub-steps of stick: forward-right, forward-right, stop, forward-right, forward-right, forward-right (a release lets a punch land as a punch instead of a dive)",
+        "m_w_w_w_x_w_w": "6 sub-steps of stick: forward, forward, forward, stop, forward, forward (a release lets a punch land as a punch instead of a dive)",
+        "m_wa_wa_wa_x_wa_wa": "6 sub-steps of stick: forward-left, forward-left, forward-left, stop, forward-left, forward-left (a release lets a punch land as a punch instead of a dive)",
+        "m_a_a_a_x_a_a": "6 sub-steps of stick: left, left, left, stop, left, left (a release lets a punch land as a punch instead of a dive)",
+        "m_as_as_as_x_as_as": "6 sub-steps of stick: back-left, back-left, back-left, stop, back-left, back-left (a release lets a punch land as a punch instead of a dive)",
+        "m_s_s_s_x_s_s": "6 sub-steps of stick: back, back, back, stop, back, back (a release lets a punch land as a punch instead of a dive)",
+        "m_sd_sd_sd_x_sd_sd": "6 sub-steps of stick: back-right, back-right, back-right, stop, back-right, back-right (a release lets a punch land as a punch instead of a dive)",
+        "m_d_d_d_x_d_d": "6 sub-steps of stick: right, right, right, stop, right, right (a release lets a punch land as a punch instead of a dive)",
+        "m_wd_wd_wd_x_wd_wd": "6 sub-steps of stick: forward-right, forward-right, forward-right, stop, forward-right, forward-right (a release lets a punch land as a punch instead of a dive)",
+        "m_w_w_w_w_x_w": "6 sub-steps of stick: forward, forward, forward, forward, stop, forward (a release lets a punch land as a punch instead of a dive)",
+        "m_wa_wa_wa_wa_x_wa": "6 sub-steps of stick: forward-left, forward-left, forward-left, forward-left, stop, forward-left (a release lets a punch land as a punch instead of a dive)",
+        "m_a_a_a_a_x_a": "6 sub-steps of stick: left, left, left, left, stop, left (a release lets a punch land as a punch instead of a dive)",
+        "m_as_as_as_as_x_as": "6 sub-steps of stick: back-left, back-left, back-left, back-left, stop, back-left (a release lets a punch land as a punch instead of a dive)",
+        "m_s_s_s_s_x_s": "6 sub-steps of stick: back, back, back, back, stop, back (a release lets a punch land as a punch instead of a dive)",
+        "m_sd_sd_sd_sd_x_sd": "6 sub-steps of stick: back-right, back-right, back-right, back-right, stop, back-right (a release lets a punch land as a punch instead of a dive)",
+        "m_d_d_d_d_x_d": "6 sub-steps of stick: right, right, right, right, stop, right (a release lets a punch land as a punch instead of a dive)",
+        "m_wd_wd_wd_wd_x_wd": "6 sub-steps of stick: forward-right, forward-right, forward-right, forward-right, stop, forward-right (a release lets a punch land as a punch instead of a dive)",
+        "m_w_w_w_w_w_x": "6 sub-steps of stick: forward, forward, forward, forward, forward, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_wa_wa_wa_wa_wa_x": "6 sub-steps of stick: forward-left, forward-left, forward-left, forward-left, forward-left, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_a_a_a_a_a_x": "6 sub-steps of stick: left, left, left, left, left, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_as_as_as_as_as_x": "6 sub-steps of stick: back-left, back-left, back-left, back-left, back-left, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_s_s_s_s_s_x": "6 sub-steps of stick: back, back, back, back, back, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_sd_sd_sd_sd_sd_x": "6 sub-steps of stick: back-right, back-right, back-right, back-right, back-right, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_d_d_d_d_d_x": "6 sub-steps of stick: right, right, right, right, right, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_wd_wd_wd_wd_wd_x": "6 sub-steps of stick: forward-right, forward-right, forward-right, forward-right, forward-right, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_x_x_x_w_w_w": "6 sub-steps of stick: stop, stop, stop, forward, forward, forward (a release lets a punch land as a punch instead of a dive)",
+        "m_w_w_x_x_x_x": "6 sub-steps of stick: forward, forward, stop, stop, stop, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_wd_wd_wd_d_d_d": "6 sub-steps of stick: forward-right, forward-right, forward-right, right, right, right",
+        "m_wa_wa_wa_a_a_a": "6 sub-steps of stick: forward-left, forward-left, forward-left, left, left, left",
+        "m_x_x_x_wd_wd_wd": "6 sub-steps of stick: stop, stop, stop, forward-right, forward-right, forward-right (a release lets a punch land as a punch instead of a dive)",
+        "m_d_d_d_sd_sd_sd": "6 sub-steps of stick: right, right, right, back-right, back-right, back-right",
+        "m_w_x_x_x_x_x": "6 sub-steps of stick: forward, stop, stop, stop, stop, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_w_w_w_wa_wa_wa": "6 sub-steps of stick: forward, forward, forward, forward-left, forward-left, forward-left",
+        "m_wa_wa_wa_w_w_w": "6 sub-steps of stick: forward-left, forward-left, forward-left, forward, forward, forward",
+        "m_sd_sd_s_x_x_x": "6 sub-steps of stick: back-right, back-right, back, stop, stop, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_x_x_x_x_x_w": "6 sub-steps of stick: stop, stop, stop, stop, stop, forward (a release lets a punch land as a punch instead of a dive)",
+        "m_x_x_x_x_wa_wa": "6 sub-steps of stick: stop, stop, stop, stop, forward-left, forward-left (a release lets a punch land as a punch instead of a dive)",
+        "m_d_d_d_wd_wd_wd": "6 sub-steps of stick: right, right, right, forward-right, forward-right, forward-right",
+        "m_a_a_a_as_as_as": "6 sub-steps of stick: left, left, left, back-left, back-left, back-left",
+        "m_a_a_a_wa_wa_wa": "6 sub-steps of stick: left, left, left, forward-left, forward-left, forward-left",
+        "m_w_w_w_s_s_s": "6 sub-steps of stick: forward, forward, forward, back, back, back",
+        "m_wd_wd_wd_w_w_w": "6 sub-steps of stick: forward-right, forward-right, forward-right, forward, forward, forward",
+        "m_x_w_x_w_x_w": "6 sub-steps of stick: stop, forward, stop, forward, stop, forward (a release lets a punch land as a punch instead of a dive)",
+        "m_w_w_w_wd_wd_wd": "6 sub-steps of stick: forward, forward, forward, forward-right, forward-right, forward-right",
+        "m_x_x_x_x_s_s": "6 sub-steps of stick: stop, stop, stop, stop, back, back (a release lets a punch land as a punch instead of a dive)",
+        "m_s_s_s_x_x_x": "6 sub-steps of stick: back, back, back, stop, stop, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_x_x_wa_wa_wa_wa": "6 sub-steps of stick: stop, stop, forward-left, forward-left, forward-left, forward-left (a release lets a punch land as a punch instead of a dive)",
+        "m_w_x_w_x_w_x": "6 sub-steps of stick: forward, stop, forward, stop, forward, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_s_s_s_sd_sd_sd": "6 sub-steps of stick: back, back, back, back-right, back-right, back-right",
+        "m_x_x_w_w_w_w": "6 sub-steps of stick: stop, stop, forward, forward, forward, forward (a release lets a punch land as a punch instead of a dive)",
+        "m_sd_sd_sd_d_d_d": "6 sub-steps of stick: back-right, back-right, back-right, right, right, right",
+        "m_x_x_x_x_wd_wd": "6 sub-steps of stick: stop, stop, stop, stop, forward-right, forward-right (a release lets a punch land as a punch instead of a dive)",
+        "m_x_x_x_x_w_w": "6 sub-steps of stick: stop, stop, stop, stop, forward, forward (a release lets a punch land as a punch instead of a dive)",
+        "m_x_w_w_w_w_w": "6 sub-steps of stick: stop, forward, forward, forward, forward, forward",
+        "m_w_w_w_x_x_x": "6 sub-steps of stick: forward, forward, forward, stop, stop, stop (a release lets a punch land as a punch instead of a dive)",
+        "m_x_x_wd_wd_wd_wd": "6 sub-steps of stick: stop, stop, forward-right, forward-right, forward-right, forward-right (a release lets a punch land as a punch instead of a dive)",
+        "m_wa_wa_x_x_x_x": "6 sub-steps of stick: forward-left, forward-left, stop, stop, stop, stop (a release lets a punch land as a punch instead of a dive)"
+      }
+    },
+    "action": {
+      "en": "action buttons within the packet (punch/grab/throw, jump, slam-down); jump and punch trigger on press",
+      "options": {
+        "none": "no action",
+        "punch_s1": "punch/kick/grab/throw pressed at sub-step 1",
+        "punch_s2": "punch/kick/grab/throw pressed at sub-step 2",
+        "punch_s3": "punch/kick/grab/throw pressed at sub-step 3",
+        "punch_s4": "punch/kick/grab/throw pressed at sub-step 4",
+        "punch_s5": "punch/kick/grab/throw pressed at sub-step 5",
+        "punch_s6": "punch/kick/grab/throw pressed at sub-step 6",
+        "jump_hold": "jump held for the whole packet (high jump)",
+        "jump_pound_s2": "jump 1 sub-step, then slam-down (Shift) at sub-step 2",
+        "jump_pound_s3": "jump 2 sub-steps, then slam-down (Shift) at sub-step 3",
+        "jump_short": "short jump, held 2 sub-steps (low hop)"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "mario64/whomp_king",
+      "boss": {
+        "en": "Toppling Slab"
+      },
+      "summary": {
+        "en": "On a stone-brick platform you face a huge slab that chases you and topples forward; beyond the edge is a deep drop."
+      },
+      "moves": [
+        {
+          "id": "chase",
+          "name": {
+            "en": "Chase"
+          },
+          "tell": {
+            "en": "The slab stands and walks toward you, speeding up as you get close"
+          },
+          "effect": {
+            "en": "It only closes in; no contact damage"
+          },
+          "counter": {
+            "en": "Stay at its front side to lure the jump"
+          }
+        },
+        {
+          "id": "slam",
+          "name": {
+            "en": "Topple slam"
+          },
+          "tell": {
+            "en": "At close range it stops, rocks back, jumps and falls flat toward you"
+          },
+          "effect": {
+            "en": "Anyone under the fallen slab is crushed for heavy damage"
+          },
+          "counter": {
+            "en": "Once it jumps the landing is fixed: run sideways out of its width, or stay in the gap right in front of its feet"
+          }
+        },
+        {
+          "id": "lie",
+          "name": {
+            "en": "Lying flat"
+          },
+          "tell": {
+            "en": "After the slam it lies still for a second or two; its back is a platform you can stand on"
+          },
+          "effect": {
+            "en": "This is the only opening"
+          },
+          "counter": {
+            "en": "Jump onto its back and slam down in the air; jump off before it rises"
+          }
+        },
+        {
+          "id": "rise",
+          "name": {
+            "en": "Rise up"
+          },
+          "tell": {
+            "en": "It shakes, then slowly stands up"
+          },
+          "effect": {
+            "en": "Anyone standing on its back is thrown off"
+          },
+          "counter": {
+            "en": "Leave its back before it stands"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "On higher tiers it chases faster and lies flat for less time"
+        }
+      ]
+    },
+    {
+      "case_id": "mario64/king_bobomb",
+      "boss": {
+        "en": "Grappler Orb"
+      },
+      "summary": {
+        "en": "On a grassy hilltop you face a big black iron ball that grabs you; you must grab it from behind and throw it."
+      },
+      "moves": [
+        {
+          "id": "walk",
+          "name": {
+            "en": "Walk toward you"
+          },
+          "tell": {
+            "en": "It walks toward you and keeps turning"
+          },
+          "effect": {
+            "en": "It tries to grab you once close"
+          },
+          "counter": {
+            "en": "Circle behind it and avoid standing in front"
+          }
+        },
+        {
+          "id": "grab",
+          "name": {
+            "en": "Grab and throw"
+          },
+          "tell": {
+            "en": "If it touches you while facing you, it lifts you, carries you toward the edge, then throws you"
+          },
+          "effect": {
+            "en": "You may land off the hilltop; on harder tiers the throw itself hurts"
+          },
+          "counter": {
+            "en": "While held, mash Space or flick the stick to break free"
+          }
+        },
+        {
+          "id": "held",
+          "name": {
+            "en": "Picked up by you"
+          },
+          "tell": {
+            "en": "A punch from behind lifts it"
+          },
+          "effect": {
+            "en": "This starts your counter"
+          },
+          "counter": {
+            "en": "After lifting it, throw with J so it lands on the hilltop to score; landing off the hill does not count"
+          }
+        },
+        {
+          "id": "hurt",
+          "name": {
+            "en": "Hurt and stomping"
+          },
+          "tell": {
+            "en": "After a hit it shudders, then turns to you"
+          },
+          "effect": {
+            "en": "Touching it now hurts"
+          },
+          "counter": {
+            "en": "Wait for the animation to end before approaching"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "On harder tiers it walks and turns faster and the throw hurts more"
+        }
+      ]
+    },
+    {
+      "case_id": "mario64/big_bully",
+      "boss": {
+        "en": "Horned Rammer"
+      },
+      "summary": {
+        "en": "On a small platform over lava you must knock a horned round opponent into the lava; there is no health bar, each lava dunk is one hit."
+      },
+      "moves": [
+        {
+          "id": "patrol",
+          "name": {
+            "en": "Patrol"
+          },
+          "tell": {
+            "en": "It paces slowly around the platform"
+          },
+          "effect": {
+            "en": "Switches to chasing when you come close"
+          },
+          "counter": {
+            "en": "Hold your ground and watch its facing"
+          }
+        },
+        {
+          "id": "charge",
+          "name": {
+            "en": "Charge"
+          },
+          "tell": {
+            "en": "It turns slowly toward you, then dashes suddenly"
+          },
+          "effect": {
+            "en": "A collision swaps momentum: you are knocked back softly, no damage"
+          },
+          "counter": {
+            "en": "Hit it with punch, kick, slam-down or land on it to send it flying along your facing toward the lava"
+          }
+        },
+        {
+          "id": "knock",
+          "name": {
+            "en": "Knocked back"
+          },
+          "tell": {
+            "en": "It slides, then resumes chasing when it slows"
+          },
+          "effect": {
+            "en": "If you are knocked off the edge you fall into lava and take heavy damage"
+          },
+          "counter": {
+            "en": "Stand between it and the lava rather than with your back to the edge"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "mario64/eyerok",
+      "boss": {
+        "en": "Twin Sandstone Fists"
+      },
+      "summary": {
+        "en": "On a desert plateau two sandstone fists attack in turn; you can hurt them only while a hand is open and its eye is showing."
+      },
+      "moves": [
+        {
+          "id": "pound",
+          "name": {
+            "en": "Fist pound"
+          },
+          "tell": {
+            "en": "A fist rises high over your position and drops after a pause"
+          },
+          "effect": {
+            "en": "Being caught under it crushes you for heavy damage"
+          },
+          "counter": {
+            "en": "Run sideways before it lands"
+          }
+        },
+        {
+          "id": "push",
+          "name": {
+            "en": "Push and sweep"
+          },
+          "tell": {
+            "en": "A fist slides along the ground to you, then sweeps sideways"
+          },
+          "effect": {
+            "en": "Being swept to the edge drops you off the plateau"
+          },
+          "counter": {
+            "en": "Dodge the sweep and stay away from the edge"
+          }
+        },
+        {
+          "id": "double",
+          "name": {
+            "en": "Double pound"
+          },
+          "tell": {
+            "en": "Both fists lift and slam in sequence"
+          },
+          "effect": {
+            "en": "Wider coverage"
+          },
+          "counter": {
+            "en": "Slip through the gap between the two"
+          }
+        },
+        {
+          "id": "eye",
+          "name": {
+            "en": "Open hand"
+          },
+          "tell": {
+            "en": "After a pound the fist opens to show an eye; it blinks, then closes"
+          },
+          "effect": {
+            "en": "The only opening"
+          },
+          "counter": {
+            "en": "Punch or kick the open hand while it is open"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "With one hand down, the other chases you with pushes and slams"
+        }
+      ]
+    },
+    {
+      "case_id": "mario64/wiggler",
+      "boss": {
+        "en": "Frenzy Crawler"
+      },
+      "summary": {
+        "en": "In a closed square cave room, a segmented crawler that keeps getting faster chases you; only stomping its head works."
+      },
+      "moves": [
+        {
+          "id": "walk",
+          "name": {
+            "en": "Crawl"
+          },
+          "tell": {
+            "en": "It crawls around the room, getting faster with each stomp"
+          },
+          "effect": {
+            "en": "Touching its body or head knocks you away for light damage"
+          },
+          "counter": {
+            "en": "Keep your distance and wait for its head"
+          }
+        },
+        {
+          "id": "stomp",
+          "name": {
+            "en": "Stomped"
+          },
+          "tell": {
+            "en": "When its head is stomped it swells, shrinks and goes dazed"
+          },
+          "effect": {
+            "en": "This is the only effective attack"
+          },
+          "counter": {
+            "en": "Use a short jump onto the head; a hit counts after the daze ends"
+          }
+        },
+        {
+          "id": "fury",
+          "name": {
+            "en": "Fury"
+          },
+          "tell": {
+            "en": "Before the last hit it hops and sprints"
+          },
+          "effect": {
+            "en": "Very fast; contact hurts"
+          },
+          "counter": {
+            "en": "Run in loops and avoid corners"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Each stomp makes it faster; the last stretch is the fastest"
+        }
+      ]
+    },
+    {
+      "case_id": "mario64/bowser_dark_world",
+      "boss": {
+        "en": "Fire Shell Beast"
+      },
+      "summary": {
+        "en": "On a void octagon you grab a fire-breathing beast by the tail, spin it, and throw it into mines at the platform edge; beyond the edge is a bottomless void."
+      },
+      "moves": [
+        {
+          "id": "breath",
+          "name": {
+            "en": "Fire breath"
+          },
+          "tell": {
+            "en": "Facing you it lowers its head and spews a line of fireballs"
+          },
+          "effect": {
+            "en": "Flames burn you, cost health and bounce you up"
+          },
+          "counter": {
+            "en": "Run out of the line sideways; do not stand in front"
+          }
+        },
+        {
+          "id": "quickjump",
+          "name": {
+            "en": "Quick jump"
+          },
+          "tell": {
+            "en": "It crouches, then leaps, landing near you"
+          },
+          "effect": {
+            "en": "The shockwave hurts if close and stuns if farther"
+          },
+          "counter": {
+            "en": "Run away before it lands or hop over it"
+          }
+        },
+        {
+          "id": "walk",
+          "name": {
+            "en": "Walk"
+          },
+          "tell": {
+            "en": "It walks toward you and turns"
+          },
+          "effect": {
+            "en": "Body contact knocks you back and costs health"
+          },
+          "counter": {
+            "en": "Stay at its side and use the gap when it turns"
+          }
+        },
+        {
+          "id": "tail",
+          "name": {
+            "en": "Tail grab and spin"
+          },
+          "tell": {
+            "en": "From behind, punch or dive at its tail to grab it, then press W A S D in order to spin faster"
+          },
+          "effect": {
+            "en": "The faster the spin, the farther the throw"
+          },
+          "counter": {
+            "en": "Press J toward a mine; a mine hit counts, and the tail is untouchable for a while"
+          }
+        },
+        {
+          "id": "dance",
+          "name": {
+            "en": "Stomp dance"
+          },
+          "tell": {
+            "en": "Occasionally it stomps in place"
+          },
+          "effect": {
+            "en": "No attack"
+          },
+          "counter": {
+            "en": "Use it to get behind"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "After a mine hit the tail cannot be grabbed until it recovers"
+        }
+      ]
+    }
+  ]
+}

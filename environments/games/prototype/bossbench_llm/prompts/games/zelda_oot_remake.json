@@ -1,0 +1,591 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "zelda_oot_remake",
+  "rules": "oot-arena@5",
+  "title": {
+    "en": "Third-Person Lock-On Sword and Shield: Boss Trials"
+  },
+  "dimension": "3d",
+  "view": {
+    "en": "Third-person 3D: the camera is behind the green-clad swordsman and follows the boss or lock target. The HUD shows the boss health bar, your life and this fight item; ground warnings appear on the arena floor."
+  },
+  "goal": {
+    "en": "Empty the boss health bar to win; you lose if your life reaches zero. There is a time limit and a timeout is not a win. Life does not regenerate."
+  },
+  "mouse": {
+    "kind": "camera",
+    "en": "Mouse movement turns the camera; when unlocked, vertical movement adjusts aiming pitch. Q / E also turn the camera 45° at a time."
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "run forward (camera-relative)"
+    },
+    {
+      "key": "A",
+      "en": "run left"
+    },
+    {
+      "key": "S",
+      "en": "run backward"
+    },
+    {
+      "key": "D",
+      "en": "run right"
+    },
+    {
+      "key": "Space",
+      "en": "roll / jump: unlocked = directional roll (invulnerable mid-roll); locked: forward or still = jump slash, back = back hop, left/right = side hop"
+    },
+    {
+      "key": "Shift",
+      "en": "lock-on: hold to lock the nearest target; you face and track it"
+    },
+    {
+      "key": "J",
+      "en": "sword slash; tap repeatedly for a three-hit combo"
+    },
+    {
+      "key": "LMB",
+      "en": "sword slash (same as J)"
+    },
+    {
+      "key": "K",
+      "en": "hold to raise the shield and block frontal attacks; the mirrored shield absorbs blasts"
+    },
+    {
+      "key": "RMB",
+      "en": "raise shield (same as K)"
+    },
+    {
+      "key": "L",
+      "en": "use this fight item (auto-aims at the target when locked)"
+    },
+    {
+      "key": "Q",
+      "en": "turn the camera 45° left"
+    },
+    {
+      "key": "E",
+      "en": "turn the camera 45° right"
+    },
+    {
+      "key": "R",
+      "en": "reset the camera"
+    }
+  ],
+  "notes": [
+    {
+      "en": "While Shift is held you always face the target and the item auto-aims; movement stays camera-relative."
+    },
+    {
+      "en": "Rolling is invulnerable mid-roll; when locked, Space becomes a jump slash, back hop or side hop."
+    },
+    {
+      "en": "The shield blocks only frontal attacks; blasts cannot be blocked, only absorbed by the mirrored shield."
+    },
+    {
+      "en": "Which logic frame of a 200 ms packet an action lands on matters; the shield must be up on the exact frame an attack arrives."
+    },
+    {
+      "en": "When grabbed use struggle; about ten packets of alternating presses frees you."
+    },
+    {
+      "en": "Each fight has one item (slingshot, explosive fruit, hammer or grapple line); press L."
+    }
+  ],
+  "compact_glossary": {
+    "lock": {
+      "en": "Lock-on (held)",
+      "options": {
+        "none": "nothing",
+        "hold": "hold Shift to lock on"
+      }
+    },
+    "move": {
+      "en": "8-way camera-relative movement; *_step = held only the first half of the packet, *_f1/f3/f4 = held on one logic frame only (small alignment steps)",
+      "options": {
+        "none": "nothing",
+        "forward": "move forward",
+        "back": "move back",
+        "left": "move left",
+        "right": "move right",
+        "forward_left": "move forward left",
+        "forward_right": "move forward right",
+        "back_left": "move back left",
+        "back_right": "move back right",
+        "forward_step": "forward held first half of packet",
+        "back_step": "back held first half of packet",
+        "left_step": "left held first half of packet",
+        "right_step": "right held first half of packet",
+        "forward_left_step": "forward left held first half of packet",
+        "forward_right_step": "forward right held first half of packet",
+        "back_left_step": "back left held first half of packet",
+        "back_right_step": "back right held first half of packet",
+        "forward_f1": "forward held on logic frame 1 only",
+        "forward_left_f1": "forward left held on logic frame 1 only",
+        "forward_right_f1": "forward right held on logic frame 1 only",
+        "forward_f3": "forward held on logic frame 3 only",
+        "forward_left_f3": "forward left held on logic frame 3 only",
+        "forward_right_f3": "forward right held on logic frame 3 only",
+        "forward_f4": "forward held on logic frame 4 only"
+      }
+    },
+    "act": {
+      "en": "One action per packet: slash, shield, roll/jump, item, struggle free, or camera step",
+      "options": {
+        "none": "nothing",
+        "slash_f1": "press slash on logic frame 1",
+        "slash_f2": "press slash on logic frame 2",
+        "slash_f3": "press slash on logic frame 3",
+        "slash_f4": "press slash on logic frame 4",
+        "shield": "hold shield for the whole packet",
+        "shield_late": "shield in second half of packet",
+        "shield_early": "shield in first half of packet",
+        "jump_f1": "press roll/jump on logic frame 1",
+        "jump_f2": "press roll/jump on logic frame 2",
+        "jump_f3": "press roll/jump on logic frame 3",
+        "jump_f4": "press roll/jump on logic frame 4",
+        "item_f1": "press item on logic frame 1",
+        "item_f2": "press item on logic frame 2",
+        "item_f3": "press item on logic frame 3",
+        "item_f4": "press item on logic frame 4",
+        "struggle": "mash to break free when grabbed",
+        "cam_left": "camera 45° left",
+        "cam_right": "camera 45° right",
+        "cam_reset": "reset camera offset"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "zelda/armored_spider_queen",
+      "boss": {
+        "en": "One-Eyed Carapace Queen"
+      },
+      "summary": {
+        "en": "A giant one-eyed spider queen in a cave that lays eggs, spawns larvae and slams, and can drop from the ceiling."
+      },
+      "moves": [
+        {
+          "id": "foreleg_slam",
+          "name": {
+            "en": "Foreleg slam"
+          },
+          "tell": {
+            "en": "She rears up, her eye turns red and a red fan fills in front of her (about 1.65 s)."
+          },
+          "effect": {
+            "en": "Hits inside the fan; can be blocked."
+          },
+          "counter": {
+            "en": "Roll or side-hop out of the fan, then close in and slash."
+          }
+        },
+        {
+          "id": "body_contact",
+          "name": {
+            "en": "Body contact"
+          },
+          "tell": {
+            "en": "No warning; the body itself is the cue."
+          },
+          "effect": {
+            "en": "Continuous contact damage."
+          },
+          "counter": {
+            "en": "Stay at the edge of sword range."
+          }
+        },
+        {
+          "id": "egg_laying",
+          "name": {
+            "en": "Egg laying"
+          },
+          "tell": {
+            "en": "Egg sacs on the ceiling pulse red and the eye glows, about 3.5 s; a yellow ring marks where an egg will land."
+          },
+          "effect": {
+            "en": "Eggs drop and hatch larvae."
+          },
+          "counter": {
+            "en": "Step out of the yellow ring and clear the larvae."
+          }
+        },
+        {
+          "id": "larva_pounce",
+          "name": {
+            "en": "Larva pounce"
+          },
+          "tell": {
+            "en": "A larva crouches and flashes red; a red strip shows its lunge (about 1.5 s)."
+          },
+          "effect": {
+            "en": "Damages you if it lands."
+          },
+          "counter": {
+            "en": "Side-hop off the strip or cut it down."
+          }
+        },
+        {
+          "id": "ceiling_drop",
+          "name": {
+            "en": "Ceiling drop"
+          },
+          "tell": {
+            "en": "She climbs the ceiling, a downward arrow appears at the screen edge, and she falls in about 1 s."
+          },
+          "effect": {
+            "en": "Contact damage on landing."
+          },
+          "counter": {
+            "en": "Roll away from the landing point."
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "zelda/lava_lizard_king",
+      "boss": {
+        "en": "Magma Cave Lizard King"
+      },
+      "summary": {
+        "en": "A giant lizard in a magma cave that breathes fire, rolls and swallows explosive fruit."
+      },
+      "moves": [
+        {
+          "id": "fire_breath",
+          "name": {
+            "en": "Fire breath"
+          },
+          "tell": {
+            "en": "He inhales: the mouth brightens and air streams in while a fire line on the ground fades in; about 5.9 s in total."
+          },
+          "effect": {
+            "en": "A straight stream along the line; can be blocked."
+          },
+          "counter": {
+            "en": "Step off the line, or use the inhale to attack."
+          }
+        },
+        {
+          "id": "roll",
+          "name": {
+            "en": "Roll"
+          },
+          "tell": {
+            "en": "He curls into a ball glowing red; a red strip on the ground points to where he rolls (about 1.35 s)."
+          },
+          "effect": {
+            "en": "Damages on contact; cannot be blocked."
+          },
+          "counter": {
+            "en": "Roll or side-hop away from the strip."
+          }
+        },
+        {
+          "id": "contact_lava",
+          "name": {
+            "en": "Contact and lava"
+          },
+          "tell": {
+            "en": "No warning; lava pits glow."
+          },
+          "effect": {
+            "en": "Touching the body or lava hurts."
+          },
+          "counter": {
+            "en": "Stay out of lava and off his body."
+          }
+        },
+        {
+          "id": "own_bomb",
+          "name": {
+            "en": "His own bomb"
+          },
+          "tell": {
+            "en": "A fuse sparks; in the last ~1.2 s a flashing blast radius is drawn on the ground."
+          },
+          "effect": {
+            "en": "The explosion hurts."
+          },
+          "counter": {
+            "en": "Leave the circle; the fruit can also be fed into his mouth."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Throw explosive fruit into his open mouth to stun him, then slash."
+        }
+      ]
+    },
+    {
+      "case_id": "zelda/specter_rider",
+      "boss": {
+        "en": "Gallery Specter"
+      },
+      "summary": {
+        "en": "A ghost-horse rider in a gallery who throws energy orbs and bats them back."
+      },
+      "moves": [
+        {
+          "id": "energy_orb",
+          "name": {
+            "en": "Energy orb"
+          },
+          "tell": {
+            "en": "He raises a trident and a green orb grows at its tip (about 1.25 s)."
+          },
+          "effect": {
+            "en": "The orb flies at you and hurts on hit."
+          },
+          "counter": {
+            "en": "Slash the orb back with correct timing."
+          }
+        },
+        {
+          "id": "orb_return",
+          "name": {
+            "en": "Orb return"
+          },
+          "tell": {
+            "en": "He swings the trident to return it; the orb turns green again (about 0.4 s)."
+          },
+          "effect": {
+            "en": "The returned orb arrives fast and hurts."
+          },
+          "counter": {
+            "en": "Hit it back again or roll aside."
+          }
+        },
+        {
+          "id": "charge",
+          "name": {
+            "en": "Charge"
+          },
+          "tell": {
+            "en": "He leans back, cape and eyes turn red and a red strip points at you (about 1 s)."
+          },
+          "effect": {
+            "en": "A straight-line ram."
+          },
+          "counter": {
+            "en": "Side-hop or roll off the strip."
+          },
+          "only": {
+            "en": "low-health phase only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "At low health he starts to charge."
+        }
+      ]
+    },
+    {
+      "case_id": "zelda/burrowing_fire_dragon",
+      "boss": {
+        "en": "Burrowing Fire Dragon"
+      },
+      "summary": {
+        "en": "A fire dragon that pops in and out of burrows, with surfacing blasts, claws, fire and falling rocks."
+      },
+      "moves": [
+        {
+          "id": "surface_burst",
+          "name": {
+            "en": "Surfacing burst"
+          },
+          "tell": {
+            "en": "A hole glows and smokes with a ring; on a real surfacing the outer ring turns red, and he sometimes fakes then switches holes."
+          },
+          "effect": {
+            "en": "Heavy knockback damage; cannot be blocked."
+          },
+          "counter": {
+            "en": "Leave the ring when it turns red, then strike."
+          }
+        },
+        {
+          "id": "claw_swipe",
+          "name": {
+            "en": "Claw swipe"
+          },
+          "tell": {
+            "en": "A claw lifts and a red fan appears, brightening on the hit frame."
+          },
+          "effect": {
+            "en": "Triggers when you come near."
+          },
+          "counter": {
+            "en": "Leave the fan, then slash after the miss."
+          }
+        },
+        {
+          "id": "ground_fire",
+          "name": {
+            "en": "Ground fire"
+          },
+          "tell": {
+            "en": "Fire glows in the mouth and a ground fan appears (about 1.25 s)."
+          },
+          "effect": {
+            "en": "Fire damage in the fan; can be blocked."
+          },
+          "counter": {
+            "en": "Leave the fan or raise the shield."
+          }
+        },
+        {
+          "id": "flying_fire",
+          "name": {
+            "en": "Flying fire"
+          },
+          "tell": {
+            "en": "He flies up, an arrow shows at the screen edge and red fans appear with the flames."
+          },
+          "effect": {
+            "en": "Fire sprays toward you from the air."
+          },
+          "counter": {
+            "en": "Run out of the fans."
+          }
+        },
+        {
+          "id": "rockfall",
+          "name": {
+            "en": "Rockfall"
+          },
+          "tell": {
+            "en": "A red ring and shrinking outer ring mark the spot; the rock falls in about 1 s."
+          },
+          "effect": {
+            "en": "Damages on impact; cannot be blocked."
+          },
+          "counter": {
+            "en": "Roll out of the ring."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "At lower health surfacing and idle times shorten and attacks come faster."
+        }
+      ]
+    },
+    {
+      "case_id": "zelda/water_core_amoeba",
+      "boss": {
+        "en": "Water-Core Amoeba"
+      },
+      "summary": {
+        "en": "A giant water mass in a pool with a core hidden inside and tentacles that rise from the floor."
+      },
+      "moves": [
+        {
+          "id": "tentacle_rise",
+          "name": {
+            "en": "Tentacle rise"
+          },
+          "tell": {
+            "en": "A water ripple ring with a red outer ring appears at the root (about 3.5 s)."
+          },
+          "effect": {
+            "en": "Contact damage when it surfaces."
+          },
+          "counter": {
+            "en": "Step out of the ring first."
+          }
+        },
+        {
+          "id": "tentacle_lash",
+          "name": {
+            "en": "Tentacle lash"
+          },
+          "tell": {
+            "en": "The water column glows red and a red strip fills as the swing counts down."
+          },
+          "effect": {
+            "en": "Damages on hit; can be blocked."
+          },
+          "counter": {
+            "en": "Leave the strip or roll."
+          }
+        },
+        {
+          "id": "tentacle_grab",
+          "name": {
+            "en": "Grab"
+          },
+          "tell": {
+            "en": "A red ring marks the grab point; when caught a tightening water ring appears (about 2 s wind-up)."
+          },
+          "effect": {
+            "en": "You take repeated damage while held."
+          },
+          "counter": {
+            "en": "When caught, use struggle to break free in about ten packets."
+          }
+        },
+        {
+          "id": "core_contact",
+          "name": {
+            "en": "Core contact"
+          },
+          "tell": {
+            "en": "No warning; the core glows red even underwater."
+          },
+          "effect": {
+            "en": "Touching the core hurts."
+          },
+          "counter": {
+            "en": "Only close to sword range to hit it."
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "zelda/twin_flame_frost_witches",
+      "boss": {
+        "en": "Twin Flame-Frost Witches"
+      },
+      "summary": {
+        "en": "Two witches, one flame and one frost, who fire flame or frost blasts; only one staff glows each time."
+      },
+      "moves": [
+        {
+          "id": "elemental_blast",
+          "name": {
+            "en": "Elemental blast"
+          },
+          "tell": {
+            "en": "The target sigil lights, the staff glows and a ground line connects to you; about 3.35 s before release, and only the chosen staff glows."
+          },
+          "effect": {
+            "en": "High damage; cannot be blocked, but the mirrored shield absorbs it."
+          },
+          "counter": {
+            "en": "Raise the mirrored shield on the frame it arrives."
+          }
+        },
+        {
+          "id": "body_contact",
+          "name": {
+            "en": "Body contact"
+          },
+          "tell": {
+            "en": "No warning."
+          },
+          "effect": {
+            "en": "Touching a witch hurts."
+          },
+          "counter": {
+            "en": "Do not stand on them."
+          }
+        }
+      ]
+    }
+  ]
+}

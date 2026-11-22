@@ -1,0 +1,499 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "tombraider_remake",
+  "rules": "tr1-arena@3",
+  "title": {
+    "en": "Third-Person Ruins: Tank-Control Boss Fights"
+  },
+  "dimension": "3d",
+  "view": {
+    "en": "Third-person 3D: the camera sits behind the explorer, who carries a pistol in each hand, and swings toward the boss when locked on. The HUD shows the boss's name and health bar and your own health bar. An orange ring or edge arrow marks the boss's position and its outline shows through walls; a green cross marks the muzzle direction straight ahead; a red patch on the ground and a banner at the top show the move the boss is charging"
+  },
+  "goal": {
+    "en": "Empty the boss's health bar to win; you lose if your health reaches zero; each fight lasts at most 300 seconds and a timeout is not a win. Health never regenerates by itself; the only recovery is the small medipacks you carry (each heals part of your health, you start with 2)"
+  },
+  "mouse": {
+    "kind": "camera",
+    "en": "Mouse X turns the explorer left/right (the camera follows), but never faster than the keyboard: at most about 36 degrees per 200 ms standing or running, about 24 in a back hop, about 6 in the air, and no turning while sidestepping, crouching for a jump, landing or rolling. Mouse Y only tilts the camera and does not affect the guns; the camera frames the boss by itself, so it is rarely needed"
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "run forward"
+    },
+    {
+      "key": "S",
+      "en": "back hop (hold to hop repeatedly)"
+    },
+    {
+      "key": "A",
+      "en": "turn left on the spot (tank turning, about 180 degrees/s standing)"
+    },
+    {
+      "key": "D",
+      "en": "turn right on the spot"
+    },
+    {
+      "key": "Q",
+      "en": "sidestep left"
+    },
+    {
+      "key": "E",
+      "en": "sidestep right"
+    },
+    {
+      "key": "Space",
+      "en": "jump; the direction is read from W/S/A/D shortly after take-off: forward, back, left or right side jump, nothing for a straight-up jump"
+    },
+    {
+      "key": "Shift",
+      "en": "hold to walk (slow, never falls off edges)"
+    },
+    {
+      "key": "J",
+      "en": "fire; hold for continuous fire, auto-aimed at the boss"
+    },
+    {
+      "key": "LMB",
+      "en": "fire (same as J)"
+    },
+    {
+      "key": "K",
+      "en": "draw / holster the guns (drawn at the start)"
+    },
+    {
+      "key": "RMB",
+      "en": "draw / holster (same as K)"
+    },
+    {
+      "key": "L",
+      "en": "roll: turn 180 degrees on the spot"
+    },
+    {
+      "key": "R",
+      "en": "use one small medipack to heal part of your health"
+    }
+  ],
+  "notes": [
+    {
+      "en": "This is mid-1990s tank control: A/D rotate in place instead of strafing; use Q/E sidesteps or side jumps to dodge sideways."
+    },
+    {
+      "en": "Firing auto-aims at a boss inside a cone of about 60 degrees ahead and within about 8 tiles; holding J keeps shooting and you can move while firing. If the boss leaves the cone, turn to face it first."
+    },
+    {
+      "en": "A jump has a short crouch: after Space goes down you crouch for about 0.1 s before leaving the ground, and the direction is read then; you cannot steer or start other actions in the air."
+    },
+    {
+      "en": "There is no invulnerability after being hit, so repeated hits stack; rolling and jumping do not grant immunity, you dodge by position only."
+    },
+    {
+      "en": "Arenas are flat rooms, some with pillars: pillars block a gunman's line of sight but not the splash of an explosive bomb."
+    },
+    {
+      "en": "Each 200 ms action packet combines one option from each of three groups: move, turn and fire/action; the fire + jump options start the jump at the chosen sub-step."
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "movement keys held for the whole packet",
+      "options": {
+        "none": "stand still",
+        "forward": "run forward (W)",
+        "back": "back hop, repeated while held (S)",
+        "step_left": "sidestep left (Q)",
+        "step_right": "sidestep right (E)"
+      }
+    },
+    "turn": {
+      "en": "turning, by keyboard (A/D) for the whole packet or part of it, or by a mouse angle",
+      "options": {
+        "none": "no turn",
+        "left": "turn left the whole packet (A, about 36 degrees standing)",
+        "right": "turn right the whole packet (D, about 36 degrees standing)",
+        "left_25": "turn left during the middle 4 sub-steps only",
+        "left_14": "turn left during the first 4 sub-steps only",
+        "left_12": "turn left during the first 2 sub-steps only",
+        "left_11": "turn left during sub-step 1 only (a small nudge)",
+        "right_25": "turn right during the middle 4 sub-steps only",
+        "right_14": "turn right during the first 4 sub-steps only",
+        "right_12": "turn right during the first 2 sub-steps only",
+        "right_11": "turn right during sub-step 1 only (a small nudge)",
+        "mouse_left_10": "mouse turn left by 10 degrees",
+        "mouse_right_10": "mouse turn right by 10 degrees",
+        "mouse_left_30": "mouse turn left by 30 degrees",
+        "mouse_right_30": "mouse turn right by 30 degrees"
+      }
+    },
+    "act": {
+      "en": "the trigger and one-off actions",
+      "options": {
+        "none": "no fire, no action",
+        "fire": "hold fire the whole packet (J), auto-aimed",
+        "fire_jump_1": "fire and start a jump at sub-step 1",
+        "fire_jump_2": "fire and start a jump at sub-step 2",
+        "fire_jump_3": "fire and start a jump at sub-step 3",
+        "fire_jump_4": "fire and start a jump at sub-step 4",
+        "fire_jump_5": "fire and start a jump at sub-step 5",
+        "fire_jump_6": "fire and start a jump at sub-step 6",
+        "fire_once": "a single shot (J pressed at sub-step 1 only)",
+        "fire_roll": "fire and roll (turn 180 degrees on the spot)",
+        "fire_medipack": "fire and use one small medipack"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "tombraider/giant_lizard",
+      "boss": {
+        "en": "Giant-Fanged Lizard Beast"
+      },
+      "summary": {
+        "en": "A huge two-legged lizard beast in an open valley with flat ground and no steps to hide on. It is fast and lethal at close range, so survival depends on spacing and movement."
+      },
+      "moves": [
+        {
+          "id": "bite",
+          "name": {
+            "en": "Gaping bite"
+          },
+          "tell": {
+            "en": "It stops, draws its head back and opens its jaws for about 0.3 s; the ground patch and banner warn you."
+          },
+          "effect": {
+            "en": "A bite at close range kills the explorer almost instantly."
+          },
+          "counter": {
+            "en": "When it draws back, hop back or sidestep out of range, then fire as soon as the bite misses."
+          }
+        },
+        {
+          "id": "trample",
+          "name": {
+            "en": "Charging trample"
+          },
+          "tell": {
+            "en": "It lowers its head and runs at you, with no wind-up."
+          },
+          "effect": {
+            "en": "Touching you while it runs deals heavy continuous damage, far more than touching you while it walks."
+          },
+          "counter": {
+            "en": "Do not wait head-on; sidestep out of its charge line and shoot while backing off."
+          }
+        },
+        {
+          "id": "roar",
+          "name": {
+            "en": "Roar"
+          },
+          "tell": {
+            "en": "It stands still with its head thrown back for about 0.8 s."
+          },
+          "effect": {
+            "en": "Deals no damage itself, but it stays put during this time."
+          },
+          "counter": {
+            "en": "Keep firing while it roars."
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "tombraider/lone_gunman",
+      "boss": {
+        "en": "Lone Mercenary Gunman"
+      },
+      "summary": {
+        "en": "A single-gun human opponent in a colonnade hall with pillars for cover. His hit chance depends on distance, so he misses you when far away, and when hurt he may run off."
+      },
+      "moves": [
+        {
+          "id": "shot",
+          "name": {
+            "en": "Aimed shot"
+          },
+          "tell": {
+            "en": "He stops and raises his gun for about 0.2 s, then the muzzle flashes."
+          },
+          "effect": {
+            "en": "An instant hit with heavy damage per shot; the farther you are, the more likely it misses."
+          },
+          "counter": {
+            "en": "Keep your distance or hide behind a pillar to break line of sight; sidestep while he aims."
+          }
+        },
+        {
+          "id": "approach",
+          "name": {
+            "en": "Walk and run"
+          },
+          "tell": {
+            "en": "He walks when you are close and runs when you are far away or out of sight."
+          },
+          "effect": {
+            "en": "Does no damage but closes the distance into his effective range."
+          },
+          "counter": {
+            "en": "Back-hop while firing to stay at a range where his shots miss."
+          }
+        },
+        {
+          "id": "flee",
+          "name": {
+            "en": "Wounded flight"
+          },
+          "tell": {
+            "en": "After being hit he may suddenly turn and run, then come back after a while."
+          },
+          "effect": {
+            "en": "He does not shoot while fleeing, which drags the fight out."
+          },
+          "counter": {
+            "en": "Chase and keep firing so he cannot recover."
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "tombraider/twin_pistols",
+      "boss": {
+        "en": "Twin-Pistol Duelist"
+      },
+      "summary": {
+        "en": "A dual-wielding opponent in a four-pier stone hall, like the lone gunman but each volley fires one shot from each gun. The room has pillars."
+      },
+      "moves": [
+        {
+          "id": "shot",
+          "name": {
+            "en": "Twin-gun volley"
+          },
+          "tell": {
+            "en": "He stops and raises both guns for about 0.2 s, then two muzzle flashes."
+          },
+          "effect": {
+            "en": "Each gun rolls its own hit; each shot is lighter, but together they add up when both land."
+          },
+          "counter": {
+            "en": "Keep far away, use pillars to block sight, and move sideways while he aims."
+          }
+        },
+        {
+          "id": "approach",
+          "name": {
+            "en": "Walk and run"
+          },
+          "tell": {
+            "en": "Between shots he walks or runs closer and occasionally poses."
+          },
+          "effect": {
+            "en": "Does no damage but shortens the range, raising his hit chance."
+          },
+          "counter": {
+            "en": "Back-hop to regain distance and keep firing."
+          }
+        },
+        {
+          "id": "flee",
+          "name": {
+            "en": "Wounded flight"
+          },
+          "tell": {
+            "en": "After being hit he may turn and flee, and may come back later."
+          },
+          "effect": {
+            "en": "He does not shoot while fleeing, and the fight can run very long."
+          },
+          "counter": {
+            "en": "Chase and keep firing so the fight does not run into the time limit."
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "tombraider/cannon_quadruped",
+      "boss": {
+        "en": "Cannon-Armed Quadruped"
+      },
+      "summary": {
+        "en": "A four-legged beast, awake from the start, in a sarcophagus tomb. Its arm is a cannon that fires explosive bombs at range, and it rears up and kicks when you are close."
+      },
+      "moves": [
+        {
+          "id": "bomb",
+          "name": {
+            "en": "Cannon bomb"
+          },
+          "tell": {
+            "en": "It stops, raises the cannon and charges the muzzle with a red ground warning, then fires a bomb that flies toward you."
+          },
+          "effect": {
+            "en": "The bomb hits or explodes on landing for heavy splash damage that grows the closer you are to the blast."
+          },
+          "counter": {
+            "en": "Once the bomb is in flight, run or jump sideways out of the impact area."
+          }
+        },
+        {
+          "id": "rear",
+          "name": {
+            "en": "Rear-up kick"
+          },
+          "tell": {
+            "en": "Its front rises up and the kick lands after about 0.7 s."
+          },
+          "effect": {
+            "en": "A kick that connects deals very heavy single-hit damage."
+          },
+          "counter": {
+            "en": "Hop back or sidestep out of close range the moment it rears."
+          }
+        },
+        {
+          "id": "run",
+          "name": {
+            "en": "Running pursuit"
+          },
+          "tell": {
+            "en": "When not aiming it gallops toward you and may rear up suddenly mid-run."
+          },
+          "effect": {
+            "en": "Closes to kicking range; no direct damage."
+          },
+          "counter": {
+            "en": "Hold a mid range, keep firing and be ready to sidestep."
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "tombraider/legless_giant",
+      "boss": {
+        "en": "Legless Flesh Giant"
+      },
+      "summary": {
+        "en": "A huge legless monster that drops from above into a fleshy pit. It must face you to advance and turns slowly, but its arms reach very far."
+      },
+      "moves": [
+        {
+          "id": "attackR",
+          "name": {
+            "en": "Right-arm sweep"
+          },
+          "tell": {
+            "en": "It raises one arm and about half a second later hooks it in an arc from the side to the front, with a red warning."
+          },
+          "effect": {
+            "en": "A hit deals heavy single-hit damage and the sweep reaches several tiles."
+          },
+          "counter": {
+            "en": "Hop out of range as the arm rises, or move round to the side it does not cover."
+          }
+        },
+        {
+          "id": "attackB",
+          "name": {
+            "en": "Two-arm slam"
+          },
+          "tell": {
+            "en": "Both arms rise together and slam down about half a second later."
+          },
+          "effect": {
+            "en": "Both arms' swept areas deal heavy damage."
+          },
+          "counter": {
+            "en": "Leave the area in front of it and hop backward."
+          }
+        },
+        {
+          "id": "grab",
+          "name": {
+            "en": "Grab"
+          },
+          "tell": {
+            "en": "When your health is very low and you are close, it performs a grab whose wind-up looks like an arm strike."
+          },
+          "effect": {
+            "en": "A grab that connects is fatal."
+          },
+          "counter": {
+            "en": "Stay far away when your health is low, and use a medipack before approaching if needed."
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "tombraider/winged_matriarch",
+      "boss": {
+        "en": "Winged Matriarch"
+      },
+      "summary": {
+        "en": "The final boss in a golden relic chamber, fought in two stages: first ground triple bombs and aerial bomb drops, then after she collapses and rises, a running, shooting second stage."
+      },
+      "moves": [
+        {
+          "id": "volley",
+          "name": {
+            "en": "Triple bomb volley"
+          },
+          "tell": {
+            "en": "She lands, stops and raises a hand, then shoots three bombs with a small spread."
+          },
+          "effect": {
+            "en": "Each bomb explodes with splash damage; three in a row hurt badly."
+          },
+          "counter": {
+            "en": "Run sideways as soon as she raises a hand and stay away from the impact points."
+          }
+        },
+        {
+          "id": "flybomb",
+          "name": {
+            "en": "Aerial bomb drop"
+          },
+          "tell": {
+            "en": "She flies and drops a bomb about once a second with no wind-up; you see only the bomb and its landing ring."
+          },
+          "effect": {
+            "en": "Splash damage from the explosion, the main source of damage in this fight."
+          },
+          "counter": {
+            "en": "Keep moving and avoid the landing rings; fire hard whenever she touches down."
+          }
+        },
+        {
+          "id": "shard",
+          "name": {
+            "en": "Shard shots"
+          },
+          "only": {
+            "en": "stage 2 only"
+          },
+          "tell": {
+            "en": "In stage 2 she fires a shard about every 0.3 s while running, with no wind-up."
+          },
+          "effect": {
+            "en": "Each shard hurts little and flies only into a cone of about 30 degrees in front of her."
+          },
+          "counter": {
+            "en": "Step out of her frontal cone, moving to her side or back before firing."
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Stage 1: when her health falls to half she collapses for about 16 s and does not attack, so you can fire freely."
+        },
+        {
+          "en": "Stage 2: she rises and shoots while running, using shards instead of bombs."
+        }
+      ]
+    }
+  ]
+}

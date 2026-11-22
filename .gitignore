@@ -1,0 +1,11 @@
+/.cache/huggingface/
+/.venv/
+/runs/
+__pycache__/
+/environments/games/web/
+/environments/games/prototype/bossbench/mc4d.py
+/environments/games/prototype/bossbench/mc_scripted.py
+/environments/games/prototype/bossbench/mcskin.py
+/environments/games/prototype/bossbench/play_server.py
+/environments/games/prototype/bossbench/rig.py
+/environments/THIRD_PARTY_NOTICES.md

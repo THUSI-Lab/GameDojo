@@ -1,0 +1,519 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "nfsmw_remake",
+  "rules": "nfsmw-arena@2",
+  "title": {
+    "en": "Street Racing: Original Sports Car in an Original Seaside City"
+  },
+  "dimension": "3d",
+  "view": {
+    "en": "Third-person view behind an original sports car. Speed and rev gauges are at the bottom; the top shows how far the event has come, rival gap or bust meter. Edge arrows point to rivals and police cars that are off screen"
+  },
+  "goal": {
+    "en": "Each event has its own win: finish the route, beat the rival, score a higher total, avoid finishing last, or escape the police. Running out of time, a rival finishing first, being caught or a wrecked car loses; each run lasts at most 300 seconds and a timeout is not a win. Nothing recovers by itself"
+  },
+  "mouse": {
+    "kind": "none",
+    "en": "This game does not use the mouse"
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "throttle"
+    },
+    {
+      "key": "S",
+      "en": "brake; reverse at low speed"
+    },
+    {
+      "key": "A",
+      "en": "steer left (the longer held, the more angle; less angle at high speed; in drag races, change to the left lane)"
+    },
+    {
+      "key": "D",
+      "en": "steer right (in drag races, change to the right lane)"
+    },
+    {
+      "key": "Space",
+      "en": "handbrake, for drifting"
+    },
+    {
+      "key": "Shift",
+      "en": "nitrous"
+    },
+    {
+      "key": "J",
+      "en": "slow motion on / off (the world slows and downforce rises)"
+    },
+    {
+      "key": "K",
+      "en": "shift up (manual gearbox in drag races)"
+    },
+    {
+      "key": "L",
+      "en": "shift down (manual gearbox in drag races)"
+    },
+    {
+      "key": "R",
+      "en": "reset onto the route; for about 2 s afterwards (flashing) the police catch you more easily"
+    }
+  ],
+  "notes": [
+    {
+      "en": "A / D must be held for a while to wind the wheel on, and it eases back when released; at higher speed the angle is smaller."
+    },
+    {
+      "en": "Drag races use a manual gearbox: press K when the rev gauge reaches the green zone. A / D change lanes there instead of steering."
+    },
+    {
+      "en": "Nitrous is limited and takes time to recover. In toll and speed-trap events it pays most just before the key points."
+    },
+    {
+      "en": "Slow motion slows the world and adds downforce, which helps in tight corners; it drains with use, and J turns it off."
+    },
+    {
+      "en": "Walls and crashes scrub speed; staying on the route is usually fastest, and a reset costs time."
+    }
+  ],
+  "compact_glossary": {
+    "pedal": {
+      "en": "Throttle and brake",
+      "options": {
+        "none": "release, coast",
+        "throttle_light": "light throttle (1 of 6 sub-steps)",
+        "throttle": "full throttle",
+        "brake": "brake; reverse at low speed"
+      }
+    },
+    "steer": {
+      "en": "Steering as a duty cycle over the 6 sub-steps (no mouse)",
+      "options": {
+        "none": "no steering, wheel returns to centre",
+        "left_tap": "tap left (drag: change to the left lane)",
+        "left_ease": "left for 2 of 6 sub-steps: wheel slowly returns",
+        "left_hold": "left for 3 of 6: keep the current angle",
+        "left_hold_late": "left for 3 of 6, offset half a beat: keep the angle",
+        "left_more": "left for 4 of 6: wind more angle on",
+        "left_full": "left held fully",
+        "right_tap": "tap right (drag: change to the right lane)",
+        "right_ease": "right for 2 of 6 sub-steps: wheel slowly returns",
+        "right_hold": "right for 3 of 6: keep the current angle",
+        "right_hold_late": "right for 3 of 6, offset half a beat: keep the angle",
+        "right_more": "right for 4 of 6: wind more angle on",
+        "right_full": "right held fully"
+      }
+    },
+    "nitrous": {
+      "en": "Nitrous",
+      "options": {
+        "none": "off",
+        "nitrous": "nitrous on"
+      }
+    },
+    "press": {
+      "en": "Gear shift, slow motion, reset, handbrake",
+      "options": {
+        "none": "nothing",
+        "shift_up": "shift up (drag only)",
+        "shift_down": "shift down (drag only)",
+        "slowmo": "toggle slow motion",
+        "reset": "reset onto the route",
+        "handbrake": "handbrake held, drift"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "nfsmw/tollbooth",
+      "boss": {
+        "en": "Toll-gate time trial"
+      },
+      "summary": {
+        "en": "A solo run along the coast road through toll gates; each gate adds time, and you lose when the clock runs out. Traffic is on the road"
+      },
+      "moves": [
+        {
+          "id": "gate",
+          "name": {
+            "en": "Toll gate"
+          },
+          "tell": {
+            "en": "A gate and light beam on the road ahead"
+          },
+          "effect": {
+            "en": "Passing adds time to the clock; clearing the last gate wins"
+          },
+          "counter": {
+            "en": "Keep speed on the ideal line and use nitrous to gain time"
+          }
+        },
+        {
+          "id": "traffic",
+          "name": {
+            "en": "Road traffic"
+          },
+          "tell": {
+            "en": "Civilian cars driving slowly on the road ahead"
+          },
+          "effect": {
+            "en": "A crash scrubs a lot of speed or stops you"
+          },
+          "counter": {
+            "en": "Move to the clear side early; do not force an overtake in a corner"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "nfsmw/drag",
+      "boss": {
+        "en": "Drag rival"
+      },
+      "summary": {
+        "en": "Several drag races in a row against one rival on a straight four-lane strip. The car holds its line by itself; you change lanes and handle throttle, nitrous and gears"
+      },
+      "moves": [
+        {
+          "id": "launch",
+          "name": {
+            "en": "Launch"
+          },
+          "tell": {
+            "en": "The rev needle during the countdown"
+          },
+          "effect": {
+            "en": "Launching with revs in the target band gives a boost; too high spins the clutch"
+          },
+          "counter": {
+            "en": "Hold the throttle during the countdown and keep revs a little below the redline"
+          }
+        },
+        {
+          "id": "shift",
+          "name": {
+            "en": "Shift timing"
+          },
+          "tell": {
+            "en": "The rev gauge enters the green zone"
+          },
+          "effect": {
+            "en": "A well-timed upshift gives a bonus; sitting on the limiter builds heat and a blown engine loses"
+          },
+          "counter": {
+            "en": "Press K as soon as the gauge is in the green; do not sit on the limiter"
+          }
+        },
+        {
+          "id": "rival_nitrous",
+          "name": {
+            "en": "Rival nitrous"
+          },
+          "tell": {
+            "en": "Blue flame behind the rival's car"
+          },
+          "effect": {
+            "en": "The rival speeds up for a while and gains ground"
+          },
+          "counter": {
+            "en": "Use your own nitrous at a good moment"
+          }
+        },
+        {
+          "id": "crash",
+          "name": {
+            "en": "Crash wreck"
+          },
+          "tell": {
+            "en": "Traffic or an obstacle appears in your lane"
+          },
+          "effect": {
+            "en": "A hard hit at high speed drops too much speed and wrecks the car, losing the heat"
+          },
+          "counter": {
+            "en": "Change lanes early with A / D"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "nfsmw/speedtrap",
+      "boss": {
+        "en": "Speed-trap rival"
+      },
+      "summary": {
+        "en": "Drive through speed cameras along the coast road; the speeds at each camera add up and are compared with one rival. Cameras sit where speed is easiest to reach"
+      },
+      "moves": [
+        {
+          "id": "camera",
+          "name": {
+            "en": "Speed camera"
+          },
+          "tell": {
+            "en": "A roadside camera and gate; a light beam marks the next one"
+          },
+          "effect": {
+            "en": "Records your speed as you pass and adds it to your total"
+          },
+          "counter": {
+            "en": "Start nitrous 1 to 3 seconds before a camera and do not brake before it"
+          }
+        },
+        {
+          "id": "rival_boost",
+          "name": {
+            "en": "Rival boost at camera"
+          },
+          "tell": {
+            "en": "Blue flame behind the rival as it nears a camera"
+          },
+          "effect": {
+            "en": "The rival posts a higher speed at the camera and widens the gap"
+          },
+          "counter": {
+            "en": "Save nitrous for the cameras; you lose if the margin runs out"
+          }
+        },
+        {
+          "id": "traffic",
+          "name": {
+            "en": "Road traffic"
+          },
+          "tell": {
+            "en": "Civilian cars on the road"
+          },
+          "effect": {
+            "en": "A crash cuts speed and so the reading at that camera"
+          },
+          "counter": {
+            "en": "Change lanes early and do not get stuck behind a car before a camera"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "nfsmw/knockout",
+      "boss": {
+        "en": "Knockout field"
+      },
+      "summary": {
+        "en": "A night-time downtown circuit with several rivals; the last car over the line each lap is knocked out and you must not be last. You start on the back row"
+      },
+      "moves": [
+        {
+          "id": "knock",
+          "name": {
+            "en": "Lap knockout"
+          },
+          "tell": {
+            "en": "After cars finish the lap, the last rival disappears"
+          },
+          "effect": {
+            "en": "Finishing last means you lose"
+          },
+          "counter": {
+            "en": "Pass at least one rival every lap and do not lose speed in corners"
+          }
+        },
+        {
+          "id": "rival_pack",
+          "name": {
+            "en": "Rival pack"
+          },
+          "tell": {
+            "en": "Other cars driving the route ahead; the further forward, the faster"
+          },
+          "effect": {
+            "en": "They do not yield and nudge aside on contact; once far ahead they are hard to catch"
+          },
+          "counter": {
+            "en": "Take the inside line, get on the throttle early out of corners and use nitrous to catch up"
+          }
+        },
+        {
+          "id": "traffic",
+          "name": {
+            "en": "Road traffic"
+          },
+          "tell": {
+            "en": "A few civilian cars on the circuit"
+          },
+          "effect": {
+            "en": "A crash scrubs speed and drops you to the back"
+          },
+          "counter": {
+            "en": "Steer around them as soon as you see them"
+          },
+          "only": {
+            "en": "normal and hard tiers only"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "nfsmw/pursuit",
+      "boss": {
+        "en": "Police pursuit"
+      },
+      "summary": {
+        "en": "Free roam in the city: first raise a bounty, then lose the police; each cleared stage raises the heat and brings stronger police. You lose when the bust meter fills"
+      },
+      "moves": [
+        {
+          "id": "chase",
+          "name": {
+            "en": "Police chase"
+          },
+          "tell": {
+            "en": "Police cars behind or beside you with flashing lights"
+          },
+          "effect": {
+            "en": "When a cop is close and you are slow, the bust meter fills and you lose"
+          },
+          "counter": {
+            "en": "Keep speed high and open a gap; stay out of sight to build the escape"
+          }
+        },
+        {
+          "id": "pit",
+          "name": {
+            "en": "Cop ram"
+          },
+          "tell": {
+            "en": "A cop closes beside your rear, a red warning bar appears and the mirror frame turns red"
+          },
+          "effect": {
+            "en": "The hit spins you and bleeds speed"
+          },
+          "counter": {
+            "en": "Accelerate away on the warning, or steer outwards"
+          }
+        },
+        {
+          "id": "roadblock",
+          "name": {
+            "en": "Roadblock"
+          },
+          "tell": {
+            "en": "Police cars blocking the road ahead, with a distance warning bar at the bottom"
+          },
+          "effect": {
+            "en": "Hitting it slows you a lot, and its cops then join the chase"
+          },
+          "counter": {
+            "en": "Aim for the gap"
+          }
+        },
+        {
+          "id": "spikes",
+          "name": {
+            "en": "Spike strip"
+          },
+          "tell": {
+            "en": "A spike strip on the road, with a warning bar at the bottom"
+          },
+          "effect": {
+            "en": "Tyres are punctured and burst after about half a second; grip drops sharply"
+          },
+          "counter": {
+            "en": "Change lane early to avoid it"
+          }
+        },
+        {
+          "id": "trap",
+          "name": {
+            "en": "Destructible building trap"
+          },
+          "tell": {
+            "en": "A roadside structure that can be knocked down"
+          },
+          "effect": {
+            "en": "When knocked down it lands on cops behind you"
+          },
+          "counter": {
+            "en": "Speed past it so the cops follow into its collapse"
+          }
+        },
+        {
+          "id": "heli",
+          "name": {
+            "en": "Helicopter"
+          },
+          "tell": {
+            "en": "A helicopter and spotlight overhead"
+          },
+          "effect": {
+            "en": "It sees far, so hiding behind buildings is harder"
+          },
+          "counter": {
+            "en": "Keep moving fast until it runs out of fuel and leaves"
+          },
+          "only": {
+            "en": "higher heat stages only"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Each escape raises the heat: more and faster police cars"
+        }
+      ]
+    },
+    {
+      "case_id": "nfsmw/street_champion",
+      "boss": {
+        "en": "Street champion"
+      },
+      "summary": {
+        "en": "A race through city streets against the street champion while police chase you too. You lose if the rival reaches the end first or you are caught"
+      },
+      "moves": [
+        {
+          "id": "champ_nitrous",
+          "name": {
+            "en": "Champion's nitrous"
+          },
+          "tell": {
+            "en": "Blue flame behind the rival's car"
+          },
+          "effect": {
+            "en": "It speeds up noticeably for a while and pulls ahead"
+          },
+          "counter": {
+            "en": "Use your own nitrous and take a shorter line to catch up"
+          }
+        },
+        {
+          "id": "cop",
+          "name": {
+            "en": "Police chase"
+          },
+          "tell": {
+            "en": "Police cars behind or beside you with flashing lights"
+          },
+          "effect": {
+            "en": "The bust meter fills when a cop is close; full means loss"
+          },
+          "counter": {
+            "en": "Keep speed up, avoid walls and keep moving forward"
+          }
+        },
+        {
+          "id": "block",
+          "name": {
+            "en": "Roadblocks and spikes"
+          },
+          "tell": {
+            "en": "Police cars blocking the road or a spike strip, with a warning bar at the bottom"
+          },
+          "effect": {
+            "en": "Hitting them slows you or bursts a tyre, letting the rival catch up"
+          },
+          "counter": {
+            "en": "Change lane early to go around"
+          }
+        }
+      ]
+    }
+  ]
+}

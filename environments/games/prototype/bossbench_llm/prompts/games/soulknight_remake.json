@@ -1,0 +1,652 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "soulknight_remake",
+  "rules": "knight-arena@6",
+  "title": {
+    "en": "Pixel Dungeon: Boss Rooms"
+  },
+  "dimension": "2d",
+  "view": {
+    "en": "Top-down 2D dungeon room with crates, pillars or trees as cover. You control an armoured gunner, and the mouse moves a crosshair; your health (red), armour (grey) and energy (blue) are at the top left, the boss's name, health bar and phase at the top centre, and your current weapon at the bottom right"
+  },
+  "goal": {
+    "en": "Empty the boss's health bar to win; you lose if your health reaches zero; each fight lasts at most 300 seconds and a timeout is not a win. Health does not regenerate"
+  },
+  "mouse": {
+    "kind": "pointer",
+    "en": "Weapons attack toward the crosshair; if you leave the mouse still for about 2 seconds while the boss is in sight, the crosshair pulls toward the boss automatically"
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "move up"
+    },
+    {
+      "key": "A",
+      "en": "move left"
+    },
+    {
+      "key": "S",
+      "en": "move down"
+    },
+    {
+      "key": "D",
+      "en": "move right"
+    },
+    {
+      "key": "J",
+      "en": "hold to attack: guns keep firing, the broad blade swings; with a gun at point-blank range you stab with a knife automatically"
+    },
+    {
+      "key": "LMB",
+      "en": "hold to attack (same as J)"
+    },
+    {
+      "key": "K",
+      "en": "skill \"duplicate weapon\": wield a second copy of the current weapon for 5 seconds, then a 10-second cooldown"
+    },
+    {
+      "key": "RMB",
+      "en": "skill \"duplicate weapon\" (same as K)"
+    },
+    {
+      "key": "Q",
+      "en": "switch to the next weapon: basic pistol → repeater gun → bullet-clearing broad blade"
+    }
+  ],
+  "notes": [
+    {
+      "en": "WASD combine into eight directions; you move slower while holding attack"
+    },
+    {
+      "en": "Armour absorbs damage before health; after about 3 seconds without being hit, armour regenerates 1 point per second"
+    },
+    {
+      "en": "The repeater gun and the broad blade use energy per attack; the basic pistol is free, so switch back to it when energy runs out"
+    },
+    {
+      "en": "The broad blade's swing destroys ordinary bullets inside its arc"
+    },
+    {
+      "en": "Switching weapons ends \"duplicate weapon\" immediately"
+    },
+    {
+      "en": "At half health the boss enters its second phase (enraged): it attacks faster, its bullets fly faster, and it gains new attacks"
+    },
+    {
+      "en": "There is no roll or jump; dodge by moving and using cover"
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "movement",
+      "options": {
+        "none": "stand still",
+        "right": "walk right",
+        "down_right": "walk down-right",
+        "down": "walk down",
+        "down_left": "walk down-left",
+        "left": "walk left",
+        "up_left": "walk up-left",
+        "up": "walk up",
+        "up_right": "walk up-right"
+      }
+    },
+    "aim": {
+      "en": "crosshair",
+      "options": {
+        "none": "keep the crosshair still (after 2 s it auto-aims at a visible boss)",
+        "right_40": "move the crosshair 40 px right",
+        "down_right_40": "move the crosshair 40 px down-right",
+        "down_40": "move the crosshair 40 px down",
+        "down_left_40": "move the crosshair 40 px down-left",
+        "left_40": "move the crosshair 40 px left",
+        "up_left_40": "move the crosshair 40 px up-left",
+        "up_40": "move the crosshair 40 px up",
+        "up_right_40": "move the crosshair 40 px up-right"
+      }
+    },
+    "act": {
+      "en": "attack / skill / weapon",
+      "options": {
+        "none": "do not attack",
+        "fire": "hold attack",
+        "fire_skill": "hold attack and use the duplicate-weapon skill",
+        "switch": "switch to the next weapon (then keep attacking)"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "soulknight/goblin_priest",
+      "boss": {
+        "en": "Meteor Caller"
+      },
+      "summary": {
+        "en": "A caster walks around an open room, calling meteors, orbiting orbs, turrets and star bullets."
+      },
+      "moves": [
+        {
+          "id": "meteor",
+          "name": {
+            "en": "Meteors"
+          },
+          "tell": {
+            "en": "Several impact markers appear on the ground (more when enraged)"
+          },
+          "effect": {
+            "en": "Meteors hit the marked spots"
+          },
+          "counter": {
+            "en": "Leave the marked spots as soon as they appear"
+          }
+        },
+        {
+          "id": "orbs",
+          "name": {
+            "en": "Orbiting orbs"
+          },
+          "tell": {
+            "en": "Two orbs circle the boss and can stack up"
+          },
+          "effect": {
+            "en": "Touching an orb hurts"
+          },
+          "counter": {
+            "en": "Keep your distance from the boss"
+          }
+        },
+        {
+          "id": "turrets",
+          "name": {
+            "en": "Turrets"
+          },
+          "tell": {
+            "en": "It fires a shot that leaves a line of turrets behind it"
+          },
+          "effect": {
+            "en": "The turrets fire sideways, perpendicular to the line"
+          },
+          "counter": {
+            "en": "Do not stand beside the turret line; the broad blade can destroy turrets"
+          }
+        },
+        {
+          "id": "stars",
+          "name": {
+            "en": "Star burst"
+          },
+          "tell": {
+            "en": "It releases a ring of six stars"
+          },
+          "effect": {
+            "en": "Each star splits into three smaller bullets"
+          },
+          "counter": {
+            "en": "Slip through the gaps between the stars"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "When enraged it calls four meteors instead of three and attacks faster"
+        }
+      ]
+    },
+    {
+      "case_id": "soulknight/christmas_treant",
+      "boss": {
+        "en": "Ram Timber"
+      },
+      "summary": {
+        "en": "A walking tree that hides among two rings of crates; it holds up an energy ball that sprays bullets, sends shockwaves, and rams you once enraged."
+      },
+      "moves": [
+        {
+          "id": "hold",
+          "name": {
+            "en": "Held energy ball"
+          },
+          "tell": {
+            "en": "It raises a big energy ball overhead"
+          },
+          "effect": {
+            "en": "The ball sprays bullets in every direction"
+          },
+          "counter": {
+            "en": "Hide behind crates"
+          }
+        },
+        {
+          "id": "throw",
+          "name": {
+            "en": "Ball throw"
+          },
+          "tell": {
+            "en": "It throws the held ball at you"
+          },
+          "effect": {
+            "en": "It sprays bullets in flight and explodes on impact"
+          },
+          "counter": {
+            "en": "Sidestep its flight path"
+          }
+        },
+        {
+          "id": "waves",
+          "name": {
+            "en": "Shockwaves"
+          },
+          "tell": {
+            "en": "Lines appear on the ground and shockwaves travel along them"
+          },
+          "effect": {
+            "en": "The shockwaves hurt"
+          },
+          "counter": {
+            "en": "Step off the drawn lines"
+          }
+        },
+        {
+          "id": "charge",
+          "name": {
+            "en": "Ram"
+          },
+          "tell": {
+            "en": "A charge band toward you appears on the ground; when it brightens the direction is locked"
+          },
+          "effect": {
+            "en": "It dashes straight along the band, smashing through crates, and takes no damage while charging"
+          },
+          "counter": {
+            "en": "Leave the band as soon as it brightens"
+          }
+        },
+        {
+          "id": "homing",
+          "name": {
+            "en": "Homing shots"
+          },
+          "tell": {
+            "en": "It releases five homing shots that start chasing you after a short pause"
+          },
+          "effect": {
+            "en": "They hurt on hit"
+          },
+          "counter": {
+            "en": "Circle around cover so they hit obstacles"
+          }
+        },
+        {
+          "id": "cross",
+          "name": {
+            "en": "Cross bullets"
+          },
+          "tell": {
+            "en": "It fires big cross-shaped bullets all around"
+          },
+          "effect": {
+            "en": "They hurt on hit"
+          },
+          "counter": {
+            "en": "Stand in the gaps between them"
+          }
+        },
+        {
+          "id": "line",
+          "name": {
+            "en": "Shockwave line"
+          },
+          "tell": {
+            "en": "It sends a line of shockwaves toward you"
+          },
+          "effect": {
+            "en": "The shockwaves hurt"
+          },
+          "counter": {
+            "en": "Move sideways off the line"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Entering the enraged phase it sends shockwaves in seven directions, then adds the ram, homing shots, cross bullets and the shockwave line"
+        }
+      ]
+    },
+    {
+      "case_id": "soulknight/devils_snare",
+      "boss": {
+        "en": "Spin Bloom"
+      },
+      "summary": {
+        "en": "A poison flower that almost always sits in its own poison pool, pressing you with slow bubbles, rotating bullet streams and poison shots; it sprouts tentacles when enraged."
+      },
+      "moves": [
+        {
+          "id": "bubbles",
+          "name": {
+            "en": "Slow bubbles"
+          },
+          "tell": {
+            "en": "It blows a ring of slow bubbles that fade after a few seconds"
+          },
+          "effect": {
+            "en": "Bubbles hurt on contact"
+          },
+          "counter": {
+            "en": "Weave slowly between them"
+          }
+        },
+        {
+          "id": "rotate",
+          "name": {
+            "en": "Rotating streams"
+          },
+          "tell": {
+            "en": "Bullet streams fire from four points in four directions and rotate; they are slower than you"
+          },
+          "effect": {
+            "en": "The streams hurt on hit"
+          },
+          "counter": {
+            "en": "Circle in the same direction as the rotation"
+          }
+        },
+        {
+          "id": "beams",
+          "name": {
+            "en": "Poison beams"
+          },
+          "tell": {
+            "en": "It fires green beam-like bullets all around"
+          },
+          "effect": {
+            "en": "They hurt and poison you"
+          },
+          "counter": {
+            "en": "Get behind cover or back off"
+          }
+        },
+        {
+          "id": "pool",
+          "name": {
+            "en": "Poison pool"
+          },
+          "tell": {
+            "en": "It spreads a poison pool beneath itself"
+          },
+          "effect": {
+            "en": "Standing in it poisons and slows you"
+          },
+          "counter": {
+            "en": "Do not fight up close; attack from outside the pool"
+          }
+        },
+        {
+          "id": "corner",
+          "name": {
+            "en": "Corner shots"
+          },
+          "tell": {
+            "en": "Four fast bullets fly toward the room's corners, leaving spreading bubble trails"
+          },
+          "effect": {
+            "en": "Both the bullets and the bubbles hurt"
+          },
+          "counter": {
+            "en": "Stay off the lines toward the corners"
+          }
+        },
+        {
+          "id": "pull",
+          "name": {
+            "en": "Pulling wave"
+          },
+          "tell": {
+            "en": "It releases a wave that pulls you toward it"
+          },
+          "effect": {
+            "en": "It deals no damage but drags you toward danger; walls partly block it"
+          },
+          "counter": {
+            "en": "Move away from it and hug a wall"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "When enraged the flower opens and four tentacles appear; it then adds corner shots and the pulling wave, and mixes poison shots into the rotating streams"
+        }
+      ]
+    },
+    {
+      "case_id": "soulknight/grand_slime",
+      "boss": {
+        "en": "Swell Jelly"
+      },
+      "summary": {
+        "en": "A big jelly boss in a room with slowing and speeding floor tiles: it slams the ground for bullets, summons small jellies, and once enraged swells up and explodes after taking enough hits."
+      },
+      "moves": [
+        {
+          "id": "slam",
+          "name": {
+            "en": "Ground slam"
+          },
+          "tell": {
+            "en": "It slams the ground twice"
+          },
+          "effect": {
+            "en": "Clusters of red bullets fly out in random directions at random speeds"
+          },
+          "counter": {
+            "en": "Back off and find gaps between the bullets"
+          }
+        },
+        {
+          "id": "rings",
+          "name": {
+            "en": "Bullet rings"
+          },
+          "tell": {
+            "en": "It fires four rings of bullets in quick succession"
+          },
+          "effect": {
+            "en": "The bullets stop mid-air after a distance and slowly form a flower shape"
+          },
+          "counter": {
+            "en": "Pass through the gaps between the petals"
+          }
+        },
+        {
+          "id": "spawn",
+          "name": {
+            "en": "Summon small jellies"
+          },
+          "tell": {
+            "en": "It spawns a small jelly beside itself"
+          },
+          "effect": {
+            "en": "Small jellies hurt on contact"
+          },
+          "counter": {
+            "en": "Clear them as you go"
+          }
+        },
+        {
+          "id": "goo",
+          "name": {
+            "en": "Goo slam"
+          },
+          "tell": {
+            "en": "It slams the ground, leaving a green poison pool and lingering bullets"
+          },
+          "effect": {
+            "en": "The pool poisons you and the bullets hurt"
+          },
+          "counter": {
+            "en": "Stay out of the pool"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Once enraged it explodes right away (the expanding circle is the blast radius), and again after about 15 more hits; the slow and boost tiles affect the boss too"
+        }
+      ]
+    },
+    {
+      "case_id": "soulknight/varkolyn_leader",
+      "boss": {
+        "en": "Violet Sweeper"
+      },
+      "summary": {
+        "en": "A cloaked boss in a room with no cover at all, casting purple poison pools, tentacles and a sweeping laser; it is invulnerable while standing in a pool."
+      },
+      "moves": [
+        {
+          "id": "pools",
+          "name": {
+            "en": "Purple pools"
+          },
+          "tell": {
+            "en": "It lays four purple pools in a line toward you"
+          },
+          "effect": {
+            "en": "The pools poison and slow you; the boss is invulnerable while it stands in one"
+          },
+          "counter": {
+            "en": "Avoid the pools; while it is in one, dodge and wait until it steps out"
+          }
+        },
+        {
+          "id": "tentacles",
+          "name": {
+            "en": "Tentacles"
+          },
+          "tell": {
+            "en": "Four tentacles sprout at random spots in the room"
+          },
+          "effect": {
+            "en": "The tentacles attack you when you are near"
+          },
+          "counter": {
+            "en": "Keep away from them, or destroy them first"
+          }
+        },
+        {
+          "id": "ring",
+          "name": {
+            "en": "Bullet ring"
+          },
+          "tell": {
+            "en": "It fires small bullets in every direction"
+          },
+          "effect": {
+            "en": "They hurt on hit"
+          },
+          "counter": {
+            "en": "Find the gaps between them"
+          }
+        },
+        {
+          "id": "laser",
+          "name": {
+            "en": "Sweeping laser"
+          },
+          "tell": {
+            "en": "It rings a sharp chime, and the starting line and the swept sector are drawn on the floor"
+          },
+          "effect": {
+            "en": "The laser sweeps through the sector for heavy damage; it does nothing else while firing"
+          },
+          "counter": {
+            "en": "Leave the drawn sector at the chime, then counterattack after the sweep"
+          }
+        },
+        {
+          "id": "orb",
+          "name": {
+            "en": "Spiral orb"
+          },
+          "tell": {
+            "en": "It fires a large bullet that keeps spinning out spirals of small bullets"
+          },
+          "effect": {
+            "en": "Both hurt; the spirals stop only when the large bullet is destroyed"
+          },
+          "counter": {
+            "en": "Destroy the large bullet first"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "When enraged it attacks more often, and the laser charges faster and sweeps faster"
+        }
+      ]
+    },
+    {
+      "case_id": "soulknight/volcanic_sandworm",
+      "boss": {
+        "en": "Burrow Bomber"
+      },
+      "summary": {
+        "en": "A big worm in a room with stacked crates in the corners fires explosive shells and spreads, burrows underground, and surfaces near you."
+      },
+      "moves": [
+        {
+          "id": "explosive",
+          "name": {
+            "en": "Explosive shell"
+          },
+          "tell": {
+            "en": "It leans back and fires a large explosive shell; its blast radius is drawn around it in flight"
+          },
+          "effect": {
+            "en": "It explodes on hitting a wall, a crate or you, over a wide area"
+          },
+          "counter": {
+            "en": "Sidestep it and leave the drawn blast circle"
+          }
+        },
+        {
+          "id": "spread",
+          "name": {
+            "en": "Wide spread"
+          },
+          "tell": {
+            "en": "It fires a wide fan of big bullets that slow down as they travel"
+          },
+          "effect": {
+            "en": "They burst in a small blast on impact"
+          },
+          "counter": {
+            "en": "Back off and slip between them"
+          }
+        },
+        {
+          "id": "dig",
+          "name": {
+            "en": "Burrow"
+          },
+          "tell": {
+            "en": "It sinks underground and only a moving dirt mound is visible (the HUD shows that it cannot be attacked)"
+          },
+          "effect": {
+            "en": "Burrowing and surfacing cause shockwaves, and it leaves stars that fire bullets around"
+          },
+          "counter": {
+            "en": "Stay away from the mound and attack after it surfaces"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "When enraged it burrows faster and makes several quick dives, briefly surfacing between them, and leaves more bullets each time it comes up"
+        }
+      ]
+    }
+  ]
+}

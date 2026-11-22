@@ -1,0 +1,534 @@
+{
+  "schema": "bossbench-llm/game-prompt@1",
+  "game": "isaac_remake",
+  "rules": "isaac-basement@3",
+  "title": {
+    "en": "Tear Kid: Basement Boss Rooms"
+  },
+  "dimension": "2d",
+  "view": {
+    "en": "Top-down 2D sealed boss room shown on one screen, possibly with rocks inside. You control a bald child, the Tear Kid, with twin-stick controls: one set of keys moves, another set shoots tears in four directions. Your hearts (half-heart steps) are at the top left and the boss's health bar is at the top"
+  },
+  "goal": {
+    "en": "Empty the boss's health bar to win; you lose when all your hearts are gone; each fight lasts at most 300 seconds and a timeout is not a win. Health does not regenerate. A versus banner shows at the start and the boss only starts acting after about 1.3 seconds"
+  },
+  "mouse": {
+    "kind": "none",
+    "en": "The mouse is not used"
+  },
+  "keys": [
+    {
+      "key": "W",
+      "en": "move up (eight directions, with inertia)"
+    },
+    {
+      "key": "A",
+      "en": "move left"
+    },
+    {
+      "key": "S",
+      "en": "move down"
+    },
+    {
+      "key": "D",
+      "en": "move right"
+    },
+    {
+      "key": "J",
+      "en": "hold to shoot tears left"
+    },
+    {
+      "key": "K",
+      "en": "hold to shoot tears down"
+    },
+    {
+      "key": "L",
+      "en": "hold to shoot tears right"
+    },
+    {
+      "key": "Shift",
+      "en": "hold to shoot tears up"
+    },
+    {
+      "key": "E",
+      "en": "place a bomb: you start with only 1; it deals big damage but costs you a whole heart if it hits you"
+    }
+  ],
+  "notes": [
+    {
+      "en": "Moving and shooting are independent: you can retreat left while shooting right. When several shoot keys are held only the most recent direction counts, so hold one at a time"
+    },
+    {
+      "en": "Tears only go in four directions with no aiming; to hit the boss, line yourself up with its row or column, and tears have limited range"
+    },
+    {
+      "en": "After a hit you are invulnerable for a while (about 1 second for half a heart, about 2 seconds for a full heart) and are pushed away; you cannot be hurt during it"
+    },
+    {
+      "en": "Most contact and small shots cost half a heart; large tears and your own bomb cost a full heart; at high difficulty half-heart hits also become full hearts. At zero health you fall and lose after about a second"
+    },
+    {
+      "en": "You carry a fixed set of passive upgrades (fire rate, damage, range, special tears such as multi-shot, piercing, homing, bouncing) that apply automatically; there is no active item to use"
+    },
+    {
+      "en": "The bomb is a one-off burst of heavy damage; save it for when the boss is close, and step away yourself"
+    }
+  ],
+  "compact_glossary": {
+    "move": {
+      "en": "eight-direction movement with WASD held for the whole 200 ms",
+      "options": {
+        "none": "stand still",
+        "up": "walk up",
+        "up_right": "walk up-right",
+        "right": "walk right",
+        "down_right": "walk down-right",
+        "down": "walk down",
+        "down_left": "walk down-left",
+        "left": "walk left",
+        "up_left": "walk up-left"
+      }
+    },
+    "fire": {
+      "en": "shoot tears in one of four directions, held for the whole 200 ms",
+      "options": {
+        "none": "do not shoot",
+        "up": "shoot up",
+        "down": "shoot down",
+        "left": "shoot left",
+        "right": "shoot right"
+      }
+    },
+    "bomb": {
+      "en": "place the single starting bomb",
+      "options": {
+        "none": "no bomb",
+        "place": "place a bomb under you"
+      }
+    }
+  },
+  "scenes": [
+    {
+      "case_id": "isaac/monstro",
+      "boss": {
+        "en": "Hopping Blob"
+      },
+      "summary": {
+        "en": "A huge blob in an open room that hops at you, spits shot spreads and leaps to crash down on you. It is dangerous up close, so keep your distance and circle while shooting"
+      },
+      "moves": [
+        {
+          "id": "hop",
+          "name": {
+            "en": "Small hops"
+          },
+          "tell": {
+            "en": "It crouches briefly, then hops, 1 to 3 times in a row"
+          },
+          "effect": {
+            "en": "It lands toward where you were at takeoff; it is harmless in the air, and its body costs half a heart on contact after landing"
+          },
+          "counter": {
+            "en": "Sidestep the landing spot and shoot it during its short pause after landing"
+          }
+        },
+        {
+          "id": "spit",
+          "name": {
+            "en": "Spit spread"
+          },
+          "tell": {
+            "en": "Its cheeks puff up, then about half a second later it fires a fan of shots at once"
+          },
+          "effect": {
+            "en": "A scattered fan aimed toward you with varied speeds and ranges; most are small shots costing half a heart, a few are big tears costing a full heart"
+          },
+          "counter": {
+            "en": "While it puffs, move sideways into a gap of the fan, or back off so the shots spread out"
+          }
+        },
+        {
+          "id": "slam",
+          "name": {
+            "en": "Leap slam"
+          },
+          "tell": {
+            "en": "It crouches deep and leaps up off the screen; a shadow follows you on the ground, then locks as a red dashed circle"
+          },
+          "effect": {
+            "en": "Anything inside the circle is hurt when it lands, then it sprays a ring of shots outward"
+          },
+          "counter": {
+            "en": "Run out of the circle once it locks, then dodge the ring and shoot after landing"
+          }
+        }
+      ],
+      "phases": []
+    },
+    {
+      "case_id": "isaac/larry_jr",
+      "boss": {
+        "en": "Segment Worm"
+      },
+      "summary": {
+        "en": "A long worm made of many segments that crawls along the grid in right-angle turns, leaving dung piles behind. Every segment can be shot, and cutting it splits it in two"
+      },
+      "moves": [
+        {
+          "id": "crawl",
+          "name": {
+            "en": "Grid crawl"
+          },
+          "tell": {
+            "en": "The head advances along the grid centre lines and the body segments follow its path"
+          },
+          "effect": {
+            "en": "Any segment touching you costs half a heart; it has no ranged attack"
+          },
+          "counter": {
+            "en": "Stand in a row or column it will not turn into, and shoot approaching segments from the side"
+          }
+        },
+        {
+          "id": "chase_turn",
+          "name": {
+            "en": "Turning toward you"
+          },
+          "tell": {
+            "en": "At a grid centre the head may suddenly turn toward your row or column"
+          },
+          "effect": {
+            "en": "Changes its route and heads straight at you"
+          },
+          "counter": {
+            "en": "Do not stay on one row or column for long; keep moving and leave an escape route"
+          }
+        },
+        {
+          "id": "dung",
+          "name": {
+            "en": "Dung piles"
+          },
+          "tell": {
+            "en": "A dung pile appears on the cell behind its tail"
+          },
+          "effect": {
+            "en": "Piles block the way; the worm smashes one and turns when it hits it, and piles also block your movement and tears"
+          },
+          "counter": {
+            "en": "Use piles to force turns, and do not trap yourself between a pile and a wall"
+          }
+        },
+        {
+          "id": "split",
+          "name": {
+            "en": "Cut and split"
+          },
+          "tell": {
+            "en": "After you kill a middle segment, the worm breaks into two that crawl on separately"
+          },
+          "effect": {
+            "en": "If both parts are long enough they become two separate worms; if the head dies the next segment becomes the new head"
+          },
+          "counter": {
+            "en": "Shoot the nearest segments first and watch for two heads chasing you at once"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "At higher difficulty the worm is longer, faster and turns toward you more often"
+        }
+      ]
+    },
+    {
+      "case_id": "isaac/duke_of_flies",
+      "boss": {
+        "en": "Swarm Host"
+      },
+      "summary": {
+        "en": "A big bug body drifting diagonally and bouncing off walls, constantly releasing flies. Flies orbit it to block shots or chase you; you must clear all flies and the body"
+      },
+      "moves": [
+        {
+          "id": "drift",
+          "name": {
+            "en": "Diagonal drift"
+          },
+          "tell": {
+            "en": "The body moves slowly on a diagonal and bounces off walls; tears nudge it along their direction"
+          },
+          "effect": {
+            "en": "Body contact costs half a heart"
+          },
+          "counter": {
+            "en": "Read its diagonal and shoot from a line not covered by flies"
+          }
+        },
+        {
+          "id": "summon_orbit",
+          "name": {
+            "en": "Summon orbiting flies"
+          },
+          "tell": {
+            "en": "Its body swells for about 0.4 seconds, then three flies appear circling it"
+          },
+          "effect": {
+            "en": "Orbiting flies block tears aimed at the body; they are sturdy, and a fly costs half a heart on touching you and then dies"
+          },
+          "counter": {
+            "en": "Shoot down some orbiters before the body, and do not let them pile up to four or five"
+          }
+        },
+        {
+          "id": "big_fly",
+          "name": {
+            "en": "Big fly"
+          },
+          "tell": {
+            "en": "The same swelling tell, then a larger fly appears and chases you"
+          },
+          "effect": {
+            "en": "The big fly chases you and costs half a heart on contact"
+          },
+          "counter": {
+            "en": "Retreat while shooting it down"
+          }
+        },
+        {
+          "id": "release",
+          "name": {
+            "en": "Swarm release"
+          },
+          "tell": {
+            "en": "When five or six orbit it, it swells and they all break away at once"
+          },
+          "effect": {
+            "en": "All orbiting flies turn into chasers at the same time"
+          },
+          "counter": {
+            "en": "Break up the orbiters beforehand, or keep distance and shoot them down piece by piece"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "When the body dies, remaining orbiters turn into chasers; you only win after every fly is dead"
+        }
+      ]
+    },
+    {
+      "case_id": "isaac/gemini",
+      "boss": {
+        "en": "Tethered Pair"
+      },
+      "summary": {
+        "en": "A large and a small body joined by a cord: the big one chases and charges, the small one trails behind and shoots at you. Four symmetric rocks serve as cover"
+      },
+      "moves": [
+        {
+          "id": "big_chase",
+          "name": {
+            "en": "Big one chases"
+          },
+          "tell": {
+            "en": "The big one walks slowly toward you"
+          },
+          "effect": {
+            "en": "Touching its body at the feet costs half a heart"
+          },
+          "counter": {
+            "en": "Circle around the rocks and shoot from a distance"
+          }
+        },
+        {
+          "id": "big_charge",
+          "name": {
+            "en": "Big one charge"
+          },
+          "tell": {
+            "en": "After chasing for a while it suddenly speeds up and rushes at you, turning only slowly"
+          },
+          "effect": {
+            "en": "A high-speed hit costs half a heart; after hitting a rock or finishing it stops to pant for a moment"
+          },
+          "counter": {
+            "en": "Sidestep or hide behind a rock when the charge starts, and pour damage in while it pants"
+          }
+        },
+        {
+          "id": "small_shot",
+          "name": {
+            "en": "Small one's shot"
+          },
+          "tell": {
+            "en": "The small one pauses to charge for about 0.3 seconds; it does not shoot when a rock blocks the line"
+          },
+          "effect": {
+            "en": "Fires one shot at you, costing half a heart"
+          },
+          "counter": {
+            "en": "Move during the charge and use rocks for cover"
+          }
+        },
+        {
+          "id": "small_rush",
+          "name": {
+            "en": "Freed small one rush"
+          },
+          "tell": {
+            "en": "After the big one dies, the small one breaks free and accelerates at you with heavy inertia, overshooting"
+          },
+          "effect": {
+            "en": "Contact costs half a heart; being hit by tears actually speeds it up"
+          },
+          "counter": {
+            "en": "Circle it, and shoot from the side or behind after it overshoots"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Killing the big one first frees the small one to rush; killing the small one first leaves the big one unchanged"
+        }
+      ]
+    },
+    {
+      "case_id": "isaac/famine",
+      "boss": {
+        "en": "Charging Rider"
+      },
+      "summary": {
+        "en": "A horse and rider that charge along horizontal lanes and summon shot-spitting flies. At low health only a head remains and creeps toward you. Contact costs a full heart in both phases"
+      },
+      "moves": [
+        {
+          "id": "charge",
+          "name": {
+            "en": "Lane charge"
+          },
+          "tell": {
+            "en": "When you stand in the red horizontal lane at its level it rears for about half a second, then dashes across the screen and returns from the other side"
+          },
+          "effect": {
+            "en": "Hitting you costs a full heart, and it also crushes the flies"
+          },
+          "counter": {
+            "en": "Avoid staying in its lane; move up or down out of the red lane when it rears"
+          }
+        },
+        {
+          "id": "summon_fly",
+          "name": {
+            "en": "Summon spitting flies"
+          },
+          "tell": {
+            "en": "It stops for a summoning pose of about half a second and a fly appears beside it"
+          },
+          "effect": {
+            "en": "The fly drifts slowly toward you and, at close range, charges and spits one shot costing half a heart; it does no contact damage and at most 2 exist"
+          },
+          "counter": {
+            "en": "Shoot the flies first, or lure the rider into charging through them"
+          }
+        },
+        {
+          "id": "align",
+          "name": {
+            "en": "Line up and retreat"
+          },
+          "tell": {
+            "en": "When the flies are at the limit it moves to your row and backs to the far end"
+          },
+          "effect": {
+            "en": "Sets up the next lane charge"
+          },
+          "counter": {
+            "en": "Change rows as soon as you see it line up"
+          }
+        },
+        {
+          "id": "head_fan",
+          "name": {
+            "en": "Head triple shot"
+          },
+          "tell": {
+            "en": "In the second phase only the head creeps closer, stops for about 0.4 seconds, then fires"
+          },
+          "effect": {
+            "en": "Fires a three-shot fan toward you"
+          },
+          "counter": {
+            "en": "Step sideways when it stops, and shoot it between volleys"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "At low health the horse and body burst apart, leaving only a head that approaches and fires triple shots; no more lane charges"
+        }
+      ]
+    },
+    {
+      "case_id": "isaac/envy",
+      "boss": {
+        "en": "Splitting Head"
+      },
+      "summary": {
+        "en": "A big head always flies on 45-degree diagonals and bounces off walls. Each time it dies it splits into two smaller, faster heads, for three generations, so more and more heads fill the room"
+      },
+      "moves": [
+        {
+          "id": "bounce",
+          "name": {
+            "en": "Diagonal bounce"
+          },
+          "tell": {
+            "en": "The head flies diagonally and bounces off walls, sometimes bouncing toward you"
+          },
+          "effect": {
+            "en": "Contact costs half a heart; no ranged attack"
+          },
+          "counter": {
+            "en": "Predict the diagonal path and shoot from outside it"
+          }
+        },
+        {
+          "id": "home_in",
+          "name": {
+            "en": "Steering toward you"
+          },
+          "tell": {
+            "en": "Every second or two its diagonal suddenly turns toward you at the same speed"
+          },
+          "effect": {
+            "en": "A player standing still is easily hit"
+          },
+          "counter": {
+            "en": "Do not stand in doorways or corners; keep moving and keep space around you"
+          }
+        },
+        {
+          "id": "split",
+          "name": {
+            "en": "Split on death"
+          },
+          "tell": {
+            "en": "When a head dies it becomes two smaller heads that fly apart"
+          },
+          "effect": {
+            "en": "The smaller they are, the faster and harder to hit"
+          },
+          "counter": {
+            "en": "Break the big head from far away so you have time to react to the small ones"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "en": "Three splits in total: big head into two medium, each into two small, each into two tiny ones; you win only when all are gone"
+        }
+      ]
+    }
+  ]
+}
