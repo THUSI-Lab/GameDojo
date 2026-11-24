@@ -9,7 +9,7 @@
   <a href="https://gamedojo-benchmark.github.io/"><img src="https://img.shields.io/badge/Project%20Page-1f6feb?style=for-the-badge&amp;logo=googlechrome&amp;logoColor=white" alt="Project Page"></a>
   <a href="https://huggingface.co/datasets/THUSI-Lab/GameDojo"><img src="https://img.shields.io/badge/Dataset%20%26%20Benchmark-ffcc4d?style=for-the-badge&amp;logo=huggingface&amp;logoColor=white" alt="Dataset &amp; Benchmark"></a>
   <a href="https://huggingface.co/THUSI-Lab/GameDojo-4B"><img src="https://img.shields.io/badge/Model-ffcc4d?style=for-the-badge&amp;logo=huggingface&amp;logoColor=white" alt="Model"></a>
-  <a href="https://huggingface.co/papers/2611.30771"><img src="https://img.shields.io/badge/Daily%20Paper-232737?style=for-the-badge&amp;logo=huggingface&amp;logoColor=ffcc4d" alt="Daily Paper"></a>
+  <a href="https://huggingface.co/papers/2611.30771"><img src="assets/daily-paper.svg" alt="Daily Paper"></a>
 </p>
 
 GameDojo evaluates interactive agents on 120 boss encounters across 20 game environments. It provides computer-use and semantic action interfaces, as well as real-time and time-paused interaction, to study how action abstraction and time constraints affect performance.
