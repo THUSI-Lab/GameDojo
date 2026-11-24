@@ -86,3 +86,17 @@ Use `--format semantic` for semantic actions and `--time realtime` for inference
 ## License
 
 GameDojo code is available for non-commercial scientific research under the [GameDojo Non-Commercial Research License](LICENSE). The original games and their intellectual property belong to the respective original game companies and rights holders. See the [third-party notices](THIRD_PARTY_NOTICES.md).
+
+## Citation
+
+```bibtex
+@article{zhang2026gamedojo,
+  title   = {GameDojo: Benchmarking Real-Time Interactive Agents in Video Games},
+  author  = {Zhang, Kuan and Yang, Zhihao and Chen, Yukun and Yin, Xingyiliang and Ouyang, Mingyu and Su, Yue and Wu, Xiangnan and Li, Jiaming and Chen, Longze and Luo, Run and Chen, Zirong and Wang, Lu and Li, Yiming},
+  journal = {arXiv preprint arXiv:2611.30771},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2611.30771}
+}
+```
+
+We also invite you to explore and cite [Gamer](https://mihoyo-gamer.github.io/), [GameScaling](https://gamescaling.github.io/), and [Survey: Towards Generalist Game Agents](https://github.com/THUSI-Lab/Awesome-LFMs-Play-Games).
