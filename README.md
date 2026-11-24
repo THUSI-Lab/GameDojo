@@ -94,8 +94,7 @@ GameDojo code is available for non-commercial scientific research under the [Gam
   title   = {GameDojo: Benchmarking Real-Time Interactive Agents in Video Games},
   author  = {Zhang, Kuan and Yang, Zhihao and Chen, Yukun and Yin, Xingyiliang and Ouyang, Mingyu and Su, Yue and Wu, Xiangnan and Li, Jiaming and Chen, Longze and Luo, Run and Chen, Zirong and Wang, Lu and Li, Yiming},
   journal = {arXiv preprint arXiv:2611.30771},
-  year    = {2026},
-  url     = {https://arxiv.org/abs/2611.30771}
+  year    = {2026}
 }
 ```
 
