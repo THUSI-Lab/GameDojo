@@ -5,7 +5,7 @@
 <h1 align="center">GameDojo: Benchmarking Real-Time Interactive Agents in Video Games</h1>
 
 <p align="center">
-  <a href="https://gamedojo-benchmark.github.io/assets/paper/gamedojo.pdf"><img src="https://img.shields.io/badge/Paper-b31b1b?style=for-the-badge&amp;logo=arxiv&amp;logoColor=white" alt="Paper (PDF)"></a>
+  <a href="https://arxiv.org/abs/2611.30771"><img src="https://img.shields.io/badge/Paper-b31b1b?style=for-the-badge&amp;logo=arxiv&amp;logoColor=white" alt="Paper (arXiv)"></a>
   <a href="https://gamedojo-benchmark.github.io/"><img src="https://img.shields.io/badge/Project%20Page-1f6feb?style=for-the-badge&amp;logo=googlechrome&amp;logoColor=white" alt="Project Page"></a>
   <a href="https://huggingface.co/datasets/THUSI-Lab/GameDojo"><img src="https://img.shields.io/badge/Dataset%20%26%20Benchmark-ffcc4d?style=for-the-badge&amp;logo=huggingface&amp;logoColor=white" alt="Dataset &amp; Benchmark"></a>
   <a href="https://huggingface.co/THUSI-Lab/GameDojo-4B"><img src="https://img.shields.io/badge/Model-ffcc4d?style=for-the-badge&amp;logo=huggingface&amp;logoColor=white" alt="Model"></a>
